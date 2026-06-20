@@ -1,23 +1,35 @@
-// src/pages/ProductsPage.jsx
-// 
-// WHAT IT DOES:
-// Serves as the Product Catalog inventory manager view.
-// Aggregates search (by SKU/name) and multi-field filters (by Category, Procurement Type, and Status),
-// maps role-based actions, and integrates popups for product details, categories management, and creation forms.
-// 
-// WHY IT IS REQUIRED:
-// 1. Centralizes catalog administration: lets users search, create, update, and delete catalog entities.
-// 2. Holds category CRUD callbacks, enabling full hierarchy management without dedicated paths.
-// 3. Implements strict RBAC checks dynamically at the button layer.
-// 
-// WHEN IT IS USED:
-// Loaded on navigating to the `/products` path endpoint.
+/**
+ * PURPOSE:
+ * Serves as the main catalog screen for managing ERP master products and categories.
+ *
+ * BUSINESS USE:
+ * Acts as the master data control board. Business owners and inventory controllers can
+ * search for products by name or SKU, filter by category/procurement/status, view details,
+ * and execute CRUD operations with pagination controls.
+ *
+ * API USAGE:
+ * - Reads product listings via `productService.getProducts()`.
+ * - Reads categories via `productService.getCategories()`.
+ * - Commits creations via `productService.createProduct()`.
+ * - Commits updates via `productService.updateProduct()`.
+ * - Commits deletions via `productService.deleteProduct()`.
+ * - Manages categories via category service CRUD methods.
+ *
+ * LOGIC EXPLANATION:
+ * - Uses `Promise.all` inside `useEffect` on page mount to load catalog listings concurrently.
+ * - Computes multi-criteria filtering client-side.
+ * - Manages page transitions using the `usePagination` state hook.
+ * - Slices the filtered array dynamically (`filteredProducts.slice(start, end)`) to feed
+ *   only the active page segment of 10 items to the table grid, rendering the `<Pagination />` control block.
+ * - Evaluates uppercase security roles to determine button visibility.
+ */
 
 import React, { useState, useEffect } from 'react';
 import useAuth from '../hooks/useAuth';
 import productService from '../services/productService';
 import { useToast } from '../context/ToastContext';
-import { Plus, Tags, Search, Filter } from 'lucide-react';
+import usePagination from '../hooks/usePagination';
+import { Plus, Tags, Search } from 'lucide-react';
 import { checkPermission, ACTIONS, MODULES } from '../permissions/permissions';
 
 // Components
@@ -28,40 +40,39 @@ import ProductDetail from '../components/products/ProductDetail';
 import CategoryForm from '../components/products/CategoryForm';
 import Modal from '../components/common/Modal';
 import ConfirmDialog from '../components/common/ConfirmDialog';
+import Pagination from '../components/common/Pagination';
 
-/**
- * WHAT IT DOES: Page view displaying the list of catalog items and control panels.
- * WHY IT IS REQUIRED: Feeds users with search filters, tables, and CRUD popups.
- * WHEN IT IS USED: Rendered for the `/products` route.
- */
 export const ProductsPage = () => {
   const { user } = useAuth();
   const { showToast } = useToast();
 
-  // WHAT IT DOES: Catalog collections and active filtering query parameters.
-  // WHY IT IS REQUIRED: Binds grid filters dynamically.
-  // WHEN IT IS USED: Fetched on mount, queried on typing or category select.
+  // Search & Filter state hooks
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [filterProcurement, setFilterProcurement] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
+  
+  // Loading & Error states
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  // Modal display toggles
+  // Pagination hook
+  const { currentPage, pageSize, setPage, resetPagination } = usePagination(10);
+
+  // Modal toggles
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isCatFormOpen, setIsCatFormOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productToDelete, setProductToDelete] = useState(null);
 
-  // WHAT IT DOES: Gathers catalog items from service layers.
-  // WHY IT IS REQUIRED: Syncs visual tables with DB tables.
-  // WHEN IT IS USED: Triggered on mount and after saving edits.
+  // Fetch all product and category listings
   const fetchResources = async () => {
     try {
       setLoading(true);
+      setError(false);
       const [prodsList, catsList] = await Promise.all([
         productService.getProducts(),
         productService.getCategories()
@@ -69,6 +80,7 @@ export const ProductsPage = () => {
       setProducts(prodsList);
       setCategories(catsList);
     } catch (err) {
+      setError(true);
       showToast('Failed to load catalog resources.', 'error');
     } finally {
       setLoading(false);
@@ -79,17 +91,18 @@ export const ProductsPage = () => {
     fetchResources();
   }, []);
 
-  // WHAT IT DOES: Handles saving product addition or edit forms.
-  // WHY IT IS REQUIRED: Forwards validated inputs to services.
-  // WHEN IT IS USED: Fired on submit edit/create modals.
+  // Whenever query or filters change, reset pagination to page 1
+  useEffect(() => {
+    resetPagination();
+  }, [searchQuery, filterCategory, filterProcurement, filterStatus, resetPagination]);
+
+  // Saves product creations or updates
   const handleCreateOrUpdate = async (productData) => {
     try {
       if (selectedProduct) {
-        // Edit mode
         await productService.updateProduct(selectedProduct.id, productData);
         showToast('Product updated successfully.', 'success');
       } else {
-        // Create mode
         await productService.createProduct(productData);
         showToast('Product registered successfully.', 'success');
       }
@@ -101,9 +114,7 @@ export const ProductsPage = () => {
     }
   };
 
-  // WHAT IT DOES: Removes product item from database.
-  // WHY IT IS REQUIRED: Permanent catalog deletion.
-  // WHEN IT IS USED: Fired upon confirm warnings dialog.
+  // Removes a product
   const handleDelete = async () => {
     if (!productToDelete) return;
     try {
@@ -116,9 +127,7 @@ export const ProductsPage = () => {
     }
   };
 
-  // WHAT IT DOES: Handles Category Creation or Updating.
-  // WHY IT IS REQUIRED: Manages category lists.
-  // WHEN IT IS USED: Fired on submitting the inline Category Form.
+  // Saves category creations or updates
   const handleCreateOrUpdateCategory = async (catData) => {
     try {
       if (catData.id) {
@@ -134,9 +143,7 @@ export const ProductsPage = () => {
     }
   };
 
-  // WHAT IT DOES: Deletes a category if not currently bound to any active items.
-  // WHY IT IS REQUIRED: Enforces relational integrity before deletion.
-  // WHEN IT IS USED: Fired on clicking trash bin on Category Form listing.
+  // Removes a category division
   const handleDeleteCategory = async (catId) => {
     const linked = products.filter(p => p.categoryId === catId);
     if (linked.length > 0) {
@@ -167,12 +174,12 @@ export const ProductsPage = () => {
     setIsFormOpen(true);
   };
 
-  // WHAT IT DOES: Reusable filtering logic parsing query parameters.
-  // WHY IT IS REQUIRED: Evaluates multiple states (category, type, status) simultaneously.
-  // WHEN IT IS USED: Computed during products render cycles.
+  // Filters calculation
   const filteredProducts = products.filter((p) => {
     const q = searchQuery.toLowerCase();
-    const matchesSearch = p.name.toLowerCase().includes(q) || p.code.toLowerCase().includes(q);
+    const matchesSearch = 
+      (p.name || '').toLowerCase().includes(q) || 
+      (p.code || '').toLowerCase().includes(q);
     const matchesCategory = !filterCategory || p.categoryId === filterCategory;
     const matchesProcurement = !filterProcurement || p.procurementType === filterProcurement;
     const matchesStatus = !filterStatus || p.status === filterStatus;
@@ -180,11 +187,31 @@ export const ProductsPage = () => {
     return matchesSearch && matchesCategory && matchesProcurement && matchesStatus;
   });
 
-  // RBAC checks for action button layouts
+  // Paginated segment selection logic
+  const totalFiltered = filteredProducts.length;
+  const startIndex = (currentPage - 1) * pageSize;
+  const paginatedProducts = filteredProducts.slice(startIndex, startIndex + pageSize);
+
+  // RBAC checks for page commands
   const canCreate = user && checkPermission(user.role, MODULES.PRODUCTS, ACTIONS.CREATE);
   const categoryName = selectedProduct
     ? categories.find((c) => c.id === selectedProduct.categoryId)?.name
     : '';
+
+  // Render check: Error state
+  if (error) {
+    return (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center p-6 bg-white border border-slate-200 rounded-lg shadow-sm">
+        <p className="text-sm font-semibold text-rose-600">Failed to load product catalog.</p>
+        <button
+          onClick={fetchResources}
+          className="mt-4 px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded transition-colors"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -205,7 +232,7 @@ export const ProductsPage = () => {
                 </button>
                 <button
                   onClick={handleAddClick}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded shadow-sm transition-colors"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded shadow-sm transition-colors"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Add Product</span>
@@ -216,10 +243,10 @@ export const ProductsPage = () => {
         }
       />
 
-      {/* Filter and Search Bar Card (Professional ERP Spacing) */}
+      {/* Filter and Search Bar Card */}
       <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm space-y-3">
         <div className="flex flex-col md:flex-row gap-3">
-          {/* Search box */}
+          {/* Search Box */}
           <div className="relative flex-1">
             <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
               <Search className="w-4 h-4" />
@@ -228,18 +255,17 @@ export const ProductsPage = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="block w-full pl-9 pr-3 py-2 text-sm bg-white border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-brand-500"
+              className="block w-full pl-9 pr-3 py-2 text-sm bg-white border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Search by product name or SKU / code..."
             />
           </div>
 
           {/* Filters Row */}
           <div className="flex flex-wrap gap-2 items-center">
-            {/* Category Filter */}
             <select
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
-              className="px-3 py-2 text-xs bg-white border border-slate-300 rounded text-slate-700 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              className="px-3 py-2 text-xs bg-white border border-slate-300 rounded text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
               <option value="">All Categories</option>
               {categories.map((c) => (
@@ -247,22 +273,20 @@ export const ProductsPage = () => {
               ))}
             </select>
 
-            {/* Procurement Type Filter */}
             <select
               value={filterProcurement}
               onChange={(e) => setFilterProcurement(e.target.value)}
-              className="px-3 py-2 text-xs bg-white border border-slate-300 rounded text-slate-700 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              className="px-3 py-2 text-xs bg-white border border-slate-300 rounded text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
               <option value="">All Procurement Types</option>
               <option value="PURCHASE">PURCHASE</option>
               <option value="MANUFACTURING">MANUFACTURING</option>
             </select>
 
-            {/* Status Filter */}
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-3 py-2 text-xs bg-white border border-slate-300 rounded text-slate-700 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              className="px-3 py-2 text-xs bg-white border border-slate-300 rounded text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
               <option value="">All Statuses</option>
               <option value="active">Active</option>
@@ -272,16 +296,26 @@ export const ProductsPage = () => {
         </div>
       </div>
 
-      {/* Catalog List */}
-      <ProductList
-        products={filteredProducts}
-        categories={categories}
-        onEdit={handleEditClick}
-        onDelete={setProductToDelete}
-        onView={handleViewClick}
-        loading={loading}
-        user={user}
-      />
+      {/* Catalog List with Pagination rendering */}
+      <div className="border border-slate-200 rounded-lg overflow-hidden bg-white shadow-sm">
+        <ProductList
+          products={paginatedProducts}
+          categories={categories}
+          onEdit={handleEditClick}
+          onDelete={setProductToDelete}
+          onView={handleViewClick}
+          loading={loading}
+          user={user}
+        />
+        
+        {/* Pagination controls widget */}
+        <Pagination
+          currentPage={currentPage}
+          totalItems={totalFiltered}
+          pageSize={pageSize}
+          onPageChange={setPage}
+        />
+      </div>
 
       {/* Product Form Modal */}
       <Modal

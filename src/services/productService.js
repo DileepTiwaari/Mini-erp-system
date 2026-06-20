@@ -1,31 +1,30 @@
-// src/services/productService.js
-// 
-// WHAT IT DOES:
-// Acts as the business logic layer between UI components and REST APIs for products and categories.
-// Contains operations for listing, creating, updating, and deleting products/categories,
-// falling back automatically to local mockDb persistent tables if the backend is unreachable.
-// 
-// WHY IT IS REQUIRED:
-// 1. Keeps pages decoupled from specific API layouts.
-// 2. Holds business logic validations and format transformations in a unified place.
-// 3. Establishes fallback security, allowing standalone offline demo execution.
-// 
-// WHEN IT IS USED:
-// Imported and called inside DashboardPage, ProductsPage, and item detail components.
+/**
+ * PURPOSE:
+ * Serves as the central business logic coordinator for the product and category models.
+ *
+ * BUSINESS USE:
+ * Decouples the frontend view screens (like ProductsPage) from specific API definitions,
+ * providing local mock database storage write-backs when the backend server is unreachable.
+ *
+ * API USAGE:
+ * Calls multiple endpoints inside `productApi` and `categoryApi`.
+ *
+ * LOGIC EXPLANATION:
+ * Implements standard try/catch wrappers. Forwards inputs directly to APIs, but switches
+ * dynamically to `mockDb` arrays (persisted in localStorage) if the API call throws an error.
+ */
 
 import productApi from '../api/productApi';
 import categoryApi from '../api/categoryApi';
 import { mockDb, DB_KEYS } from '../utils/mockDb';
 
-/**
- * WHAT IT DOES: Central business service layer for product catalog resources.
- * WHY IT IS REQUIRED: Exposes simplified CRUD interfaces for components.
- * WHEN IT IS USED: Invoked by components to fetch, save, or delete inventory catalog definitions.
- */
 export const productService = {
-  // WHAT IT DOES: Fetches list of products.
-  // WHY IT IS REQUIRED: Feeds the catalog table display.
-  // WHEN IT IS USED: Fired on Products Page mount.
+  /**
+   * PURPOSE: Fetches all catalog products.
+   * BUSINESS USE: Populates standard data table views in the product catalog.
+   * API USAGE: GET /api/v1/products
+   * LOGIC EXPLANATION: Standard async catch-wrapper falling back to DB_KEYS.PRODUCTS mock collections.
+   */
   getProducts: async () => {
     try {
       const res = await productApi.getAll();
@@ -35,9 +34,12 @@ export const productService = {
     }
   },
 
-  // WHAT IT DOES: Fetches details of a single product.
-  // WHY IT IS REQUIRED: Feeds detail modal boards.
-  // WHEN IT IS USED: Fired when selecting an item to view.
+  /**
+   * PURPOSE: Fetches detailed specifications for a single product by ID.
+   * BUSINESS USE: Renders target parameters inside detail panel popups.
+   * API USAGE: GET /api/v1/products/{id}
+   * LOGIC EXPLANATION: Retrieves a specific record from the backend or queries mockDb by primary key.
+   */
   getProductById: async (id) => {
     try {
       const res = await productApi.getById(id);
@@ -47,9 +49,12 @@ export const productService = {
     }
   },
 
-  // WHAT IT DOES: Creates a new catalog item.
-  // WHY IT IS REQUIRED: Commits new items to database.
-  // WHEN IT IS USED: Fired on submit creation forms.
+  /**
+   * PURPOSE: Creates a new catalog item record.
+   * BUSINESS USE: Saves a new product entry into active records.
+   * API USAGE: POST /api/v1/products
+   * LOGIC EXPLANATION: Submits a payload to the backend, or inserts a new row in mockDb generating a unique random key.
+   */
   createProduct: async (data) => {
     try {
       const res = await productApi.create(data);
@@ -59,9 +64,12 @@ export const productService = {
     }
   },
 
-  // WHAT IT DOES: Edits attributes of an existing item.
-  // WHY IT IS REQUIRED: Updates price, safety margins, or procurement attributes.
-  // WHEN IT IS USED: Fired on submit edit forms.
+  /**
+   * PURPOSE: Updates an existing catalog product record.
+   * BUSINESS USE: Updates prices, stocking thresholds, status flags, or procurement attributes.
+   * API USAGE: PUT /api/v1/products/{id}
+   * LOGIC EXPLANATION: Sends the updated properties object to the API or updates the local storage table row.
+   */
   updateProduct: async (id, data) => {
     try {
       const res = await productApi.update(id, data);
@@ -71,9 +79,12 @@ export const productService = {
     }
   },
 
-  // WHAT IT DOES: Removes an item from the database.
-  // WHY IT IS REQUIRED: Deletes obsolete products.
-  // WHEN IT IS USED: Fired on confirm delete dialogues.
+  /**
+   * PURPOSE: Deletes a catalog product record by ID.
+   * BUSINESS USE: Prunes obsolete item descriptions from active system tables.
+   * API USAGE: DELETE /api/v1/products/{id}
+   * LOGIC EXPLANATION: Issues a DELETE network request, or removes the row from the mockDb table.
+   */
   deleteProduct: async (id) => {
     try {
       await productApi.delete(id);
@@ -85,9 +96,12 @@ export const productService = {
 
   // Category services
 
-  // WHAT IT DOES: Fetches category divisions.
-  // WHY IT IS REQUIRED: Populates product division tables and dropdowns.
-  // WHEN IT IS USED: Fired on list mounting.
+  /**
+   * PURPOSE: Fetches all catalog category divisions.
+   * BUSINESS USE: Feeds category listing selectors and filters on forms and pages.
+   * API USAGE: GET /api/v1/categories
+   * LOGIC EXPLANATION: Standard async catch-wrapper falling back to DB_KEYS.CATEGORIES mock collections.
+   */
   getCategories: async () => {
     try {
       const res = await categoryApi.getAll();
@@ -97,9 +111,12 @@ export const productService = {
     }
   },
 
-  // WHAT IT DOES: Creates a new category division.
-  // WHY IT IS REQUIRED: Enables adding new departments.
-  // WHEN IT IS USED: Fired on submit category forms.
+  /**
+   * PURPOSE: Creates a new category division.
+   * BUSINESS USE: Adds a new division (e.g., Raw Materials) to catalog classifications.
+   * API USAGE: POST /api/v1/categories
+   * LOGIC EXPLANATION: Calls the category API or inserts the row into mockDb.
+   */
   createCategory: async (data) => {
     try {
       const res = await categoryApi.create(data);
@@ -109,9 +126,12 @@ export const productService = {
     }
   },
 
-  // WHAT IT DOES: Updates details of an existing category by ID.
-  // WHY IT IS REQUIRED: Allows editing category descriptors.
-  // WHEN IT IS USED: Fired on category editing submissions.
+  /**
+   * PURPOSE: Updates an existing category definition by ID.
+   * BUSINESS USE: Modifies category names or alphanumeric short codes.
+   * API USAGE: PUT /api/v1/categories/{id}
+   * LOGIC EXPLANATION: Submits category edits to the backend API or updates the local storage table row.
+   */
   updateCategory: async (id, data) => {
     try {
       const res = await categoryApi.update(id, data);
@@ -121,9 +141,12 @@ export const productService = {
     }
   },
 
-  // WHAT IT DOES: Deletes a category division by ID.
-  // WHY IT IS REQUIRED: Removes catalog groups.
-  // WHEN IT IS USED: Fired on confirm delete check.
+  /**
+   * PURPOSE: Deletes a category division by ID.
+   * BUSINESS USE: Removes catalog groupings that are no longer needed.
+   * API USAGE: DELETE /api/v1/categories/{id}
+   * LOGIC EXPLANATION: Issues a DELETE network request, or removes the row from the mockDb table.
+   */
   deleteCategory: async (id) => {
     try {
       await categoryApi.delete(id);

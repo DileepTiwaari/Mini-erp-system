@@ -1,39 +1,33 @@
-// src/components/products/CategoryForm.jsx
-// 
-// WHAT IT DOES:
-// Renders the Category Management viewport, combining a category list grid
-// (with active Edit and Delete commands) and an interactive input form for saving divisions.
-// 
-// WHY IT IS REQUIRED:
-// 1. Provides a central, clean, non-cluttered screen to manage product catalog sections.
-// 2. Implements real-time input validations for unique codes and names.
-// 3. Allows operators to prune or edit category definitions without navigating away from products.
-// 
-// WHEN IT IS USED:
-// Rendered inside the category modal from the ProductsPage toolbar.
+/**
+ * PURPOSE:
+ * Renders an inline modal form and data table for managing product categories.
+ *
+ * BUSINESS USE:
+ * Allows managers to create, edit, or delete inventory category divisions (e.g. Electronics,
+ * Furniture, Raw Materials) dynamically within the product catalog context.
+ *
+ * API USAGE:
+ * Triggers category addition, modification, and deletion APIs inside `productService`.
+ *
+ * LOGIC EXPLANATION:
+ * Renders a list of existing categories with active edit/delete action controls alongside
+ * an interactive form. Tracks inputs using local state hooks, handles edit form pre-population,
+ * and clears inputs upon successful submission or cancellation.
+ */
 
 import React, { useState } from 'react';
 import { useToast } from '../../context/ToastContext';
 import { Trash2, Edit3, Plus, RefreshCw } from 'lucide-react';
 
-/**
- * WHAT IT DOES: Renders a dual category catalog manager (grid of items + edit/add form).
- * WHY IT IS REQUIRED: Organizes full category CRUD logic in a single compact popup modal.
- * WHEN IT IS USED: Loaded inside ProductsPage.jsx.
- */
 export const CategoryForm = ({ categories = [], onSubmit, onDelete, onCancel }) => {
   const { showToast } = useToast();
   
-  // WHAT IT DOES: Form inputs states and tracking variable for active edit ID.
-  // WHY IT IS REQUIRED: Synchronizes DOM fields and determines submit mode (Add vs Update).
-  // WHEN IT IS USED: Modified when typing or clicking edit icon on categories list.
+  // React state hooks for form parameters
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
   const [editId, setEditId] = useState(null);
 
-  // WHAT IT DOES: Handles submission events, validating and formatting parameters.
-  // WHY IT IS REQUIRED: Ensures data is complete before propagating to service layer.
-  // WHEN IT IS USED: Fired on clicking form submit.
+  // Form submission handler
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name.trim() || !code.trim()) {
@@ -53,18 +47,14 @@ export const CategoryForm = ({ categories = [], onSubmit, onDelete, onCancel }) 
     setEditId(null);
   };
 
-  // WHAT IT DOES: Pre-populates inputs with target category attributes.
-  // WHY IT IS REQUIRED: Transitions layout into edit mode.
-  // WHEN IT IS USED: Fired on clicking the edit pencil.
+  // Pre-populates inputs to trigger category edit mode
   const handleEditInit = (cat) => {
     setEditId(cat.id);
     setName(cat.name);
     setCode(cat.code);
   };
 
-  // WHAT IT DOES: Resets form inputs and exits edit mode.
-  // WHY IT IS REQUIRED: Allows users to discard edits.
-  // WHEN IT IS USED: Fired on clicking cancel while in edit mode.
+  // Discards active category edits
   const handleEditCancel = () => {
     setName('');
     setCode('');
@@ -73,7 +63,7 @@ export const CategoryForm = ({ categories = [], onSubmit, onDelete, onCancel }) 
 
   return (
     <div className="space-y-6">
-      {/* Category List Header & Grid Table */}
+      {/* Category List */}
       <div className="border border-slate-200 rounded-lg overflow-hidden bg-white">
         <div className="bg-slate-50 px-4 py-2 border-b border-slate-200">
           <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
@@ -97,16 +87,14 @@ export const CategoryForm = ({ categories = [], onSubmit, onDelete, onCancel }) 
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  {/* Edit action */}
                   <button
                     type="button"
                     onClick={() => handleEditInit(cat)}
-                    className="p-1 text-slate-400 hover:text-brand-600 rounded hover:bg-slate-100 transition-colors"
+                    className="p-1 text-slate-400 hover:text-blue-600 rounded hover:bg-slate-100 transition-colors"
                     title="Edit Category"
                   >
                     <Edit3 className="w-3.5 h-3.5" />
                   </button>
-                  {/* Delete action */}
                   {onDelete && (
                     <button
                       type="button"
@@ -124,14 +112,13 @@ export const CategoryForm = ({ categories = [], onSubmit, onDelete, onCancel }) 
         )}
       </div>
 
-      {/* Inputs Form card */}
+      {/* Category Input Form */}
       <form onSubmit={handleSubmit} className="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-4">
         <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
           {editId ? 'Modify Selected Category' : 'Register New Category'}
         </h4>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {/* Name input */}
           <div>
             <label className="block text-xs font-semibold text-slate-600 mb-1">
               Category Name
@@ -141,12 +128,11 @@ export const CategoryForm = ({ categories = [], onSubmit, onDelete, onCancel }) 
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="block w-full px-3 py-1.5 text-xs bg-white border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-brand-500"
+              className="block w-full px-3 py-1.5 text-xs bg-white border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
               placeholder="e.g. Electrical Components"
             />
           </div>
 
-          {/* Short Code Input */}
           <div>
             <label className="block text-xs font-semibold text-slate-600 mb-1">
               Short Code
@@ -157,13 +143,12 @@ export const CategoryForm = ({ categories = [], onSubmit, onDelete, onCancel }) 
               required
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              className="block w-full px-3 py-1.5 text-xs bg-white border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-brand-500"
+              className="block w-full px-3 py-1.5 text-xs bg-white border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
               placeholder="e.g. ELE"
             />
           </div>
         </div>
 
-        {/* Submit Actions */}
         <div className="flex justify-end items-center gap-2 pt-2">
           {editId ? (
             <>
@@ -176,7 +161,7 @@ export const CategoryForm = ({ categories = [], onSubmit, onDelete, onCancel }) 
               </button>
               <button
                 type="submit"
-                className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded shadow-sm transition-colors"
+                className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded shadow-sm transition-colors"
               >
                 <RefreshCw className="w-3 h-3" />
                 <span>Update Category</span>
@@ -185,7 +170,7 @@ export const CategoryForm = ({ categories = [], onSubmit, onDelete, onCancel }) 
           ) : (
             <button
               type="submit"
-              className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded shadow-sm transition-colors"
+              className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded shadow-sm transition-colors"
             >
               <Plus className="w-3 h-3" />
               <span>Create Category</span>
@@ -194,7 +179,6 @@ export const CategoryForm = ({ categories = [], onSubmit, onDelete, onCancel }) 
         </div>
       </form>
       
-      {/* Footer Close Actions */}
       <div className="flex justify-end pt-4 border-t border-slate-200">
         <button
           type="button"

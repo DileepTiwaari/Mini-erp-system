@@ -1,43 +1,56 @@
-// src/api/categoryApi.js
-// 
-// WHAT IT DOES:
-// Handles REST client wrappers for product category operations.
-// Maps requests to Axios endpoints (e.g. GET `/categories`, POST `/categories`, PUT `/categories/{id}`).
-// 
-// WHY IT IS REQUIRED:
-// 1. Decouples HTTP protocol layout rules from category management views.
-// 2. Fits Spring Boot backend path layout specifications (`/api/v1/categories`).
-// 
-// WHEN IT IS USED:
-// Triggered by the productService layer when managing categories.
+/**
+ * PURPOSE:
+ * Manages the raw HTTP network layer calls for product categories.
+ *
+ * BUSINESS USE:
+ * Decouples REST path mappings for product category operations from pages and forms,
+ * facilitating easier routing swaps on eventual backend integration.
+ *
+ * API USAGE:
+ * - GET /api/v1/categories
+ * - POST /api/v1/categories
+ * - PUT /api/v1/categories/{id}
+ * - DELETE /api/v1/categories/{id}
+ *
+ * LOGIC EXPLANATION:
+ * Leverages the shared authenticated axiosInstance. Each function maps standard CRUD actions
+ * towards categories database paths.
+ */
 
 import axiosInstance from './axiosInstance';
 import { API_ENDPOINTS } from '../utils/constants';
 
-/**
- * WHAT IT DOES: Object mapping REST request wrappers for category endpoints.
- * WHY IT IS REQUIRED: Standardizes CRUD queries towards categories database tables.
- * WHEN IT IS USED: Accessed by the productService.
- */
 export const categoryApi = {
-  // WHAT IT DOES: Retrieves all categories.
-  // WHY IT IS REQUIRED: Feeds form selectors and category lists.
-  // WHEN IT IS USED: On categories list mount.
+  /**
+   * PURPOSE: Retrieves all categories.
+   * BUSINESS USE: Populates category filters and product selection forms.
+   * API USAGE: GET /api/v1/categories
+   * LOGIC EXPLANATION: Executes an Axios GET request towards the category base path.
+   */
   getAll: (params) => axiosInstance.get(API_ENDPOINTS.CATEGORIES, { params }),
   
-  // WHAT IT DOES: Creates a new category.
-  // WHY IT IS REQUIRED: Stores new catalog divisions.
-  // WHEN IT IS USED: Fired on submitting the category creation form.
+  /**
+   * PURPOSE: Registers a new product category.
+   * BUSINESS USE: Creates a new organizational category divider for catalog items.
+   * API USAGE: POST /api/v1/categories
+   * LOGIC EXPLANATION: Sends a POST request containing the new category name and code.
+   */
   create: (data) => axiosInstance.post(API_ENDPOINTS.CATEGORIES, data),
   
-  // WHAT IT DOES: Updates an existing category by ID.
-  // WHY IT IS REQUIRED: Allows changing category information (e.g. description, code).
-  // WHEN IT IS USED: Fired on submitting the category edit form.
+  /**
+   * PURPOSE: Modifies an existing category's properties.
+   * BUSINESS USE: Updates a category's name or code.
+   * API USAGE: PUT /api/v1/categories/{id}
+   * LOGIC EXPLANATION: Executes a PUT request targeting the category ID with modified data.
+   */
   update: (id, data) => axiosInstance.put(`${API_ENDPOINTS.CATEGORIES}/${id}`, data),
   
-  // WHAT IT DOES: Deletes a category.
-  // WHY IT IS REQUIRED: Clears empty or obsolete category entries.
-  // WHEN IT IS USED: Fired on confirming deletion.
+  /**
+   * PURPOSE: Deletes a category division by ID.
+   * BUSINESS USE: Removes catalog groupings that are no longer active.
+   * API USAGE: DELETE /api/v1/categories/{id}
+   * LOGIC EXPLANATION: Sends a DELETE request towards the target category ID.
+   */
   delete: (id) => axiosInstance.delete(`${API_ENDPOINTS.CATEGORIES}/${id}`),
 };
 

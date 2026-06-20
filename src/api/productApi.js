@@ -1,48 +1,65 @@
-// src/api/productApi.js
-// 
-// WHAT IT DOES:
-// Serves as the API interface for products data requests, defining REST client wrappers 
-// (get, post, put, delete) using the custom Axios axiosInstance.
-// 
-// WHY IT IS REQUIRED:
-// 1. Keeps HTTP communications isolated from view and business logic components.
-// 2. Prepares exact path layouts for direct Spring Boot backend compatibility (`/api/v1/products`).
-// 
-// WHEN IT IS USED:
-// Invoked by the productService layer when querying or updating product lists and records.
+/**
+ * PURPOSE:
+ * Manages the raw HTTP network layer calls for product catalog data.
+ *
+ * BUSINESS USE:
+ * Decouples REST path mappings for product CRUD operations from pages and components,
+ * ensuring modularity when migrating to active backend servers.
+ *
+ * API USAGE:
+ * - GET /api/v1/products
+ * - GET /api/v1/products/{id}
+ * - POST /api/v1/products
+ * - PUT /api/v1/products/{id}
+ * - DELETE /api/v1/products/{id}
+ *
+ * LOGIC EXPLANATION:
+ * Leverages the shared authenticated axiosInstance. Each function maps directly to standard REST methods
+ * (get, post, put, delete) matching Spring Boot endpoints paths.
+ */
 
 import axiosInstance from './axiosInstance';
 import { API_ENDPOINTS } from '../utils/constants';
 
-/**
- * WHAT IT DOES: Object mapping REST request wrappers for products resource endpoints.
- * WHY IT IS REQUIRED: Standardizes CRUD queries towards unified base paths.
- * WHEN IT IS USED: Executed inside service handlers during products management.
- */
 export const productApi = {
-  // WHAT IT DOES: Queries standard list of products with active search filters.
-  // WHY IT IS REQUIRED: populates product list grids.
-  // WHEN IT IS USED: Triggered on products page mount.
+  /**
+   * PURPOSE: Retrieves all products.
+   * BUSINESS USE: Populates lists and search filters on the catalog management board.
+   * API USAGE: GET /api/v1/products
+   * LOGIC EXPLANATION: Executes an Axios GET request towards the base products endpoint.
+   */
   getAll: (params) => axiosInstance.get(API_ENDPOINTS.PRODUCTS, { params }),
   
-  // WHAT IT DOES: Queries a single product details.
-  // WHY IT IS REQUIRED: Feeds the product details display overlay.
-  // WHEN IT IS USED: Fired on clicking details button.
+  /**
+   * PURPOSE: Retrieves a specific product by ID.
+   * BUSINESS USE: Populates detail inspection popup cards for a single product.
+   * API USAGE: GET /api/v1/products/{id}
+   * LOGIC EXPLANATION: Interpolates the target product ID string to construct the GET request path.
+   */
   getById: (id) => axiosInstance.get(`${API_ENDPOINTS.PRODUCTS}/${id}`),
   
-  // WHAT IT DOES: Posts a new product record payload.
-  // WHY IT IS REQUIRED: Saves newly created product specifications.
-  // WHEN IT IS USED: Fired on submit additions form.
+  /**
+   * PURPOSE: Registers a new product.
+   * BUSINESS USE: Commits a newly entered product payload to the system.
+   * API USAGE: POST /api/v1/products
+   * LOGIC EXPLANATION: Sends a POST request containing the validated form state data object.
+   */
   create: (data) => axiosInstance.post(API_ENDPOINTS.PRODUCTS, data),
   
-  // WHAT IT DOES: Updates fields of a specific product by ID.
-  // WHY IT IS REQUIRED: Commits edited product modifications to database.
-  // WHEN IT IS USED: Fired on submit edit form.
+  /**
+   * PURPOSE: Updates an existing product by ID.
+   * BUSINESS USE: Commits modifications to pricing, quantities, or sourcing details.
+   * API USAGE: PUT /api/v1/products/{id}
+   * LOGIC EXPLANATION: Executes a PUT request with target ID and modified attributes object.
+   */
   update: (id, data) => axiosInstance.put(`${API_ENDPOINTS.PRODUCTS}/${id}`, data),
   
-  // WHAT IT DOES: Dispatches delete instructions for an item.
-  // WHY IT IS REQUIRED: Removes catalog products.
-  // WHEN IT IS USED: Fired upon confirm delete check alerts.
+  /**
+   * PURPOSE: Deletes a product.
+   * BUSINESS USE: Removes obsolete or invalid products from active listings.
+   * API USAGE: DELETE /api/v1/products/{id}
+   * LOGIC EXPLANATION: Dispatches a DELETE request towards the target product ID path.
+   */
   delete: (id) => axiosInstance.delete(`${API_ENDPOINTS.PRODUCTS}/${id}`),
 };
 

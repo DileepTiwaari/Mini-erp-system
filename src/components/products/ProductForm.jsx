@@ -1,33 +1,32 @@
-// src/components/products/ProductForm.jsx
-// 
-// WHAT IT DOES:
-// Renders the input and edit form for raw materials and manufactured assemblies.
-// Implements client-side inputs checking: alphanumeric SKU formatting validation,
-// non-empty value boundaries, and positive numeric validations for pricing and quantity details.
-// 
-// WHY IT IS REQUIRED:
-// 1. Blocks corrupted or invalid entries before they propagate to the mock database or Spring Boot REST API.
-// 2. Guides non-technical business operators with friendly inline warning notifications and prompts.
-// 3. Centralizes data modeling parameters (reserved quantities, sourcing dropdown links, statuses).
-// 
-// WHEN IT IS USED:
-// Rendered inside the products page modal when registering new items or editing active listings.
+/**
+ * PURPOSE:
+ * Renders the product creation and editing form.
+ *
+ * BUSINESS USE:
+ * Enforces corporate data validation rules (alphanumeric SKU formats, positive numbers,
+ * unique SKUs) before entries are committed, guiding operations staff with friendly warnings.
+ *
+ * API USAGE:
+ * Calls `productService.getCategories()` on mount to load category selector options.
+ * Calls `productService.getProducts()` on submission to validate SKU uniqueness.
+ *
+ * LOGIC EXPLANATION:
+ * - Employs state variables to mirror input fields.
+ * - Enforces required validation checks: Name, SKU, and Category.
+ * - SKU formatting validation regex allows alphanumeric codes and hyphens (e.g. FG-MTR-01).
+ * - Checks that prices, costs, and stock numbers are non-negative.
+ * - Performs unique SKU check: Queries all existing products and ensures that no other product
+ *   shares the same code (case-insensitive), excluding the product being edited (if in edit mode).
+ */
 
 import React, { useState, useEffect } from 'react';
 import productService from '../../services/productService';
 import { useToast } from '../../context/ToastContext';
 
-/**
- * WHAT IT DOES: Main form panel component supporting product creations and revisions.
- * WHY IT IS REQUIRED: Standardizes inputs fields, error checks, and state mapping.
- * WHEN IT IS USED: Loaded by ProductsPage.jsx.
- */
 export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
   const { showToast } = useToast();
 
-  // WHAT IT DOES: State variables mapping all product entities attributes.
-  // WHY IT IS REQUIRED: Keeps input fields synchronized with state values.
-  // WHEN IT IS USED: Updated on typing, submitted on button click.
+  // Form input state hooks
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
@@ -82,26 +81,20 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
     }
   }, [initialData]);
 
-  // WHAT IT DOES: Helper checking if SKU matches alphanumeric characters and hyphens.
-  // WHY IT IS REQUIRED: Enforces standard ERP naming conventions.
-  // WHEN IT IS USED: Consulted during handleSubmit checks.
+  // Regex validation check for alphanumeric and hyphen characters
   const isValidSku = (sku) => {
     const skuRegex = /^[A-Za-z0-9-]+$/;
     return skuRegex.test(sku);
   };
 
-  // WHAT IT DOES: Checks if values are numbers greater than or equal to zero.
-  // WHY IT IS REQUIRED: Prevents negative costs, prices, or inventory quantities.
-  // WHEN IT IS USED: Checked on submit button click.
+  // Helper checking if a parameter is a positive number (non-negative)
   const isPositiveNumber = (val) => {
     const num = Number(val);
     return !isNaN(num) && num >= 0;
   };
 
-  // WHAT IT DOES: Coordinates form validation checks and dispatches onSubmit.
-  // WHY IT IS REQUIRED: Blocks submit events if fields are incorrect.
-  // WHEN IT IS USED: Fired on clicking the form submit button.
-  const handleSubmit = (e) => {
+  // Submission validation handler
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // 1. Required field checks
@@ -146,12 +139,29 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
       return;
     }
 
-    // Free to use quantity is calculated as: stock - reservedQty
+    // 4. SKU Uniqueness check
+    try {
+      const activeProducts = await productService.getProducts();
+      const duplicateExists = activeProducts.some(
+        (p) =>
+          p.code.toUpperCase() === code.trim().toUpperCase() &&
+          (!initialData || p.id !== initialData.id)
+      );
+
+      if (duplicateExists) {
+        showToast(`SKU '${code.trim().toUpperCase()}' is already in use by another product. SKU must be unique.`, 'warning');
+        return;
+      }
+    } catch (err) {
+      showToast('Failed to verify SKU uniqueness. Please try again.', 'error');
+      return;
+    }
+
     const totalStock = Number(stock) || 0;
     const reservedVal = Number(reservedQty) || 0;
     const freeToUseVal = totalStock - reservedVal;
 
-    // Dispatches formatted payload
+    // Dispatch target data values
     onSubmit({
       name: name.trim(),
       code: code.trim().toUpperCase(),
@@ -177,7 +187,7 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Name */}
         <div className="sm:col-span-2">
-          <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+          <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
             Product Name <span className="text-rose-500">*</span>
           </label>
           <input
@@ -185,14 +195,14 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded placeholder-slate-400 text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-brand-500"
+            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded placeholder-slate-400 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
             placeholder="e.g. Copper Wire Coil 1.5mm"
           />
         </div>
 
         {/* Code / SKU */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+          <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
             Product SKU / Code <span className="text-rose-500">*</span>
           </label>
           <input
@@ -200,20 +210,20 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
             required
             value={code}
             onChange={(e) => setCode(e.target.value)}
-            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded placeholder-slate-400 text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-brand-500 font-mono uppercase"
+            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded placeholder-slate-400 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 font-mono uppercase"
             placeholder="e.g. RM-COP-15"
           />
         </div>
 
         {/* Category */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+          <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
             Product Category <span className="text-rose-500">*</span>
           </label>
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
-            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-brand-500"
+            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="">Select Category</option>
             {categories.map((cat) => (
@@ -226,27 +236,27 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
 
         {/* Description */}
         <div className="sm:col-span-2">
-          <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+          <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
             Description
           </label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={2}
-            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded placeholder-slate-400 text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded placeholder-slate-400 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
             placeholder="Write brief description of the product or assembly details..."
           />
         </div>
 
         {/* Unit of measure */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+          <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
             Unit of Measure (UoM)
           </label>
           <select
             value={uom}
             onChange={(e) => setUom(e.target.value)}
-            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
             <option value="pcs">Pieces (pcs)</option>
             <option value="kg">Kilograms (kg)</option>
@@ -258,13 +268,13 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
 
         {/* Status */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+          <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
             Catalog Status
           </label>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -273,7 +283,7 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
 
         {/* Sales Price */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+          <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
             Sales Price ($) <span className="text-rose-500">*</span>
           </label>
           <input
@@ -282,14 +292,14 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
             required
             value={price}
             onChange={(e) => setPrice(e.target.value)}
-            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
             placeholder="0.00"
           />
         </div>
 
         {/* Unit Cost */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+          <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
             Internal Cost Price ($) <span className="text-rose-500">*</span>
           </label>
           <input
@@ -298,14 +308,14 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
             required
             value={cost}
             onChange={(e) => setCost(e.target.value)}
-            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
             placeholder="0.00"
           />
         </div>
 
         {/* Initial Stock on Hand */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+          <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
             Stock On Hand <span className="text-rose-500">*</span>
           </label>
           <input
@@ -313,14 +323,14 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
             required
             value={stock}
             onChange={(e) => setStock(e.target.value)}
-            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
             placeholder="0"
           />
         </div>
 
         {/* Reserved Stock */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+          <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
             Reserved Qty
           </label>
           <input
@@ -328,14 +338,14 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
             required
             value={reservedQty}
             onChange={(e) => setReservedQty(e.target.value)}
-            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
             placeholder="0"
           />
         </div>
 
         {/* Min stock safety threshold */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+          <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
             Reorder Point (Safety Stock) <span className="text-rose-500">*</span>
           </label>
           <input
@@ -343,20 +353,20 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
             required
             value={minStock}
             onChange={(e) => setMinStock(e.target.value)}
-            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
             placeholder="0"
           />
         </div>
 
         {/* Procurement Type */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+          <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
             Procurement Type
           </label>
           <select
             value={procurementType}
             onChange={(e) => setProcurementType(e.target.value)}
-            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
             <option value="PURCHASE">PURCHASE (PO Sourced)</option>
             <option value="MANUFACTURING">MANUFACTURING (BOM Built)</option>
@@ -365,13 +375,13 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
 
         {/* Procurement Strategy */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+          <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
             Strategy
           </label>
           <select
             value={procurementStrategy}
             onChange={(e) => setProcurementStrategy(e.target.value)}
-            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
             <option value="MTS">Make to Stock (MTS)</option>
             <option value="MTO">Make to Order (MTO)</option>
@@ -381,13 +391,13 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
         {/* Vendor Link or BOM Link depending on type */}
         {procurementType === 'PURCHASE' ? (
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+            <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
               Preferred Vendor
             </label>
             <select
               value={vendorId}
               onChange={(e) => setVendorId(e.target.value)}
-              className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
               <option value="">No vendor bound</option>
               <option value="v1">Apex Metal Corp (v1)</option>
@@ -397,13 +407,13 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
           </div>
         ) : (
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+            <label className="block text-xs font-bold text-slate-750 uppercase mb-1">
               Bill of Materials (BOM)
             </label>
             <select
               value={bomId}
               onChange={(e) => setBomId(e.target.value)}
-              className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
               <option value="">No BOM bound</option>
               <option value="bom-301">Electric Motor 1HP Standard BOM (bom-301)</option>
@@ -426,7 +436,7 @@ export const ProductForm = ({ onSubmit, initialData, onCancel }) => {
         )}
         <button
           type="submit"
-          className="px-4 py-2 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded shadow-sm transition-colors duration-150"
+          className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded shadow-sm transition-colors duration-150"
         >
           {initialData ? 'Save Changes' : 'Create Product'}
         </button>
