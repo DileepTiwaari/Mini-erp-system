@@ -43,12 +43,12 @@ export const StockTable = ({
     },
     { 
       header: 'Total Value', 
-      key: 'id',
+      key: 'totalValue',
       render: (row) => formatCurrency(row.stock * row.cost)
     },
     { 
       header: 'Replenishment Alert', 
-      key: 'id',
+      key: 'alert',
       render: (row) => <StockBadge stock={row.stock} minStock={row.minStock} /> 
     }
   ];
