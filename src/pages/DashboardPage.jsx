@@ -1,53 +1,73 @@
 // src/pages/DashboardPage.jsx
-// Main workspace dashboard for FlowERP.
-// Aggregates operations KPIs and renders visual layout widgets.
+// 
+// WHAT IT DOES:
+// Renders the primary dashboard page aggregate view of the ERP system,
+// showing summary cards (counts of products, categories, sales, purchases, and manufacturing orders),
+// a monthly Sales Chart, a critical Stock Alerts table, and Recent Activities logs.
+// 
+// WHY IT IS REQUIRED:
+// 1. Serves as the first workspace entry screen for authenticated corporate users.
+// 2. Aggregates operations KPIs and logs dynamically so workers get immediate status overviews.
+// 3. Implements responsive grid columns so metrics fit neatly on different device viewports.
+// 
+// WHEN IT IS USED:
+// Loaded automatically when landing on `/dashboard`.
 
 import React, { useState, useEffect } from 'react';
 import useAuth from '../hooks/useAuth';
 import dashboardService from '../services/dashboardService';
 import productService from '../services/productService';
-import manufacturingService from '../services/manufacturingService';
-import procurementService from '../services/procurementService';
 import { useToast } from '../context/ToastContext';
-import { formatCurrency } from '../utils/formatters';
+import { formatRole } from '../utils/formatters';
 
-// Widgets
+// Widgets & Layout Components
 import SummaryCard from '../components/dashboard/SummaryCard';
 import SalesChart from '../components/dashboard/SalesChart';
 import StockAlerts from '../components/dashboard/StockAlerts';
 import RecentActivities from '../components/dashboard/RecentActivities';
-import ProcurementWidget from '../components/dashboard/ProcurementWidget';
-import ManufacturingWidget from '../components/dashboard/ManufacturingWidget';
-import LowStockWidget from '../components/dashboard/LowStockWidget';
 import PageHeader from '../components/common/PageHeader';
 import Loader from '../components/common/Loader';
 
 // Icons
-import { BadgeDollarSign, Wrench, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { 
+  Package, 
+  Tags, 
+  ShoppingCart, 
+  FileSpreadsheet, 
+  Wrench, 
+  AlertTriangle 
+} from 'lucide-react';
 
+/**
+ * WHAT IT DOES: Page component presenting dashboard metrics and charts.
+ * WHY IT IS REQUIRED: Aggregates fetch requests from multiple modules in one viewport container.
+ * WHEN IT IS USED: Rendered for the `/dashboard` route endpoint.
+ */
 export const DashboardPage = () => {
   const { user } = useAuth();
   const { showToast } = useToast();
   
+  // WHAT IT DOES: States to manage loading indicator, KPI data objects, and catalog item lists.
+  // WHY IT IS REQUIRED: Binds service payloads to component elements dynamically.
+  // WHEN IT IS USED: Edited inside useEffect fetch routines.
   const [loading, setLoading] = useState(true);
   const [kpis, setKpis] = useState(null);
   const [products, setProducts] = useState([]);
-  const [mOrders, setMOrders] = useState([]);
-  const [reorders, setReorders] = useState([]);
 
+  // WHAT IT DOES: Side effect routing data fetches on layout boot.
+  // WHY IT IS REQUIRED: Gathers metrics synchronously from local databases or REST endpoints.
+  // WHEN IT IS USED: Invoked on component mounting.
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
-        const stats = await dashboardService.getSummary();
-        const prods = await productService.getProducts();
-        const mos = await manufacturingService.getManufacturingOrders();
-        const recs = await procurementService.getRecommendations();
+        const [stats, prods] = await Promise.all([
+          dashboardService.getSummary(),
+          productService.getProducts()
+        ]);
 
         setKpis(stats);
         setProducts(prods);
-        setMOrders(mos);
-        setReorders(recs);
       } catch (err) {
         showToast('Error loading dashboard analytics data', 'error');
       } finally {
@@ -67,61 +87,65 @@ export const DashboardPage = () => {
 
   return (
     <div className="space-y-6">
-      {/* Stock Alerts Banner */}
-      <StockAlerts items={products} />
-
-      {/* Header */}
+      {/* Header Panel */}
       <PageHeader
         title={`Welcome back, ${user?.name || 'User'}`}
-        subtitle={`Role: ${user?.role?.toUpperCase()} | Here is what is happening on the shop floor today.`}
+        subtitle={`Active Profile: ${formatRole(user?.role)} | Operational overview for today.`}
       />
 
-      {/* KPI Cards Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* KPI Cards Row (Grid of 6 metrics cards) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <SummaryCard
-          title="Sales Revenue"
-          value={formatCurrency(kpis.salesRevenue)}
-          icon={BadgeDollarSign}
-          description="Invoiced & Completed orders"
-          trend="+12%"
+          title="Total Products"
+          value={kpis.totalProducts}
+          icon={Package}
+          description="Registered items"
         />
         <SummaryCard
-          title="Procurement Spend"
-          value={formatCurrency(kpis.purchaseSpend)}
-          icon={BadgeDollarSign}
-          description="Active & Approved PO spend"
-          trend="+5%"
+          title="Categories"
+          value={kpis.totalCategories}
+          icon={Tags}
+          description="Product divisions"
         />
         <SummaryCard
-          title="Active Work Orders"
-          value={kpis.activeMos}
+          title="Sales Orders"
+          value={kpis.totalSalesOrders}
+          icon={ShoppingCart}
+          description="Total customer orders"
+        />
+        <SummaryCard
+          title="Purchase Orders"
+          value={kpis.totalPurchaseOrders}
+          icon={FileSpreadsheet}
+          description="Total vendor requests"
+        />
+        <SummaryCard
+          title="Mfg Orders"
+          value={kpis.totalMfgOrders}
           icon={Wrench}
-          description="Ongoing manufacturing runs"
+          description="Total work orders"
         />
         <SummaryCard
-          title="Material Shortages"
+          title="Low Stock"
           value={kpis.lowStockCount}
           icon={AlertTriangle}
-          description="Items below safety threshold"
+          description="Items below safety point"
           trend={kpis.lowStockCount > 0 ? 'Urgent' : 'Clear'}
+          className={kpis.lowStockCount > 0 ? 'border-rose-200 bg-rose-50/20' : ''}
         />
       </div>
 
-      {/* Charts & System Logs */}
+      {/* Critical Stock Alerts list */}
+      <StockAlerts items={products} />
+
+      {/* Charts & System Timeline logs layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <SalesChart data={kpis.salesChartData} />
+          <SalesChart data={kpis.salesChartData} title="Monthly Sales Revenue (USD)" />
         </div>
         <div>
           <RecentActivities activities={kpis.recentActivities} />
         </div>
-      </div>
-
-      {/* Operations Widgets */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-        <LowStockWidget items={products} />
-        <ManufacturingWidget orders={mOrders} />
-        <ProcurementWidget suggestions={reorders} />
       </div>
     </div>
   );

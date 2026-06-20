@@ -52,17 +52,21 @@ const INITIAL_DATA = {
     { id: 'u6', name: 'Inventory Controller', email: 'inventory@flowerp.com', role: ROLES.INVENTORY_MANAGER, phone: '555-0105', active: true },
   ],
   [DB_KEYS.CATEGORIES]: [
-    { id: 'cat1', name: 'Raw Metals', code: 'MET' },
-    { id: 'cat2', name: 'Electrical Parts', code: 'ELE' },
-    { id: 'cat3', name: 'Hardware Fasteners', code: 'HDW' },
-    { id: 'cat4', name: 'Finished Assemblies', code: 'FIN' },
+    { id: 'cat1', name: 'Electronics', code: 'ELE' },
+    { id: 'cat2', name: 'Furniture', code: 'FUR' },
+    { id: 'cat3', name: 'Raw Materials', code: 'RAW' },
   ],
   [DB_KEYS.PRODUCTS]: [
-    { id: 'p1', name: 'Steel Sheet 2mm', code: 'RM-STL-02', categoryId: 'cat1', price: 12.50, cost: 8.00, stock: 150, minStock: 50, uom: 'pcs' },
-    { id: 'p2', name: 'Copper Winding Wire 1mm', code: 'RM-COP-01', categoryId: 'cat2', price: 45.00, cost: 30.00, stock: 40, minStock: 15, uom: 'kg' },
-    { id: 'p3', name: 'M8 Hex Bolt 40mm', code: 'RM-BLT-08', categoryId: 'cat3', price: 0.80, cost: 0.30, stock: 1200, minStock: 200, uom: 'pcs' },
-    { id: 'p4', name: 'Electric Motor 1HP', code: 'FG-MTR-01', categoryId: 'cat4', price: 180.00, cost: 110.00, stock: 12, minStock: 5, uom: 'pcs' },
-    { id: 'p5', name: 'Industrial Bracket Type-A', code: 'FG-BRK-01', categoryId: 'cat4', price: 35.00, cost: 18.00, stock: 85, minStock: 20, uom: 'pcs' },
+    { id: 'p1', name: 'Laptop Pro 15', code: 'FG-LAP-01', categoryId: 'cat1', price: 1200.00, cost: 800.00, stock: 15, reservedQty: 2, freeToUseQty: 13, minStock: 5, uom: 'pcs', procurementType: 'PURCHASE', procurementStrategy: 'MTS', vendorId: 'v2', bomId: null, status: 'active', description: 'High performance corporate laptops' },
+    { id: 'p2', name: 'Ergonomic Office Chair', code: 'FG-CHR-02', categoryId: 'cat2', price: 250.00, cost: 150.00, stock: 35, reservedQty: 5, freeToUseQty: 30, minStock: 10, uom: 'pcs', procurementType: 'PURCHASE', procurementStrategy: 'MTS', vendorId: 'v1', bomId: null, status: 'active', description: 'Ergonomic lumbar support mesh chairs' },
+    { id: 'p3', name: 'Steel Sheet 2mm', code: 'RM-STL-02', categoryId: 'cat3', price: 12.50, cost: 8.00, stock: 8, reservedQty: 0, freeToUseQty: 8, minStock: 20, uom: 'pcs', procurementType: 'PURCHASE', procurementStrategy: 'MTS', vendorId: 'v1', bomId: null, status: 'active', description: 'Heavy duty raw steel sheeting' },
+    { id: 'p4', name: 'Oak Wood Board', code: 'RM-OAK-04', categoryId: 'cat3', price: 35.00, cost: 20.00, stock: 5, reservedQty: 0, freeToUseQty: 5, minStock: 15, uom: 'pcs', procurementType: 'PURCHASE', procurementStrategy: 'MTS', vendorId: 'v3', bomId: null, status: 'active', description: 'Premium solid oak wood planks' },
+    { id: 'p5', name: 'LED Controller Board', code: 'RM-LED-05', categoryId: 'cat1', price: 18.00, cost: 10.00, stock: 120, reservedQty: 20, freeToUseQty: 100, minStock: 40, uom: 'pcs', procurementType: 'PURCHASE', procurementStrategy: 'MTS', vendorId: 'v2', bomId: null, status: 'active', description: 'Smart LED driver microcontrollers' },
+    { id: 'p6', name: 'Industrial Power Supply 24V', code: 'RM-PWR-06', categoryId: 'cat1', price: 45.00, cost: 30.00, stock: 50, reservedQty: 10, freeToUseQty: 40, minStock: 15, uom: 'pcs', procurementType: 'PURCHASE', procurementStrategy: 'MTS', vendorId: 'v2', bomId: null, status: 'active', description: 'Enclosed 24V power modules' },
+    { id: 'p7', name: 'M8 Hex Bolt 40mm', code: 'RM-BLT-07', categoryId: 'cat3', price: 0.80, cost: 0.30, stock: 1500, reservedQty: 300, freeToUseQty: 1200, minStock: 500, uom: 'pcs', procurementType: 'PURCHASE', procurementStrategy: 'MTS', vendorId: 'v3', bomId: null, status: 'active', description: 'Threaded standard steel industrial fasteners' },
+    { id: 'p8', name: 'Pine Wood Board', code: 'RM-PIN-08', categoryId: 'cat3', price: 15.00, cost: 8.00, stock: 90, reservedQty: 0, freeToUseQty: 90, minStock: 30, uom: 'pcs', procurementType: 'PURCHASE', procurementStrategy: 'MTS', vendorId: 'v3', bomId: null, status: 'active', description: 'Raw pine timber boards' },
+    { id: 'p9', name: 'Electric Motor 1HP', code: 'FG-MTR-01', categoryId: 'cat1', price: 180.00, cost: 110.00, stock: 4, reservedQty: 2, freeToUseQty: 2, minStock: 8, uom: 'pcs', procurementType: 'MANUFACTURING', procurementStrategy: 'MTO', vendorId: null, bomId: 'bom-301', status: 'active', description: 'Standard 1HP electric induction motor' },
+    { id: 'p10', name: 'Assembly Workbench', code: 'FG-WKB-10', categoryId: 'cat2', price: 450.00, cost: 280.00, stock: 12, reservedQty: 1, freeToUseQty: 11, minStock: 3, uom: 'pcs', procurementType: 'MANUFACTURING', procurementStrategy: 'MTO', vendorId: null, bomId: 'bom-302', status: 'active', description: 'Heavy duty industrial assembly benches' },
   ],
   [DB_KEYS.VENDORS]: [
     { id: 'v1', name: 'Apex Metal Corp', contactName: 'John Smith', email: 'sales@apexmetal.com', phone: '555-0220', address: '120 Metalworks Blvd, Ohio' },
@@ -75,24 +79,24 @@ const INITIAL_DATA = {
     { id: 'c3', name: 'Vertex Builders Co', contactName: 'David Miller', email: 'david@vertexbuilders.com', phone: '555-0770', address: '10 Construction Rd, Florida' },
   ],
   [DB_KEYS.SALES]: [
-    { id: 'so-101', orderNumber: 'SO-00101', customerId: 'c1', orderDate: '2026-06-18', totalAmount: 1800.00, status: 'completed', items: [{ productId: 'p4', quantity: 10, price: 180.00 }] },
-    { id: 'so-102', orderNumber: 'SO-00102', customerId: 'c2', orderDate: '2026-06-19', totalAmount: 700.00, status: 'pending', items: [{ productId: 'p5', quantity: 20, price: 35.00 }] },
-    { id: 'so-103', orderNumber: 'SO-00103', customerId: 'c3', orderDate: '2026-06-20', totalAmount: 540.00, status: 'draft', items: [{ productId: 'p4', quantity: 3, price: 180.00 }] },
+    { id: 'so-101', orderNumber: 'SO-00101', customerId: 'c1', orderDate: '2026-06-18', totalAmount: 1800.00, status: 'completed', items: [{ productId: 'p9', quantity: 10, price: 180.00 }] },
+    { id: 'so-102', orderNumber: 'SO-00102', customerId: 'c2', orderDate: '2026-06-19', totalAmount: 700.00, status: 'pending', items: [{ productId: 'p10', quantity: 20, price: 35.00 }] },
+    { id: 'so-103', orderNumber: 'SO-00103', customerId: 'c3', orderDate: '2026-06-20', totalAmount: 540.00, status: 'draft', items: [{ productId: 'p9', quantity: 3, price: 180.00 }] },
   ],
   [DB_KEYS.PURCHASES]: [
-    { id: 'po-201', orderNumber: 'PO-00201', vendorId: 'v1', orderDate: '2026-06-15', totalAmount: 800.00, status: 'completed', items: [{ productId: 'p1', quantity: 100, unitCost: 8.00 }] },
-    { id: 'po-202', orderNumber: 'PO-00202', vendorId: 'v2', orderDate: '2026-06-19', totalAmount: 600.00, status: 'approved', items: [{ productId: 'p2', quantity: 20, unitCost: 30.00 }] },
-    { id: 'po-203', orderNumber: 'PO-00203', vendorId: 'v3', orderDate: '2026-06-20', totalAmount: 150.00, status: 'draft', items: [{ productId: 'p3', quantity: 500, unitCost: 0.30 }] },
+    { id: 'po-201', orderNumber: 'PO-00201', vendorId: 'v1', orderDate: '2026-06-15', totalAmount: 800.00, status: 'completed', items: [{ productId: 'p3', quantity: 100, unitCost: 8.00 }] },
+    { id: 'po-202', orderNumber: 'PO-00202', vendorId: 'v2', orderDate: '2026-06-19', totalAmount: 600.00, status: 'approved', items: [{ productId: 'p5', quantity: 20, unitCost: 30.00 }] },
+    { id: 'po-203', orderNumber: 'PO-00203', vendorId: 'v3', orderDate: '2026-06-20', totalAmount: 150.00, status: 'draft', items: [{ productId: 'p7', quantity: 500, unitCost: 0.30 }] },
   ],
   [DB_KEYS.BOMS]: [
-    { id: 'bom-301', productId: 'p4', name: 'Electric Motor 1HP Standard BOM', items: [
-      { productId: 'p1', quantity: 2 }, // 2 Steel sheets
-      { productId: 'p2', quantity: 1.5 }, // 1.5 kg Copper winding
-      { productId: 'p3', quantity: 12 }, // 12 M8 Bolts
+    { id: 'bom-301', productId: 'p9', name: 'Electric Motor 1HP Standard BOM', items: [
+      { productId: 'p3', quantity: 2 }, // 2 Steel sheets
+      { productId: 'p6', quantity: 1.5 }, // 1.5 kg Copper winding
+      { productId: 'p7', quantity: 12 }, // 12 M8 Bolts
     ]},
-    { id: 'bom-302', productId: 'p5', name: 'Industrial Bracket BOM', items: [
-      { productId: 'p1', quantity: 0.5 }, // 0.5 Steel sheet
-      { productId: 'p3', quantity: 4 }, // 4 M8 Bolts
+    { id: 'bom-302', productId: 'p10', name: 'Industrial Assembly Workbench BOM', items: [
+      { productId: 'p4', quantity: 4 }, // 4 Oak Wood Boards
+      { productId: 'p7', quantity: 8 }, // 8 M8 Bolts
     ]},
   ],
   [DB_KEYS.WORK_CENTERS]: [
@@ -101,18 +105,18 @@ const INITIAL_DATA = {
     { id: 'wc3', name: 'Final Assembly Line', code: 'WC-ASSY', costPerHour: 60.00, capacity: 8 },
   ],
   [DB_KEYS.MANUFACTURING]: [
-    { id: 'mo-401', moNumber: 'MO-00401', bomId: 'bom-301', productId: 'p4', quantity: 5, status: 'done', plannedStartDate: '2026-06-16', actualEndDate: '2026-06-17' },
-    { id: 'mo-402', moNumber: 'MO-00402', bomId: 'bom-302', productId: 'p5', quantity: 50, status: 'in_progress', plannedStartDate: '2026-06-19' },
-    { id: 'mo-403', moNumber: 'MO-00403', bomId: 'bom-301', productId: 'p4', quantity: 10, status: 'planned', plannedStartDate: '2026-06-25' },
+    { id: 'mo-401', moNumber: 'MO-00401', bomId: 'bom-301', productId: 'p9', quantity: 5, status: 'done', plannedStartDate: '2026-06-16', actualEndDate: '2026-06-17' },
+    { id: 'mo-402', moNumber: 'MO-00402', bomId: 'bom-302', productId: 'p10', quantity: 50, status: 'in_progress', plannedStartDate: '2026-06-19' },
+    { id: 'mo-403', moNumber: 'MO-00403', bomId: 'bom-301', productId: 'p9', quantity: 10, status: 'planned', plannedStartDate: '2026-06-25' },
   ],
   [DB_KEYS.WORK_ORDERS]: [
     { id: 'wo-501', moId: 'mo-402', workCenterId: 'wc1', name: 'Shear steel plates', operationOrder: 1, durationPlanned: 120, status: 'done' },
-    { id: 'wo-502', moId: 'mo-402', workCenterId: 'wc3', name: 'Fasten & assemble bracket', operationOrder: 2, durationPlanned: 180, status: 'in_progress' },
+    { id: 'wo-502', moId: 'mo-402', workCenterId: 'wc3', name: 'Fasten & assemble workbench', operationOrder: 2, durationPlanned: 180, status: 'in_progress' },
   ],
   [DB_KEYS.INVENTORY_LEDGER]: [
-    { id: 'il1', productId: 'p1', type: 'in', quantity: 100, reference: 'PO-00201', timestamp: '2026-06-15T10:00:00Z' },
-    { id: 'il2', productId: 'p4', type: 'in', quantity: 5, reference: 'MO-00401', timestamp: '2026-06-17T15:30:00Z' },
-    { id: 'il3', productId: 'p4', type: 'out', quantity: 10, reference: 'SO-00101', timestamp: '2026-06-18T14:20:00Z' },
+    { id: 'il1', productId: 'p3', type: 'in', quantity: 100, reference: 'PO-00201', timestamp: '2026-06-15T10:00:00Z' },
+    { id: 'il2', productId: 'p9', type: 'in', quantity: 5, reference: 'MO-00401', timestamp: '2026-06-17T15:30:00Z' },
+    { id: 'il3', productId: 'p9', type: 'out', quantity: 10, reference: 'SO-00101', timestamp: '2026-06-18T14:20:00Z' },
   ],
   [DB_KEYS.AUDIT_LOGS]: [
     { id: 'al1', userName: 'System Admin', action: 'User Login', description: 'User admin@flowerp.com logged in successfully.', timestamp: '2026-06-20T09:20:00Z' },
