@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: api-gateway
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  secret: erp-super-secret-key-for-jwt-token-signing-2024
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    com.erp.gateway: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
