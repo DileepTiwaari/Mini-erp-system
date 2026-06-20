@@ -1,4 +1,7 @@
 package com.erp.auth_service.exception;
 
-public class UserNotFoundException {
+public class UserNotFoundException extends RuntimeException {
+    public UserNotFoundException(String message) {
+        super(message);
+    }
 }

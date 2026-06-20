@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    show-sql: false
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/erp_sales_db?createDatabaseIfNotExist=true&useSSL=true&serverTimezone=UTC
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+
+logging:
+  level:
+    com.erp.sales_service: WARN
