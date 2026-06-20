@@ -1,42 +1,56 @@
-// src/components/dashboard/ManufacturingWidget.jsx
-// Dashboard widget rendering active production floor summaries.
+/**
+ * PURPOSE:
+ * Displays active shop floor execution statistics (Open, In Progress, and Completed orders).
+ *
+ * WHY:
+ * Provides a high-level overview of factory capacity load and order completions for the operations manager.
+ *
+ * API:
+ * GET /api/v1/dashboard/manufacturing-summary
+ *
+ * LOGIC USED:
+ * Receives counts for open, running, and done manufacturing runs and displays them inside
+ * a balanced three-column grid layout with clean blue and slate borders.
+ */
 
 import React from 'react';
-import { Hammer, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import StatusBadge from '../common/StatusBadge';
+import { Hammer, Play, CheckCircle } from 'lucide-react';
 
-export const ManufacturingWidget = ({ orders = [] }) => {
-  const activeOrders = orders.filter(o => o.status === 'in_progress' || o.status === 'planned');
-
+export const ManufacturingWidget = ({ summary = { openCount: 0, inProgressCount: 0, completedTodayCount: 0 } }) => {
   return (
-    <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-sm flex flex-col h-full">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wider">Active Shop Floor Runs</h3>
-        <Link to="/manufacturing-orders" className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1">
-          <span>Production</span>
-          <ArrowRight className="w-3 h-3" />
-        </Link>
-      </div>
-
-      {activeOrders.length === 0 ? (
-        <p className="text-slate-500 text-xs italic text-center p-4">No active manufacturing runs.</p>
-      ) : (
-        <div className="space-y-3 flex-1 overflow-y-auto max-h-64 pr-2">
-          {activeOrders.slice(0, 3).map((mo) => (
-            <div key={mo.id} className="p-3 bg-slate-50 border border-slate-100 rounded text-xs flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                <Hammer className="w-4 h-4 text-slate-500 flex-shrink-0" />
-                <div>
-                  <p className="font-semibold text-slate-800">{mo.moNumber}</p>
-                  <p className="text-slate-500 mt-0.5">Quantity: {mo.quantity} pcs</p>
-                </div>
-              </div>
-              <StatusBadge status={mo.status} />
-            </div>
-          ))}
+    <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-sm flex flex-col h-full">
+      <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">
+        Shop Floor Status
+      </h3>
+      
+      <div className="grid grid-cols-3 gap-3 flex-1 items-center">
+        {/* Open/Planned Orders Card */}
+        <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg text-center">
+          <div className="p-1 bg-slate-200 text-slate-600 rounded-full w-fit mx-auto mb-2">
+            <Hammer className="w-4 h-4" />
+          </div>
+          <p className="text-2xl font-bold text-slate-800">{summary.openCount || 0}</p>
+          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">Open MOs</p>
         </div>
-      )}
+
+        {/* In Progress Orders Card */}
+        <div className="p-3 bg-blue-50/50 border border-blue-100 rounded-lg text-center">
+          <div className="p-1 bg-blue-100 text-blue-600 rounded-full w-fit mx-auto mb-2">
+            <Play className="w-4 h-4" />
+          </div>
+          <p className="text-2xl font-bold text-blue-700">{summary.inProgressCount || 0}</p>
+          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">Running</p>
+        </div>
+
+        {/* Completed Today Orders Card */}
+        <div className="p-3 bg-emerald-50/50 border border-emerald-100 rounded-lg text-center">
+          <div className="p-1 bg-emerald-100 text-emerald-600 rounded-full w-fit mx-auto mb-2">
+            <CheckCircle className="w-4 h-4" />
+          </div>
+          <p className="text-2xl font-bold text-emerald-700">{summary.completedTodayCount || 0}</p>
+          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">Completed</p>
+        </div>
+      </div>
     </div>
   );
 };

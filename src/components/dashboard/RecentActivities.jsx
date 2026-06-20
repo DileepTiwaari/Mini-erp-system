@@ -1,66 +1,83 @@
-// src/components/dashboard/RecentActivities.jsx
-// 
-// WHAT IT DOES:
-// Renders an activity timeline feed highlighting recent audit log entries, user logins,
-// and record actions (e.g. Sales creation, manufacturing run starts).
-// 
-// WHY IT IS REQUIRED:
-// 1. Provides system transparency, enabling managers to review operational edits quickly.
-// 2. Isolates audit listing structures in a reusable dashboard module.
-// 
-// WHEN IT IS USED:
-// Rendered on the Dashboard panel page as a supporting visual layout widget.
+/**
+ * PURPOSE:
+ * Displays a vertical chronological activity feed of operations audit events.
+ *
+ * WHY:
+ * Enhances security and cross-department transparency, allowing business owners to monitor
+ * log updates (Sales created, Purchases approved, Stock changes) as they happen.
+ *
+ * API:
+ * GET /api/v1/dashboard/recent-activities
+ *
+ * LOGIC USED:
+ * Iterates through a logs array to display description/action, user profile, and timestamp.
+ * Uses utility helpers to format ISO timestamps relative to current time.
+ */
 
 import React from 'react';
 import { formatRelativeTime } from '../../utils/dateUtils';
-import { FileText, PlusCircle, LogIn, KeyRound } from 'lucide-react';
+import { ShoppingCart, CheckSquare, Settings, AlertCircle, Wrench } from 'lucide-react';
 
-/**
- * WHAT IT DOES: Timeline visual display component for recent audit events.
- * WHY IT IS REQUIRED: Renders custom icon badges depending on action parameters.
- * WHEN IT IS USED: Loaded by DashboardPage.jsx.
- * 
- * @param {Array} activities - List of recent log items (user, action, description, timestamp).
- */
 export const RecentActivities = ({ activities = [] }) => {
-  // WHAT IT DOES: Maps technical action labels to lucide icon markers.
-  // WHY IT IS REQUIRED: Enhances comprehension by prefixing actions with themed badges.
-  // WHEN IT IS USED: Called on item render lists.
-  const getActionIcon = (action) => {
-    const act = action.toLowerCase();
-    if (act.includes('login')) return <LogIn className="w-4 h-4 text-emerald-600" />;
-    if (act.includes('create') || act.includes('add')) return <PlusCircle className="w-4 h-4 text-brand-600" />;
-    if (act.includes('role') || act.includes('permission')) return <KeyRound className="w-4 h-4 text-amber-600" />;
-    return <FileText className="w-4 h-4 text-slate-500" />;
+  // Utility maps categories to colored icons
+  const getActivityMeta = (action) => {
+    const act = (action || '').toLowerCase();
+    if (act.includes('sales') || act.includes('so')) {
+      return { icon: ShoppingCart, colorClass: 'bg-blue-50 text-blue-600 border-blue-100' };
+    }
+    if (act.includes('purchase') || act.includes('po') || act.includes('approve')) {
+      return { icon: CheckSquare, colorClass: 'bg-emerald-50 text-emerald-600 border-emerald-100' };
+    }
+    if (act.includes('mfg') || act.includes('mo') || act.includes('manufacturing')) {
+      return { icon: Wrench, colorClass: 'bg-purple-50 text-purple-600 border-purple-100' };
+    }
+    if (act.includes('stock') || act.includes('inventory')) {
+      return { icon: AlertTriangleIcon, colorClass: 'bg-amber-50 text-amber-600 border-amber-100' };
+    }
+    return { icon: Settings, colorClass: 'bg-slate-50 text-slate-650 border-slate-100' };
   };
+
+  const AlertTriangleIcon = AlertCircle;
 
   return (
     <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-sm flex flex-col h-full">
-      <h3 className="text-sm font-bold text-slate-700 mb-4 uppercase tracking-wider">Recent System Activity</h3>
-      
+      <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">
+        Recent Activity Timeline
+      </h3>
+
       {activities.length === 0 ? (
-        <p className="text-slate-400 text-sm italic p-4 text-center">No recent activities logged.</p>
+        <div className="flex-1 flex items-center justify-center py-6">
+          <p className="text-slate-400 text-xs italic text-center">No recent activities logged.</p>
+        </div>
       ) : (
-        <div className="divide-y divide-slate-100 flex-1 overflow-y-auto max-h-[300px] pr-2">
-          {activities.map((act) => (
-            <div key={act.id} className="py-3 flex items-start gap-3">
-              {/* Event Icon Badge */}
-              <div className="p-1.5 bg-slate-50 rounded border border-slate-100 mt-0.5">
-                {getActionIcon(act.action)}
+        <div className="space-y-4 divide-y divide-slate-150 flex-1 overflow-y-auto max-h-[300px] pr-1">
+          {activities.map((act, idx) => {
+            const meta = getActivityMeta(act.action);
+            const Icon = meta.icon;
+            
+            return (
+              <div 
+                key={act.id || idx} 
+                className={`pt-3 flex items-start gap-3 text-xs ${idx === 0 ? 'pt-0 border-t-0' : ''}`}
+              >
+                {/* Event Type Icon Badge */}
+                <div className={`p-1.5 rounded-lg border flex-shrink-0 ${meta.colorClass}`}>
+                  <Icon className="w-3.5 h-3.5" />
+                </div>
+                
+                {/* Event Context Info */}
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-slate-800 leading-normal" title={act.description}>
+                    {act.description || act.action}
+                  </p>
+                  <div className="flex justify-between items-center text-[10px] text-slate-400 mt-1">
+                    <span className="font-medium text-slate-500">By: {act.user}</span>
+                    <span>{formatRelativeTime(act.timestamp)}</span>
+                  </div>
+                </div>
               </div>
-              
-              {/* Timeline Context Details */}
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold text-slate-800 flex justify-between gap-2">
-                  <span>{act.user}</span>
-                  <span className="text-slate-400 font-normal">{formatRelativeTime(act.timestamp)}</span>
-                </p>
-                <p className="text-xs text-slate-500 font-medium truncate mt-0.5" title={act.description}>
-                  {act.description}
-                </p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

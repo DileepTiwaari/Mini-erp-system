@@ -1,32 +1,21 @@
-// src/components/dashboard/SummaryCard.jsx
-// 
-// WHAT IT DOES:
-// Renders a reusable KPI summary block displaying key business figures,
-// trend indicators (+/- percentages), semantic labels, and matching icons.
-// 
-// WHY IT IS REQUIRED:
-// 1. Avoids repeating card structural layouts across metrics screens.
-// 2. Standardizes visual styling (spacing, hover shadows, text colors) for dashboard items.
-// 3. Supports arbitrary layout expansions (e.g. status details or extra text labels) for future metrics.
-// 
-// WHEN IT IS USED:
-// Rendered at the top of the main Dashboard workspace and other listing headers.
+/**
+ * PURPOSE:
+ * Renders a reusable key performance indicator (KPI) metric card block.
+ *
+ * WHY:
+ * Allows multiple different business metrics (such as sales orders counts, purchase order counts,
+ * and low stock item alerts) to be displayed in a consistent Odoo/Zoho layout.
+ *
+ * API:
+ * Used to present fields returned from GET /api/v1/dashboard.
+ *
+ * LOGIC USED:
+ * Takes title, value, icon, and description props and renders them inside a flex container.
+ * Supports status indicator highlights via conditional className bindings.
+ */
 
 import React from 'react';
 
-/**
- * WHAT IT DOES: Component displaying summary details of a single KPI metrics item.
- * WHY IT IS REQUIRED: Renders clean spacing and indicators per prop values.
- * WHEN IT IS USED: Loaded inside DashboardPage.jsx.
- * 
- * Props definitions:
- * @param {string} title - The uppercase label describing the metric (e.g. 'TOTAL PRODUCTS').
- * @param {string|number} value - The formatted text value (e.g. '$1,200.00' or '10').
- * @param {React.Component} icon - Lucide-react component reference for visual reinforcement.
- * @param {string} trend - Optional trend indicator, highlights red if starting with '-' or green if '+'.
- * @param {string} description - Optional help text underneath the card.
- * @param {string} className - Additional CSS styles override hooks.
- */
 export const SummaryCard = ({
   title,
   value,
@@ -50,12 +39,12 @@ export const SummaryCard = ({
         {(trend || description) && (
           <p className="text-xs text-slate-500 font-semibold flex items-center flex-wrap gap-1 mt-1">
             {trend && (
-              <span className={`px-1 rounded font-bold ${
+              <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
                 trend.startsWith('+') 
                   ? 'text-emerald-700 bg-emerald-50' 
                   : trend.startsWith('-')
-                    ? 'text-rose-750 bg-rose-50'
-                    : 'text-indigo-750 bg-indigo-50'
+                    ? 'text-rose-700 bg-rose-50'
+                    : 'text-blue-700 bg-blue-50'
               }`}>
                 {trend}
               </span>
@@ -67,7 +56,7 @@ export const SummaryCard = ({
 
       {/* Metric Visual Icon */}
       {Icon && (
-        <div className="p-2.5 bg-slate-50 border border-slate-100 rounded-lg text-brand-600 flex-shrink-0">
+        <div className="p-2.5 bg-slate-50 border border-slate-100 rounded-lg text-blue-600 flex-shrink-0">
           <Icon className="w-5 h-5" />
         </div>
       )}
