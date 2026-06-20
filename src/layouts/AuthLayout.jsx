@@ -1,11 +1,25 @@
 // src/layouts/AuthLayout.jsx
-// Simple authentication layout centered for non-authenticated pages (e.g. LoginPage).
-// Focused on responsive, clean design to support easy onboarding.
+// 
+// WHAT IT DOES:
+// Renders the layout frame for non-authenticated pages (e.g. LoginPage).
+// Centered layout block designed to hold onboarding forms.
+// 
+// WHY IT IS REQUIRED:
+// 1. Groups public auth workflows in a consistent, styled layout viewport wrapper.
+// 2. Automates bypass checks: if the user is already authenticated, they are automatically forwarded to `/dashboard` directly.
+// 
+// WHEN IT IS USED:
+// Triggered when entering `/login` route, checking session token first.
 
 import React from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
+/**
+ * WHAT IT DOES: Layout component wrapper for auth endpoints.
+ * WHY IT IS REQUIRED: Implements automatic redirect and structural wrapper style logic.
+ * WHEN IT IS USED: Rendered for the `/login` route endpoints.
+ */
 export const AuthLayout = () => {
   const { isAuthenticated } = useAuth();
 
