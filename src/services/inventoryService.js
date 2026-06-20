@@ -35,14 +35,19 @@ export const inventoryService = {
         newStock = Math.max(0, newStock - parsedQty);
       }
 
-      mockDb.update(DB_KEYS.PRODUCTS, productId, { stock: newStock });
+      const reservedQty = product.reservedQty || 0;
+      const freeToUseQty = newStock - reservedQty;
+
+      mockDb.update(DB_KEYS.PRODUCTS, productId, { stock: newStock, freeToUseQty });
       
       const ledgerEntry = mockDb.insert(DB_KEYS.INVENTORY_LEDGER, {
         productId,
         type: adjustmentType,
+        movementType: 'Adjustment',
         quantity: parsedQty,
         reference: reference || 'Physical Adjustment',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        balanceAfterMovement: newStock
       });
 
       return {

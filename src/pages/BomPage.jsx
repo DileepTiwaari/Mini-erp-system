@@ -9,6 +9,8 @@ import { Plus, Settings } from 'lucide-react';
 
 // Components
 import PageHeader from '../components/common/PageHeader';
+import Loader from '../components/common/Loader';
+import ErrorState from '../components/common/ErrorState';
 import SearchBar from '../components/common/SearchBar';
 import BomList from '../components/bom/BomList';
 import BomForm from '../components/bom/BomForm';
@@ -26,6 +28,7 @@ export const BomPage = () => {
   const [workCenters, setWorkCenters] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   // Modals
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -37,6 +40,7 @@ export const BomPage = () => {
   const fetchResources = async () => {
     try {
       setLoading(true);
+      setError(false);
       const [bomsList, prodsList, wcsList] = await Promise.all([
         manufacturingService.getBoms(),
         productService.getProducts(),
@@ -46,6 +50,7 @@ export const BomPage = () => {
       setProducts(prodsList);
       setWorkCenters(wcsList);
     } catch (err) {
+      setError(true);
       showToast('Failed to load manufacturing recipes.', 'error');
     } finally {
       setLoading(false);
@@ -118,6 +123,28 @@ export const BomPage = () => {
     return b.name.toLowerCase().includes(q) || prodName.includes(q);
   });
 
+  // Render Check: Error state — uses standardised ErrorState component
+  if (error) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <ErrorState
+          title="Failed to Load BOM Data"
+          message="Something went wrong while loading bills of materials and work center configurations. Please try again."
+          onRetry={fetchResources}
+        />
+      </div>
+    );
+  }
+
+  // Render Check: Loading state — uses standardised Loader component
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <Loader size="lg" label="Loading manufacturing recipes..." />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -165,6 +192,7 @@ export const BomPage = () => {
         <BomForm
           onSubmit={handleCreateOrUpdate}
           initialData={selectedBom}
+          workCenters={workCenters}
           onCancel={() => setIsFormOpen(false)}
         />
       </Modal>
@@ -195,7 +223,7 @@ export const BomPage = () => {
             <ComponentEditor bom={selectedBom} products={products} />
             
             {/* Routing steps */}
-            <OperationEditor workCenters={workCenters} />
+            <OperationEditor bom={selectedBom} workCenters={workCenters} />
           </div>
         )}
       </Modal>

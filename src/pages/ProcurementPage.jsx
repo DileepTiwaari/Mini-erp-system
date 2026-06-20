@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 
 // Components
 import PageHeader from '../components/common/PageHeader';
+import Loader from '../components/common/Loader';
+import ErrorState from '../components/common/ErrorState';
 import ShortageAlert from '../components/procurement/ShortageAlert';
 import ProcurementRecommendation from '../components/procurement/ProcurementRecommendation';
 import ProcurementCard from '../components/procurement/ProcurementCard';
@@ -19,6 +21,7 @@ export const ProcurementPage = () => {
 
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [executingId, setExecutingId] = useState(null);
 
   // Layout mode: 'list' | 'grid'
@@ -27,9 +30,11 @@ export const ProcurementPage = () => {
   const fetchRecommendations = async () => {
     try {
       setLoading(true);
+      setError(false);
       const data = await procurementService.getRecommendations();
       setRecommendations(data);
     } catch (err) {
+      setError(true);
       showToast('Failed to load replenishment suggestions.', 'error');
     } finally {
       setLoading(false);
@@ -44,17 +49,43 @@ export const ProcurementPage = () => {
     try {
       setExecutingId(rec.id);
       const res = await procurementService.executeProcurement(rec);
-      showToast(`Draft Purchase Order ${res.purchaseOrderNumber} generated for ${rec.suggestedVendorName}!`, 'success');
-      // Refresh list (since the PO is generated, stock may be incoming, or recommendations updated)
+      if (rec.procurementType === 'MANUFACTURING') {
+        showToast(`Planned Manufacturing Order ${res.manufacturingOrderNumber} scheduled successfully!`, 'success');
+      } else {
+        showToast(`Draft Purchase Order ${res.purchaseOrderNumber} generated for ${rec.suggestedVendorName}!`, 'success');
+      }
+      // Refresh list
       fetchRecommendations();
     } catch (err) {
-      showToast('Failed to generate purchase order.', 'error');
+      showToast('Failed to execute replenishment action.', 'error');
     } finally {
       setExecutingId(null);
     }
   };
 
   const canExecute = user?.role === 'admin' || user?.role === 'manager';
+
+  // Render Check: Error state — uses standardised ErrorState component
+  if (error) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <ErrorState
+          title="Failed to Load Procurement Data"
+          message="Something went wrong while loading replenishment suggestions and shortage alerts. Please try again."
+          onRetry={fetchRecommendations}
+        />
+      </div>
+    );
+  }
+
+  // Render Check: Loading state — uses standardised Loader component
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <Loader size="lg" label="Analyzing procurement requirements..." />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -92,11 +123,7 @@ export const ProcurementPage = () => {
       />
 
       {/* Recommendations content */}
-      {loading ? (
-        <div className="bg-white border border-slate-200 rounded-lg p-12 flex justify-center items-center shadow-sm">
-          <div className="animate-spin rounded-full h-8 w-8 border-2 border-slate-200 border-t-brand-600" />
-        </div>
-      ) : recommendations.length === 0 ? (
+      {recommendations.length === 0 ? (
         <div className="bg-white border border-slate-200 rounded-lg p-12 text-center shadow-sm">
           <p className="text-slate-500 font-semibold text-sm">Perfect! No shortages detected in the catalog.</p>
           <Link to="/inventory" className="text-xs text-brand-600 hover:underline mt-2 inline-block font-semibold">

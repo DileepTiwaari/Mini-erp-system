@@ -91,7 +91,7 @@ export const authService = {
       authService.saveToken(mockToken);
       
       // Log Audit activity
-      mockDb.logAudit('User Login', `User ${email} authenticated successfully (Standalone mode).`);
+      mockDb.logAudit('User Login', `User ${email} authenticated successfully (Standalone mode).`, 'Authentication', email);
       
       return {
         user,
@@ -140,7 +140,7 @@ export const authService = {
     // Wipe token
     authService.removeToken();
     localStorage.removeItem('auth_user');
-    mockDb.logAudit('User Logout', 'User logged out successfully.');
+    mockDb.logAudit('User Logout', 'User logged out successfully.', 'Authentication', '-');
   }
 };
 

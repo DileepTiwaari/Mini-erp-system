@@ -10,6 +10,8 @@ import { Settings } from 'lucide-react';
 
 // Components
 import PageHeader from '../components/common/PageHeader';
+import Loader from '../components/common/Loader';
+import ErrorState from '../components/common/ErrorState';
 import SearchBar from '../components/common/SearchBar';
 import StockTable from '../components/inventory/StockTable';
 import StockLedger from '../components/inventory/StockLedger';
@@ -27,6 +29,7 @@ export const InventoryPage = () => {
   const [summary, setSummary] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   // Tabs: 'stock' | 'ledger'
   const [activeTab, setActiveTab] = useState('stock');
@@ -35,6 +38,7 @@ export const InventoryPage = () => {
   const fetchResources = async () => {
     try {
       setLoading(true);
+      setError(false);
       const [prodsList, catsList, ledgerList, summaryData] = await Promise.all([
         productService.getProducts(),
         productService.getCategories(),
@@ -46,6 +50,7 @@ export const InventoryPage = () => {
       setLedger(ledgerList);
       setSummary(summaryData);
     } catch (err) {
+      setError(true);
       showToast('Failed to load inventory warehouse records.', 'error');
     } finally {
       setLoading(false);
@@ -73,6 +78,28 @@ export const InventoryPage = () => {
   });
 
   const canAdjust = user?.role === 'admin' || user?.role === 'manager';
+
+  // Render Check: Error state — uses standardised ErrorState component
+  if (error) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <ErrorState
+          title="Failed to Load Inventory Data"
+          message="Something went wrong while loading warehouse stock levels and movement records. Please try again."
+          onRetry={fetchResources}
+        />
+      </div>
+    );
+  }
+
+  // Render Check: Loading state — uses standardised Loader component
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <Loader size="lg" label="Loading warehouse inventory..." />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

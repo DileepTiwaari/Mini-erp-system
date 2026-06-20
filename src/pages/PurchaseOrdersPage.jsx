@@ -1,19 +1,40 @@
-// src/pages/PurchaseOrdersPage.jsx
-// Purchase orders workspace. Handles vendor procurements, requests, and goods receipts.
+/**
+ * PURPOSE:
+ * Serves as the primary control center for Purchase RFQs, Approvals, and Goods Receipts.
+ *
+ * BUSINESS USE:
+ * Allows procurement managers to draft requests for quotations (RFQs), submit orders to suppliers,
+ * log incoming materials to warehouse stock (handling partial batches), and monitor cash outlays.
+ *
+ * API USAGE:
+ * - Reads orders via `purchaseService.getPurchaseOrders()`.
+ * - Reads vendors via `purchaseService.getVendors()`.
+ * - Reads products via `productService.getProducts()`.
+ * - Writes POs via `purchaseService.createPurchaseOrder()` / `updatePurchaseOrder()`.
+ * - Confirms POs via `purchaseService.confirmPurchaseOrder()`.
+ * - Receives goods via `purchaseService.receivePurchaseOrder()`.
+ * - Cancels POs via `purchaseService.cancelPurchaseOrder()`.
+ *
+ * LOGIC FLOW:
+ * - Employs a single master board with comprehensive filter inputs (Vendor, Status, Date Ranges)
+ *   and search queries (matching order number or supplier name).
+ * - Restricts action transitions depending on order status (e.g. Receipt is only allowed on Confirmed/Partial).
+ * - Handles Loading, Empty, and Error states cleanly.
+ */
 
 import React, { useState, useEffect } from 'react';
 import purchaseService from '../services/purchaseService';
 import productService from '../services/productService';
 import { useToast } from '../context/ToastContext';
-import { Plus, UserPlus } from 'lucide-react';
+import { Plus, Search, FileText, Calendar, Filter } from 'lucide-react';
 
 // Components
 import PageHeader from '../components/common/PageHeader';
-import SearchBar from '../components/common/SearchBar';
+import Loader from '../components/common/Loader';
+import ErrorState from '../components/common/ErrorState';
 import PurchaseOrderList from '../components/purchase/PurchaseOrderList';
 import PurchaseOrderForm from '../components/purchase/PurchaseOrderForm';
 import PurchaseOrderDetail from '../components/purchase/PurchaseOrderDetail';
-import VendorForm from '../components/purchase/VendorForm';
 import ReceiveGoodsForm from '../components/purchase/ReceiveGoodsForm';
 import Modal from '../components/common/Modal';
 import ConfirmDialog from '../components/common/ConfirmDialog';
@@ -21,33 +42,49 @@ import ConfirmDialog from '../components/common/ConfirmDialog';
 export const PurchaseOrdersPage = () => {
   const { showToast } = useToast();
 
+  // Resource lists
   const [orders, setOrders] = useState([]);
   const [vendors, setVendors] = useState([]);
   const [products, setProducts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true);
 
-  // Modals
+  // States
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  // Search & Filter state hooks
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
+  const [filterVendor, setFilterVendor] = useState('');
+  const [filterStartDate, setFilterStartDate] = useState('');
+  const [filterEndDate, setFilterEndDate] = useState('');
+
+  // Modals & Selected entities
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [isVendorOpen, setIsVendorOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isReceiveOpen, setIsReceiveOpen] = useState(false);
+
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderToDelete, setOrderToDelete] = useState(null);
+  const [orderToCancel, setOrderToCancel] = useState(null);
 
+  // Fetch all resources concurrently
   const fetchResources = async () => {
     try {
       setLoading(true);
+      setError(false);
       const [ordersList, vendsList, prodsList] = await Promise.all([
         purchaseService.getPurchaseOrders(),
         purchaseService.getVendors(),
         productService.getProducts()
       ]);
+      
       setOrders(ordersList);
+      // Only link active vendors for select inputs, but retain all for mapping
       setVendors(vendsList);
       setProducts(prodsList);
     } catch (err) {
-      showToast('Failed to load purchase orders database.', 'error');
+      setError(true);
+      showToast('Failed to load purchase database.', 'error');
     } finally {
       setLoading(false);
     }
@@ -57,14 +94,18 @@ export const PurchaseOrdersPage = () => {
     fetchResources();
   }, []);
 
+  // Purchase Order Actions
+
   const handleCreateOrUpdate = async (poData) => {
     try {
       if (selectedOrder) {
+        // Edit mode
         await purchaseService.updatePurchaseOrder(selectedOrder.id, poData);
         showToast('Purchase Order updated successfully.', 'success');
       } else {
+        // Create mode
         await purchaseService.createPurchaseOrder(poData);
-        showToast('Purchase Order drafted successfully.', 'success');
+        showToast('Purchase RFQ drafted successfully.', 'success');
       }
       setIsFormOpen(false);
       setSelectedOrder(null);
@@ -74,60 +115,63 @@ export const PurchaseOrdersPage = () => {
     }
   };
 
-  const handleDelete = async () => {
-    if (!orderToDelete) return;
+  const handleConfirmPO = async (orderId) => {
     try {
-      await purchaseService.deletePurchaseOrder(orderToDelete.id);
-      showToast('Purchase Order deleted successfully.', 'success');
-      setOrderToDelete(null);
+      await purchaseService.confirmPurchaseOrder(orderId);
+      showToast('Purchase Order confirmed! RFQ has been sent to supplier.', 'success');
+      setIsDetailOpen(false);
+      setSelectedOrder(null);
       fetchResources();
     } catch (err) {
-      showToast('Failed to delete order.', 'error');
+      showToast('Failed to confirm Purchase Order.', 'error');
     }
   };
 
-  const handleCreateVendor = async (vendorData) => {
+  const handleCancelPO = async () => {
+    if (!orderToCancel) return;
     try {
-      await purchaseService.createVendor(vendorData);
-      showToast('Vendor supplier added successfully.', 'success');
-      setIsVendorOpen(false);
+      await purchaseService.cancelPurchaseOrder(orderToCancel.id);
+      showToast(`Purchase Order ${orderToCancel.orderNumber} cancelled successfully.`, 'success');
+      setOrderToCancel(null);
+      setIsDetailOpen(false);
+      setSelectedOrder(null);
       fetchResources();
     } catch (err) {
-      showToast('Failed to add vendor.', 'error');
+      showToast('Failed to cancel Purchase Order.', 'error');
     }
   };
 
   const handleProcessReceipt = async (receiptData) => {
     if (!selectedOrder) return;
     try {
-      // Completed status triggers inventory stock addition in service
-      await purchaseService.updatePurchaseOrder(selectedOrder.id, {
-        status: 'completed',
-        receiptData
-      });
-      showToast(`Purchase Order ${selectedOrder.orderNumber} successfully received! Inventory stock updated.`, 'success');
+      await purchaseService.receivePurchaseOrder(selectedOrder.id, receiptData);
+      showToast(`Shipment parcel successfully received for PO ${selectedOrder.orderNumber}!`, 'success');
       setIsReceiveOpen(false);
       setIsDetailOpen(false);
       setSelectedOrder(null);
       fetchResources();
     } catch (err) {
-      showToast('Failed to log goods receipt.', 'error');
+      showToast('Failed to process materials receipt.', 'error');
     }
   };
 
-  const handleApprovePO = async () => {
-    if (!selectedOrder) return;
+  const handleDelete = async () => {
+    if (!orderToDelete) return;
     try {
-      await purchaseService.updatePurchaseOrder(selectedOrder.id, {
-        status: 'approved'
-      });
-      showToast(`Purchase Order ${selectedOrder.orderNumber} is now approved and active.`, 'success');
-      setIsDetailOpen(false);
-      setSelectedOrder(null);
+      await purchaseService.deletePurchaseOrder(orderToDelete.id);
+      showToast(`Draft quotation ${orderToDelete.orderNumber} removed successfully.`, 'success');
+      setOrderToDelete(null);
       fetchResources();
     } catch (err) {
-      showToast('Failed to approve order.', 'error');
+      showToast('Failed to delete quotation.', 'error');
     }
+  };
+
+  // Triggers handlers
+
+  const handleAddClick = () => {
+    setSelectedOrder(null);
+    setIsFormOpen(true);
   };
 
   const handleEditClick = (order) => {
@@ -140,65 +184,172 @@ export const PurchaseOrdersPage = () => {
     setIsDetailOpen(true);
   };
 
-  const handleAddClick = () => {
-    setSelectedOrder(null);
-    setIsFormOpen(true);
+  const handleConfirmClickFromList = async (order) => {
+    await handleConfirmPO(order.id);
   };
 
-  // Filter
+  const handleReceiveClickFromList = (order) => {
+    setSelectedOrder(order);
+    setIsReceiveOpen(true);
+  };
+
+  // Filtering calculations
+
   const filteredOrders = orders.filter((o) => {
     const q = searchQuery.toLowerCase();
     const vend = vendors.find(v => v.id === o.vendorId);
     const vendName = vend ? vend.name.toLowerCase() : '';
-    return o.orderNumber.toLowerCase().includes(q) || vendName.includes(q);
+    const vendCode = vend ? vend.code.toLowerCase() : '';
+
+    const matchesSearch = o.orderNumber.toLowerCase().includes(q) || vendName.includes(q) || vendCode.includes(q);
+    const matchesStatus = !filterStatus || o.status === filterStatus;
+    const matchesVendor = !filterVendor || o.vendorId === filterVendor;
+
+    // Date range boundaries
+    let matchesDate = true;
+    if (filterStartDate) {
+      matchesDate = matchesDate && o.orderDate >= filterStartDate;
+    }
+    if (filterEndDate) {
+      matchesDate = matchesDate && o.orderDate <= filterEndDate;
+    }
+
+    return matchesSearch && matchesStatus && matchesVendor && matchesDate;
   });
 
   const selectedVendor = selectedOrder
     ? vendors.find(v => v.id === selectedOrder.vendorId)
     : null;
 
+  // Render Check: Error state — uses standardised ErrorState component
+  if (error) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <ErrorState
+          title="Failed to Load Purchase Data"
+          message="Something went wrong while fetching purchase orders, vendors, and products. Please try again."
+          onRetry={fetchResources}
+        />
+      </div>
+    );
+  }
+
+  // Render Check: Loading state — uses standardised Loader component
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <Loader size="lg" label="Loading purchase workspace..." />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {/* Page Header */}
       <PageHeader
         title="Purchase Orders"
-        subtitle="Manage supplier procurement, request quotations, and process material receipts."
+        subtitle="Manage material procurement, request quotations, and process material receipts."
         actions={
-          <div className="flex items-center gap-2">
-            <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder="Search POs..." />
-            <button
-              onClick={() => setIsVendorOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded shadow-sm transition-colors"
-            >
-              <UserPlus className="w-4 h-4 text-slate-500" />
-              <span>Add Vendor</span>
-            </button>
-            <button
-              onClick={handleAddClick}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded shadow-sm transition-colors"
-            >
-              <Plus className="w-4 h-4" />
-              <span>Create RFQ</span>
-            </button>
-          </div>
+          <button
+            onClick={handleAddClick}
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded shadow-sm transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Create RFQ</span>
+          </button>
         }
       />
 
-      {/* List */}
-      <PurchaseOrderList
-        orders={filteredOrders}
-        vendors={vendors}
-        onEdit={handleEditClick}
-        onDelete={setOrderToDelete}
-        onView={handleViewClick}
-        loading={loading}
-      />
+      {/* Filters Grid */}
+      <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+          {/* Search order/supplier */}
+          <div className="relative">
+            <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+              <Search className="w-3.5 h-3.5" />
+            </span>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="block w-full pl-9 pr-3 py-1.5 text-xs bg-white border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-800 placeholder-slate-405"
+              placeholder="Search PO number or vendor..."
+            />
+          </div>
 
-      {/* PO Form Modal */}
+          {/* Status filter */}
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="px-3 py-1.5 text-xs bg-white border border-slate-300 rounded text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          >
+            <option value="">All Statuses</option>
+            <option value="draft">Draft (RFQ)</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="partially_received">Partially Received</option>
+            <option value="fully_received">Fully Received</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+
+          {/* Vendor filter */}
+          <select
+            value={filterVendor}
+            onChange={(e) => setFilterVendor(e.target.value)}
+            className="px-3 py-1.5 text-xs bg-white border border-slate-300 rounded text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          >
+            <option value="">All Vendors</option>
+            {vendors.map((v) => (
+              <option key={v.id} value={v.id}>
+                {v.name}
+              </option>
+            ))}
+          </select>
+
+          {/* Date range start */}
+          <div className="flex gap-2 items-center md:col-span-2">
+            <div className="relative flex-1">
+              <input
+                type="date"
+                value={filterStartDate}
+                onChange={(e) => setFilterStartDate(e.target.value)}
+                className="w-full px-2 py-1.5 text-xs border border-slate-300 rounded text-slate-700 focus:outline-none"
+                title="Start Date"
+              />
+            </div>
+            <span className="text-slate-400 font-bold text-xs">-</span>
+            <div className="relative flex-1">
+              <input
+                type="date"
+                value={filterEndDate}
+                onChange={(e) => setFilterEndDate(e.target.value)}
+                className="w-full px-2 py-1.5 text-xs border border-slate-300 rounded text-slate-700 focus:outline-none"
+                title="End Date"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Grid List Table */}
+      <div className="border border-slate-200 rounded-lg overflow-hidden bg-white shadow-sm">
+        <PurchaseOrderList
+          orders={filteredOrders}
+          vendors={vendors}
+          onView={handleViewClick}
+          onEdit={handleEditClick}
+          onConfirm={handleConfirmClickFromList}
+          onReceive={handleReceiveClickFromList}
+          onCancel={setOrderToCancel}
+          onDelete={setOrderToDelete}
+          loading={false}
+        />
+      </div>
+
+      {/* Purchase RFQ creation/editing Form modal */}
       <Modal
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}
-        title={selectedOrder ? 'Edit Purchase Order' : 'Create Purchase RFQ'}
+        title={selectedOrder ? `Edit Purchase Order (${selectedOrder.orderNumber})` : 'Create Purchase RFQ'}
         size="lg"
       >
         <PurchaseOrderForm
@@ -208,24 +359,11 @@ export const PurchaseOrdersPage = () => {
         />
       </Modal>
 
-      {/* Vendor Form Modal */}
-      <Modal
-        isOpen={isVendorOpen}
-        onClose={() => setIsVendorOpen(false)}
-        title="Register Supplier Vendor"
-        size="sm"
-      >
-        <VendorForm
-          onSubmit={handleCreateVendor}
-          onCancel={() => setIsVendorOpen(false)}
-        />
-      </Modal>
-
-      {/* Details Modal */}
+      {/* PO Document Details View Modal */}
       <Modal
         isOpen={isDetailOpen}
         onClose={() => setIsDetailOpen(false)}
-        title="Purchase Order Details View"
+        title="Purchase Order details"
         size="xl"
       >
         {selectedOrder && (
@@ -236,52 +374,83 @@ export const PurchaseOrdersPage = () => {
               products={products}
             />
 
-            {/* Operations buttons */}
-            <div className="flex items-center justify-end gap-3 pt-6 border-t border-slate-200 no-print">
+            {/* Shipment and Approval Actions */}
+            <div className="flex items-center justify-end gap-3 pt-5 border-t border-slate-200 no-print">
+              {/* Confirm RFQ */}
               {selectedOrder.status === 'draft' && (
                 <button
-                  onClick={handleApprovePO}
-                  className="px-4 py-2 text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 rounded shadow-sm transition-colors"
+                  onClick={() => handleConfirmPO(selectedOrder.id)}
+                  className="px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded shadow-sm transition-colors"
                 >
-                  Approve Purchase Order
+                  Confirm Purchase Order
                 </button>
               )}
 
-              {selectedOrder.status === 'approved' && (
+              {/* Receive Goods dispatch */}
+              {(selectedOrder.status === 'confirmed' || selectedOrder.status === 'partially_received') && (
                 <button
                   onClick={() => setIsReceiveOpen(true)}
-                  className="px-4 py-2 text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded shadow-sm transition-colors"
+                  className="px-4 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded shadow-sm transition-colors"
                 >
-                  Receive Goods / Inventory
+                  Receive Goods / Intake
                 </button>
               )}
+
+              {/* Cancel PO */}
+              {selectedOrder.status !== 'cancelled' && selectedOrder.status !== 'fully_received' && (
+                <button
+                  onClick={() => setOrderToCancel(selectedOrder)}
+                  className="px-4 py-2 text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded transition-colors"
+                >
+                  Cancel Order
+                </button>
+              )}
+
+              <button
+                onClick={() => setIsDetailOpen(false)}
+                className="px-4 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded transition-colors"
+              >
+                Close details
+              </button>
             </div>
           </div>
         )}
       </Modal>
 
-      {/* Receive Goods Modal */}
+      {/* Receive Goods Intake Form Modal */}
       <Modal
         isOpen={isReceiveOpen}
         onClose={() => setIsReceiveOpen(false)}
-        title="Confirm Materials Receipt"
-        size="sm"
+        title="Intake Goods receipt"
+        size="md"
       >
         <ReceiveGoodsForm
+          order={selectedOrder}
+          products={products}
           onSubmit={handleProcessReceipt}
           onCancel={() => setIsReceiveOpen(false)}
-          orderNumber={selectedOrder?.orderNumber}
         />
       </Modal>
 
-      {/* Deletion confirmation */}
+      {/* Hard delete PO confirmation dialog */}
       <ConfirmDialog
         isOpen={!!orderToDelete}
         onClose={() => setOrderToDelete(null)}
         onConfirm={handleDelete}
         title="Delete RFQ?"
-        message={`Are you sure you want to delete purchase order draft ${orderToDelete?.orderNumber}?`}
-        confirmText="Remove"
+        message={`Are you sure you want to permanently delete purchase quotation draft ${orderToDelete?.orderNumber}?`}
+        confirmText="Delete RFQ"
+        type="danger"
+      />
+
+      {/* Cancel PO confirmation dialog */}
+      <ConfirmDialog
+        isOpen={!!orderToCancel}
+        onClose={() => setOrderToCancel(null)}
+        onConfirm={handleCancelPO}
+        title="Cancel Purchase Order?"
+        message={`Are you sure you want to cancel Purchase Order ${orderToCancel?.orderNumber}? This will halt any supplier operations.`}
+        confirmText="Cancel Order"
         type="danger"
       />
     </div>

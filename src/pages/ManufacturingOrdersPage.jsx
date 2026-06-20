@@ -10,6 +10,8 @@ import { Plus } from 'lucide-react';
 
 // Components
 import PageHeader from '../components/common/PageHeader';
+import Loader from '../components/common/Loader';
+import ErrorState from '../components/common/ErrorState';
 import SearchBar from '../components/common/SearchBar';
 import ManufacturingOrderList from '../components/manufacturing/ManufacturingOrderList';
 import ManufacturingOrderForm from '../components/manufacturing/ManufacturingOrderForm';
@@ -28,6 +30,7 @@ export const ManufacturingOrdersPage = () => {
   const [workCenters, setWorkCenters] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   // Modals
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -38,6 +41,7 @@ export const ManufacturingOrdersPage = () => {
   const fetchResources = async () => {
     try {
       setLoading(true);
+      setError(false);
       const [mosList, prodsList, bomsList, wosList, wcsList] = await Promise.all([
         manufacturingService.getManufacturingOrders(),
         productService.getProducts(),
@@ -51,6 +55,7 @@ export const ManufacturingOrdersPage = () => {
       setWorkOrders(wosList);
       setWorkCenters(wcsList);
     } catch (err) {
+      setError(true);
       showToast('Failed to load shop floor database.', 'error');
     } finally {
       setLoading(false);
@@ -147,6 +152,28 @@ export const ManufacturingOrdersPage = () => {
   const activeOrderWorkOrders = selectedOrder
     ? workOrders.filter(w => w.moId === selectedOrder.id)
     : [];
+
+  // Render Check: Error state — uses standardised ErrorState component
+  if (error) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <ErrorState
+          title="Failed to Load Manufacturing Data"
+          message="Something went wrong while loading shop floor orders, BOMs, and work centers. Please try again."
+          onRetry={fetchResources}
+        />
+      </div>
+    );
+  }
+
+  // Render Check: Loading state — uses standardised Loader component
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <Loader size="lg" label="Loading shop floor workspace..." />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

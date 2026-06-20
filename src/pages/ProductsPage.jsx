@@ -41,6 +41,7 @@ import CategoryForm from '../components/products/CategoryForm';
 import Modal from '../components/common/Modal';
 import ConfirmDialog from '../components/common/ConfirmDialog';
 import Pagination from '../components/common/Pagination';
+import ErrorState from '../components/common/ErrorState';
 
 export const ProductsPage = () => {
   const { user } = useAuth();
@@ -202,13 +203,7 @@ export const ProductsPage = () => {
   if (error) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center p-6 bg-white border border-slate-200 rounded-lg shadow-sm">
-        <p className="text-sm font-semibold text-rose-600">Failed to load product catalog.</p>
-        <button
-          onClick={fetchResources}
-          className="mt-4 px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded transition-colors"
-        >
-          Retry
-        </button>
+        <ErrorState onRetry={fetchResources} title="Unable To Load Data" message="Unable to load product catalog database. Please verify connections and try again." />
       </div>
     );
   }

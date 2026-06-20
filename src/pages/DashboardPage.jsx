@@ -43,6 +43,8 @@ import LowStockWidget from '../components/dashboard/LowStockWidget';
 import ProcurementWidget from '../components/dashboard/ProcurementWidget';
 import ManufacturingWidget from '../components/dashboard/ManufacturingWidget';
 import RecentActivities from '../components/dashboard/RecentActivities';
+import Loader from '../components/common/Loader';
+import ErrorState from '../components/common/ErrorState';
 
 export const DashboardPage = () => {
   const { user } = useAuth();
@@ -111,9 +113,8 @@ export const DashboardPage = () => {
   // 1. Loading State
   if (loading) {
     return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-3">
-        <RefreshCw className="w-8 h-8 text-blue-600 animate-spin" />
-        <span className="text-sm font-semibold text-slate-500">Loading dashboard...</span>
+      <div className="min-h-[70vh] flex flex-col items-center justify-center">
+        <Loader size="lg" label="Loading Dashboard..." />
       </div>
     );
   }
@@ -122,17 +123,7 @@ export const DashboardPage = () => {
   if (error) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 bg-white border border-slate-200 rounded-lg shadow-sm">
-        <AlertTriangle className="w-12 h-12 text-rose-500 mb-3" />
-        <h3 className="text-base font-bold text-slate-800">Unable to load dashboard</h3>
-        <p className="text-slate-500 text-xs mt-1 text-center max-w-xs">
-          An error occurred while fetching operational stats. Please check your network or try again.
-        </p>
-        <button
-          onClick={fetchDashboardStats}
-          className="mt-4 px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded transition-colors"
-        >
-          Retry
-        </button>
+        <ErrorState onRetry={fetchDashboardStats} />
       </div>
     );
   }

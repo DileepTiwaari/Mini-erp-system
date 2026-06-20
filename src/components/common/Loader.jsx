@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-export const Loader = ({ size = 'md', className = '' }) => {
+export const Loader = ({ size = 'md', label = '', className = '' }) => {
   const sizeClasses = {
     sm: 'w-4 h-4 border-2',
     md: 'w-8 h-8 border-2',
@@ -12,12 +12,17 @@ export const Loader = ({ size = 'md', className = '' }) => {
   };
 
   return (
-    <div className={`flex justify-center items-center ${className}`}>
+    <div className={`flex flex-col items-center justify-center gap-3 ${className}`}>
       <div
         className={`animate-spin rounded-full border-slate-200 border-t-brand-600 ${sizeClasses[size] || sizeClasses.md}`}
         role="status"
         aria-label="loading"
       />
+      {label && (
+        <span className="text-sm font-semibold text-slate-500 animate-pulse">
+          {label}
+        </span>
+      )}
     </div>
   );
 };

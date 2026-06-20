@@ -14,18 +14,32 @@ export const AuditLogTable = ({ logs = [], loading = false }) => {
       cellClassName: 'text-slate-500 text-xs font-semibold',
       render: (row) => formatDateTime(row.timestamp)
     },
-    { header: 'Username / Author', key: 'userName', cellClassName: 'font-semibold text-slate-800' },
+    { header: 'User', key: 'userName', cellClassName: 'font-semibold text-slate-850' },
     { 
-      header: 'Action category', 
+      header: 'Module', 
+      key: 'module',
+      render: (row) => (
+        <span className="inline-block px-2 py-0.5 text-xs font-bold text-slate-700 bg-slate-100 border border-slate-200 rounded">
+          {row.module || 'System'}
+        </span>
+      )
+    },
+    { 
+      header: 'Action Category', 
       key: 'action',
       render: (row) => (
-        <span className="inline-flex items-center gap-1 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded">
+        <span className="inline-flex items-center gap-1 text-xs font-bold text-indigo-750 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded">
           <ShieldCheck className="w-3.5 h-3.5" />
           <span>{row.action}</span>
         </span>
       )
     },
-    { header: 'Action details', key: 'description', cellClassName: 'text-slate-600 font-medium' },
+    { 
+      header: 'Ref Number', 
+      key: 'referenceNumber',
+      cellClassName: 'font-mono text-xs font-semibold text-slate-700' 
+    },
+    { header: 'Action Details', key: 'description', cellClassName: 'text-slate-600 font-medium' },
   ];
 
   return (

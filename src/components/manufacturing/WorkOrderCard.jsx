@@ -1,11 +1,15 @@
 // src/components/manufacturing/WorkOrderCard.jsx
 // Render card for subtasks in the Kanban board.
-// Provides buttons to shift states without complicated dragging.
+// Purpose: Displays work order details and controls.
+// Business Use: Informs operators of specific routing steps and allows updating task states.
+// API Usage: Fires status update callbacks to parent container.
 
 import React from 'react';
 import { Hammer, Clock, Play, Check, AlertTriangle, RefreshCw } from 'lucide-react';
 
 export const WorkOrderCard = ({ wo, moNumber, workCenterName, onStatusChange }) => {
+  const status = (wo.status || 'pending').toLowerCase();
+
   return (
     <div className="bg-white p-4 border border-slate-200 rounded-lg shadow-sm space-y-3 hover:border-slate-300 transition-colors">
       {/* Title */}
@@ -28,17 +32,17 @@ export const WorkOrderCard = ({ wo, moNumber, workCenterName, onStatusChange }) 
 
       {/* Simple Control Buttons */}
       <div className="flex items-center gap-2 pt-2 border-t border-slate-100 justify-end no-print">
-        {wo.status === 'planned' && (
+        {(status === 'planned' || status === 'pending') && (
           <>
             <button
-              onClick={() => onStatusChange(wo.id, 'blocked')}
+              onClick={() => onStatusChange(wo.id, 'BLOCKED')}
               className="px-2 py-1 text-[10px] font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded flex items-center gap-1"
             >
               <AlertTriangle className="w-3 h-3" />
               <span>Block</span>
             </button>
             <button
-              onClick={() => onStatusChange(wo.id, 'in_progress')}
+              onClick={() => onStatusChange(wo.id, 'IN_PROGRESS')}
               className="px-2.5 py-1 text-[10px] font-bold text-white bg-brand-600 hover:bg-brand-700 rounded flex items-center gap-1 shadow-sm"
             >
               <Play className="w-3 h-3 fill-white" />
@@ -47,17 +51,17 @@ export const WorkOrderCard = ({ wo, moNumber, workCenterName, onStatusChange }) 
           </>
         )}
 
-        {wo.status === 'in_progress' && (
+        {status === 'in_progress' && (
           <>
             <button
-              onClick={() => onStatusChange(wo.id, 'blocked')}
+              onClick={() => onStatusChange(wo.id, 'BLOCKED')}
               className="px-2 py-1 text-[10px] font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded flex items-center gap-1"
             >
               <AlertTriangle className="w-3 h-3" />
               <span>Block</span>
             </button>
             <button
-              onClick={() => onStatusChange(wo.id, 'done')}
+              onClick={() => onStatusChange(wo.id, 'DONE')}
               className="px-2.5 py-1 text-[10px] font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded flex items-center gap-1 shadow-sm"
             >
               <Check className="w-3 h-3" />
@@ -66,9 +70,9 @@ export const WorkOrderCard = ({ wo, moNumber, workCenterName, onStatusChange }) 
           </>
         )}
 
-        {wo.status === 'blocked' && (
+        {status === 'blocked' && (
           <button
-            onClick={() => onStatusChange(wo.id, 'planned')}
+            onClick={() => onStatusChange(wo.id, 'PENDING')}
             className="px-2.5 py-1 text-[10px] font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded flex items-center gap-1"
           >
             <RefreshCw className="w-3 h-3" />
@@ -76,7 +80,7 @@ export const WorkOrderCard = ({ wo, moNumber, workCenterName, onStatusChange }) 
           </button>
         )}
 
-        {wo.status === 'done' && (
+        {(status === 'done' || status === 'completed') && (
           <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 flex items-center gap-0.5">
             <Check className="w-3 h-3" />
             <span>Completed</span>

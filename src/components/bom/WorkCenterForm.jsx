@@ -1,5 +1,8 @@
 // src/components/bom/WorkCenterForm.jsx
 // Form to define a new manufacturing Work Center.
+// Purpose: Captures work center configurations.
+// Business Use: Registers production capacity, cost per hour, and status of shop floor stations.
+// API Usage: Submits variables via parent callback.
 
 import React, { useState } from 'react';
 import { useToast } from '../../context/ToastContext';
@@ -10,6 +13,7 @@ export const WorkCenterForm = ({ onSubmit, onCancel }) => {
   const [code, setCode] = useState('');
   const [costPerHour, setCostPerHour] = useState(0.00);
   const [capacity, setCapacity] = useState(1);
+  const [status, setStatus] = useState('ACTIVE');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,12 +25,14 @@ export const WorkCenterForm = ({ onSubmit, onCancel }) => {
       name,
       code: code.toUpperCase(),
       costPerHour: Number(costPerHour) || 0,
-      capacity: Number(capacity) || 1
+      capacity: Number(capacity) || 1,
+      status
     });
     setName('');
     setCode('');
     setCostPerHour(0.00);
     setCapacity(1);
+    setStatus('ACTIVE');
   };
 
   return (
@@ -40,7 +46,7 @@ export const WorkCenterForm = ({ onSubmit, onCancel }) => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md placeholder-slate-400 text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
-          placeholder="e.g. Paint Station"
+          placeholder="e.g. Painting Booth"
         />
       </div>
 
@@ -82,6 +88,19 @@ export const WorkCenterForm = ({ onSubmit, onCancel }) => {
           onChange={(e) => setCapacity(e.target.value)}
           className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
         />
+      </div>
+
+      {/* Status */}
+      <div>
+        <label className="block text-sm font-semibold text-slate-700 mb-1">Work Center Status</label>
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
+        >
+          <option value="ACTIVE">Active / Operating</option>
+          <option value="INACTIVE">Inactive / Down</option>
+        </select>
       </div>
 
       {/* Actions */}

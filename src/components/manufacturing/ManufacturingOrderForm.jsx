@@ -1,15 +1,20 @@
 // src/components/manufacturing/ManufacturingOrderForm.jsx
 // Form to declare a new Manufacturing Order (MO) run.
+// Purpose: Captures new MO configurations.
+// Business Use: Schedules assembly runs on the shop floor with assigned operators and start dates.
+// API Usage: Submits variables via parent callback.
 
 import React, { useState, useEffect } from 'react';
 import manufacturingService from '../../services/manufacturingService';
 import productService from '../../services/productService';
 import { useToast } from '../../context/ToastContext';
+import { mockDb, DB_KEYS } from '../../utils/mockDb';
 
 export const ManufacturingOrderForm = ({ onSubmit, onCancel }) => {
   const { showToast } = useToast();
   const [boms, setBoms] = useState([]);
   const [products, setProducts] = useState([]);
+  const [users, setUsers] = useState([]);
 
   // Fields
   const [bomId, setBomId] = useState('');
@@ -18,6 +23,7 @@ export const ManufacturingOrderForm = ({ onSubmit, onCancel }) => {
   const [plannedStartDate, setPlannedStartDate] = useState(
     new Date().toISOString().split('T')[0]
   );
+  const [assignee, setAssignee] = useState('');
 
   // Load resources
   useEffect(() => {
@@ -25,13 +31,20 @@ export const ManufacturingOrderForm = ({ onSubmit, onCancel }) => {
       try {
         const activeBoms = await manufacturingService.getBoms();
         const activeProds = await productService.getProducts();
+        const activeUsers = mockDb.getAll(DB_KEYS.USERS);
 
         setBoms(activeBoms);
         setProducts(activeProds);
+        setUsers(activeUsers);
 
         if (activeBoms.length > 0) {
           setBomId(activeBoms[0].id);
           setProductId(activeBoms[0].productId);
+        }
+        if (activeUsers.length > 0) {
+          // Default to the first operator or user
+          const defaultOp = activeUsers.find(u => u.role === 'MANUFACTURING_USER') || activeUsers[0];
+          setAssignee(defaultOp?.id || '');
         }
       } catch (err) {
         showToast('Failed to load active BOM recipes.', 'error');
@@ -61,6 +74,7 @@ export const ManufacturingOrderForm = ({ onSubmit, onCancel }) => {
       productId,
       quantity: Number(quantity) || 1,
       plannedStartDate,
+      assignee
     });
   };
 
@@ -78,7 +92,7 @@ export const ManufacturingOrderForm = ({ onSubmit, onCancel }) => {
           <option value="">-- Choose BOM --</option>
           {boms.map((b) => (
             <option key={b.id} value={b.id}>
-              {b.name}
+              {b.name} (v{b.version || '1.0'})
             </option>
           ))}
         </select>
@@ -110,6 +124,24 @@ export const ManufacturingOrderForm = ({ onSubmit, onCancel }) => {
           onChange={(e) => setQuantity(Number(e.target.value))}
           className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
         />
+      </div>
+
+      {/* Assignee Selection */}
+      <div>
+        <label className="block text-sm font-semibold text-slate-700 mb-1">Assignee / Operator</label>
+        <select
+          value={assignee}
+          required
+          onChange={(e) => setAssignee(e.target.value)}
+          className="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-500"
+        >
+          <option value="">-- Assign Shop Operator --</option>
+          {users.map((u) => (
+            <option key={u.id} value={u.id}>
+              {u.name} ({u.role.replace('_', ' ')})
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Start Date */}
@@ -145,5 +177,4 @@ export const ManufacturingOrderForm = ({ onSubmit, onCancel }) => {
     </form>
   );
 };
-
 export default ManufacturingOrderForm;

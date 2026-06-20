@@ -37,6 +37,21 @@ const DB_KEYS = {
   AUDIT_LOGS: 'db_audit_logs',
 };
 
+const KEY_TO_MODULE = {
+  [DB_KEYS.USERS]: 'Authentication',
+  [DB_KEYS.PRODUCTS]: 'Inventory',
+  [DB_KEYS.CATEGORIES]: 'Inventory',
+  [DB_KEYS.VENDORS]: 'Purchase',
+  [DB_KEYS.CUSTOMERS]: 'Sales',
+  [DB_KEYS.SALES]: 'Sales',
+  [DB_KEYS.PURCHASES]: 'Purchase',
+  [DB_KEYS.BOMS]: 'Manufacturing',
+  [DB_KEYS.WORK_CENTERS]: 'Manufacturing',
+  [DB_KEYS.MANUFACTURING]: 'Manufacturing',
+  [DB_KEYS.WORK_ORDERS]: 'Manufacturing',
+  [DB_KEYS.INVENTORY_LEDGER]: 'Inventory',
+};
+
 /**
  * WHAT IT DOES: Holds standard demo data to seed the mock database tables if they are empty.
  * WHY IT IS REQUIRED: Provides realistic business data (products, BOMs, customers) for demonstration.
@@ -69,9 +84,16 @@ const INITIAL_DATA = {
     { id: 'p10', name: 'Assembly Workbench', code: 'FG-WKB-10', categoryId: 'cat2', price: 450.00, cost: 280.00, stock: 12, reservedQty: 1, freeToUseQty: 11, minStock: 3, uom: 'pcs', procurementType: 'MANUFACTURING', procurementStrategy: 'MTO', vendorId: null, bomId: 'bom-302', status: 'active', description: 'Heavy duty industrial assembly benches' },
   ],
   [DB_KEYS.VENDORS]: [
-    { id: 'v1', name: 'Apex Metal Corp', contactName: 'John Smith', email: 'sales@apexmetal.com', phone: '555-0220', address: '120 Metalworks Blvd, Ohio' },
-    { id: 'v2', name: 'ElectroParts Distributors', contactName: 'Sarah Jenkins', email: 'orders@electroparts.com', phone: '555-0330', address: '44 Silicon Way, California' },
-    { id: 'v3', name: 'Fastener Direct', contactName: 'Bob Vance', email: 'bob@fastenerdirect.com', phone: '555-0440', address: '99 Thread Lane, Texas' },
+    { id: 'v1', name: 'Apex Metal Corp', code: 'VND-001', contactName: 'John Smith', email: 'sales@apexmetal.com', phone: '555-0220', gstNumber: '27AAAAA1111A1Z1', address: '120 Metalworks Blvd', city: 'Columbus', state: 'Ohio', country: 'USA', status: 'ACTIVE' },
+    { id: 'v2', name: 'ElectroParts Distributors', code: 'VND-002', contactName: 'Sarah Jenkins', email: 'orders@electroparts.com', phone: '555-0330', gstNumber: '27BBBBB2222B2Z2', address: '44 Silicon Way', city: 'San Jose', state: 'California', country: 'USA', status: 'ACTIVE' },
+    { id: 'v3', name: 'Fastener Direct', code: 'VND-003', contactName: 'Bob Vance', email: 'bob@fastenerdirect.com', phone: '555-0440', gstNumber: '27CCCCC3333C3Z3', address: '99 Thread Lane', city: 'Dallas', state: 'Texas', country: 'USA', status: 'ACTIVE' },
+    { id: 'v4', name: 'Global Timber Products', code: 'VND-004', contactName: 'Douglas Miller', email: 'doug@globaltimber.com', phone: '555-0550', gstNumber: '27DDDDD4444D4Z4', address: '18 Lumber Yard Rd', city: 'Seattle', state: 'Washington', country: 'USA', status: 'ACTIVE' },
+    { id: 'v5', name: 'Semiconductor Solutions', code: 'VND-005', contactName: 'Clara Oswald', email: 'clara@semisolutions.com', phone: '555-0660', gstNumber: '27EEEEE5555E5Z5', address: '77 Foundry Street', city: 'Austin', state: 'Texas', country: 'USA', status: 'ACTIVE' },
+    { id: 'v6', name: 'Precision Motors Corp', code: 'VND-006', contactName: 'Arthur Pendragon', email: 'arthur@precmotors.com', phone: '555-0770', gstNumber: '27FFFFF6666F6Z6', address: '88 Round Table Dr', city: 'Boston', state: 'Massachusetts', country: 'USA', status: 'ACTIVE' },
+    { id: 'v7', name: 'Pioneer Industrial Supply', code: 'VND-007', contactName: 'Jack Harkness', email: 'jack@pioneerind.com', phone: '555-0880', gstNumber: '27GGGGG7777G7Z7', address: '101 Torchwood Ave', city: 'Cardiff', state: 'Wales', country: 'UK', status: 'ACTIVE' },
+    { id: 'v8', name: 'Titanium Castings Ltd', code: 'VND-008', contactName: 'Martha Jones', email: 'martha@titancast.com', phone: '555-0990', gstNumber: '27HHHHH8888H8Z8', address: '15 Melt Shop Rd', city: 'Pittsburgh', state: 'Pennsylvania', country: 'USA', status: 'ACTIVE' },
+    { id: 'v9', name: 'Advanced Hydraulics', code: 'VND-009', contactName: 'Donna Noble', email: 'donna@advhydraulics.com', phone: '555-1100', gstNumber: '27IIIII9999I9Z9', address: '44 Pressure Lane', city: 'Chicago', state: 'Illinois', country: 'USA', status: 'ACTIVE' },
+    { id: 'v10', name: 'Eco Packaging Supplies', code: 'VND-010', contactName: 'Rose Tyler', email: 'rose@ecopack.com', phone: '555-1200', gstNumber: '27JJJJJ0000J0Z0', address: '22 Bad Wolf Rd', city: 'Denver', state: 'Colorado', country: 'USA', status: 'INACTIVE' }
   ],
   [DB_KEYS.CUSTOMERS]: [
     { id: 'c1', name: 'Acme Manufacturing Inc', contactName: 'Alice Johnson', email: 'purchasing@acmemfg.com', phone: '555-0550', gstNumber: '27AAAAA1111A1Z1', address: '500 Industrial Pkwy', city: 'Detroit', state: 'Michigan', country: 'USA' },
@@ -103,43 +125,93 @@ const INITIAL_DATA = {
     { id: 'so-115', orderNumber: 'SO-00115', customerId: 'c5', orderDate: '2026-06-21', totalAmount: 450.00, status: 'cancelled', items: [{ productId: 'p10', quantity: 1, price: 450.00 }] }
   ],
   [DB_KEYS.PURCHASES]: [
-    { id: 'po-201', orderNumber: 'PO-00201', vendorId: 'v1', orderDate: '2026-06-15', totalAmount: 800.00, status: 'completed', items: [{ productId: 'p3', quantity: 100, unitCost: 8.00 }] },
-    { id: 'po-202', orderNumber: 'PO-00202', vendorId: 'v2', orderDate: '2026-06-19', totalAmount: 600.00, status: 'approved', items: [{ productId: 'p5', quantity: 20, unitCost: 30.00 }] },
-    { id: 'po-203', orderNumber: 'PO-00203', vendorId: 'v3', orderDate: '2026-06-20', totalAmount: 150.00, status: 'draft', items: [{ productId: 'p7', quantity: 500, unitCost: 0.30 }] },
+    { id: 'po-201', orderNumber: 'PO-00201', vendorId: 'v1', orderDate: '2026-06-10', expectedDate: '2026-06-15', totalAmount: 400.00, status: 'fully_received', items: [{ productId: 'p3', quantity: 50, unitCost: 8.00 }], receivedQty: { p3: 50 }, receipts: [{ date: '2026-06-14', items: [{ productId: 'p3', quantity: 50 }], user: 'System Administrator', remarks: 'Received full batch, matching standard cost.' }] },
+    { id: 'po-202', orderNumber: 'PO-00202', vendorId: 'v2', orderDate: '2026-06-11', expectedDate: '2026-06-16', totalAmount: 1000.00, status: 'confirmed', items: [{ productId: 'p5', quantity: 100, unitCost: 10.00 }], receivedQty: {}, receipts: [] },
+    { id: 'po-203', orderNumber: 'PO-00203', vendorId: 'v3', orderDate: '2026-06-12', expectedDate: '2026-06-18', totalAmount: 300.00, status: 'partially_received', items: [{ productId: 'p7', quantity: 1000, unitCost: 0.30 }], receivedQty: { p7: 400 }, receipts: [{ date: '2026-06-15', items: [{ productId: 'p7', quantity: 400 }], user: 'System Administrator', remarks: 'First shipment of fasteners.' }] },
+    { id: 'po-204', orderNumber: 'PO-00204', vendorId: 'v4', orderDate: '2026-06-13', expectedDate: '2026-06-17', totalAmount: 200.00, status: 'cancelled', items: [{ productId: 'p4', quantity: 10, unitCost: 20.00 }], receivedQty: {}, receipts: [] },
+    { id: 'po-205', orderNumber: 'PO-00205', vendorId: 'v5', orderDate: '2026-06-14', expectedDate: '2026-06-20', totalAmount: 250.00, status: 'draft', items: [{ productId: 'p5', quantity: 25, unitCost: 10.00 }], receivedQty: {}, receipts: [] },
+    { id: 'po-206', orderNumber: 'PO-00206', vendorId: 'v6', orderDate: '2026-06-15', expectedDate: '2026-06-22', totalAmount: 220.00, status: 'confirmed', items: [{ productId: 'p9', quantity: 2, unitCost: 110.00 }], receivedQty: {}, receipts: [] },
+    { id: 'po-207', orderNumber: 'PO-00207', vendorId: 'v7', orderDate: '2026-06-16', expectedDate: '2026-06-21', totalAmount: 150.00, status: 'fully_received', items: [{ productId: 'p7', quantity: 500, unitCost: 0.30 }], receivedQty: { p7: 500 }, receipts: [{ date: '2026-06-19', items: [{ productId: 'p7', quantity: 500 }], user: 'System Administrator', remarks: 'Delivered directly to main warehouse.' }] },
+    { id: 'po-208', orderNumber: 'PO-00208', vendorId: 'v8', orderDate: '2026-06-17', expectedDate: '2026-06-22', totalAmount: 300.00, status: 'partially_received', items: [{ productId: 'p6', quantity: 10, unitCost: 30.00 }], receivedQty: { p6: 4 }, receipts: [{ date: '2026-06-19', items: [{ productId: 'p6', quantity: 4 }], user: 'System Administrator', remarks: 'Partial delivery: power modules batch 1.' }] },
+    { id: 'po-209', orderNumber: 'PO-00209', vendorId: 'v9', orderDate: '2026-06-18', expectedDate: '2026-06-23', totalAmount: 200.00, status: 'draft', items: [{ productId: 'p8', quantity: 25, unitCost: 8.00 }], receivedQty: {}, receipts: [] },
+    { id: 'po-210', orderNumber: 'PO-00210', vendorId: 'v10', orderDate: '2026-06-18', expectedDate: '2026-06-24', totalAmount: 280.00, status: 'cancelled', items: [{ productId: 'p10', quantity: 1, unitCost: 280.00 }], receivedQty: {}, receipts: [] },
+    { id: 'po-211', orderNumber: 'PO-00211', vendorId: 'v1', orderDate: '2026-06-19', expectedDate: '2026-06-24', totalAmount: 80.00, status: 'confirmed', items: [{ productId: 'p3', quantity: 10, unitCost: 8.00 }], receivedQty: {}, receipts: [] },
+    { id: 'po-212', orderNumber: 'PO-00212', vendorId: 'v2', orderDate: '2026-06-19', expectedDate: '2026-06-25', totalAmount: 300.00, status: 'partially_received', items: [{ productId: 'p5', quantity: 30, unitCost: 10.00 }], receivedQty: { p5: 15 }, receipts: [{ date: '2026-06-20', items: [{ productId: 'p5', quantity: 15 }], user: 'System Administrator', remarks: 'First 15 chips received.' }] },
+    { id: 'po-213', orderNumber: 'PO-00213', vendorId: 'v3', orderDate: '2026-06-20', expectedDate: '2026-06-25', totalAmount: 60.00, status: 'fully_received', items: [{ productId: 'p7', quantity: 200, unitCost: 0.30 }], receivedQty: { p7: 200 }, receipts: [{ date: '2026-06-21', items: [{ productId: 'p7', quantity: 200 }], user: 'System Administrator', remarks: 'Bolts delivery matches packing slip.' }] },
+    { id: 'po-214', orderNumber: 'PO-00214', vendorId: 'v4', orderDate: '2026-06-20', expectedDate: '2026-06-26', totalAmount: 200.00, status: 'draft', items: [{ productId: 'p4', quantity: 10, unitCost: 20.00 }], receivedQty: {}, receipts: [] },
+    { id: 'po-215', orderNumber: 'PO-00215', vendorId: 'v5', orderDate: '2026-06-21', expectedDate: '2026-06-26', totalAmount: 300.00, status: 'confirmed', items: [{ productId: 'p5', quantity: 30, unitCost: 10.00 }], receivedQty: {}, receipts: [] }
   ],
   [DB_KEYS.BOMS]: [
-    { id: 'bom-301', productId: 'p9', name: 'Electric Motor 1HP Standard BOM', items: [
-      { productId: 'p3', quantity: 2 }, // 2 Steel sheets
-      { productId: 'p6', quantity: 1.5 }, // 1.5 kg Copper winding
-      { productId: 'p7', quantity: 12 }, // 12 M8 Bolts
-    ]},
-    { id: 'bom-302', productId: 'p10', name: 'Industrial Assembly Workbench BOM', items: [
-      { productId: 'p4', quantity: 4 }, // 4 Oak Wood Boards
-      { productId: 'p7', quantity: 8 }, // 8 M8 Bolts
-    ]},
+    {
+      id: 'bom-301',
+      productId: 'p9',
+      name: 'Electric Motor 1HP Standard BOM',
+      version: '1.0',
+      status: 'ACTIVE',
+      items: [
+        { productId: 'p3', quantity: 2, unit: 'pcs', wastePercent: 5 },
+        { productId: 'p6', quantity: 1.5, unit: 'pcs', wastePercent: 10 },
+        { productId: 'p7', quantity: 12, unit: 'pcs', wastePercent: 2 },
+      ],
+      operations: [
+        { name: 'Cut casing sheets', workCenterId: 'wc-cutting', durationMinutes: 15, sequence: 10 },
+        { name: 'Winding & Assembly', workCenterId: 'wc-assembly', durationMinutes: 30, sequence: 20 },
+        { name: 'Quality Check inspection', workCenterId: 'wc-qc', durationMinutes: 10, sequence: 30 },
+        { name: 'Packing motor', workCenterId: 'wc-packing', durationMinutes: 5, sequence: 40 },
+      ]
+    },
+    {
+      id: 'bom-302',
+      productId: 'p10',
+      name: 'Industrial Assembly Workbench BOM',
+      version: '1.0',
+      status: 'ACTIVE',
+      items: [
+        { productId: 'p4', quantity: 4, unit: 'pcs', wastePercent: 8 },
+        { productId: 'p7', quantity: 8, unit: 'pcs', wastePercent: 0 },
+      ],
+      operations: [
+        { name: 'Cut wood panels', workCenterId: 'wc-cutting', durationMinutes: 20, sequence: 10 },
+        { name: 'Assemble frame and top', workCenterId: 'wc-assembly', durationMinutes: 40, sequence: 20 },
+        { name: 'Paint steel supports', workCenterId: 'wc-painting', durationMinutes: 30, sequence: 30 },
+        { name: 'Quality check inspection', workCenterId: 'wc-qc', durationMinutes: 15, sequence: 40 },
+        { name: 'Pack bench assembly', workCenterId: 'wc-packing', durationMinutes: 10, sequence: 50 },
+      ]
+    },
   ],
   [DB_KEYS.WORK_CENTERS]: [
-    { id: 'wc1', name: 'Metal Shearing Shop', code: 'WC-SHEAR', costPerHour: 45.00, capacity: 5 },
-    { id: 'wc2', name: 'Coil Winding Station', code: 'WC-WIND', costPerHour: 55.00, capacity: 2 },
-    { id: 'wc3', name: 'Final Assembly Line', code: 'WC-ASSY', costPerHour: 60.00, capacity: 8 },
+    { id: 'wc-cutting', name: 'Cutting Shop', code: 'WC-CUT', capacity: 4, costPerHour: 40.00, status: 'ACTIVE' },
+    { id: 'wc-assembly', name: 'Assembly Line', code: 'WC-ASSY', capacity: 8, costPerHour: 50.00, status: 'ACTIVE' },
+    { id: 'wc-painting', name: 'Painting Booth', code: 'WC-PAINT', capacity: 2, costPerHour: 60.00, status: 'ACTIVE' },
+    { id: 'wc-qc', name: 'Quality Control Station', code: 'WC-QC', capacity: 3, costPerHour: 45.00, status: 'ACTIVE' },
+    { id: 'wc-packing', name: 'Packing Station', code: 'WC-PACK', capacity: 5, costPerHour: 30.00, status: 'ACTIVE' },
   ],
   [DB_KEYS.MANUFACTURING]: [
-    { id: 'mo-401', moNumber: 'MO-00401', bomId: 'bom-301', productId: 'p9', quantity: 5, status: 'done', plannedStartDate: '2026-06-16', actualEndDate: '2026-06-17' },
-    { id: 'mo-402', moNumber: 'MO-00402', bomId: 'bom-302', productId: 'p10', quantity: 50, status: 'in_progress', plannedStartDate: '2026-06-19' },
-    { id: 'mo-403', moNumber: 'MO-00403', bomId: 'bom-301', productId: 'p9', quantity: 10, status: 'planned', plannedStartDate: '2026-06-25' },
+    { id: 'mo-401', moNumber: 'MO-00401', bomId: 'bom-301', productId: 'p9', quantity: 5, status: 'COMPLETED', plannedStartDate: '2026-06-16', actualEndDate: '2026-06-17', assignee: 'u5' },
+    { id: 'mo-402', moNumber: 'MO-00402', bomId: 'bom-302', productId: 'p10', quantity: 50, status: 'IN_PROGRESS', plannedStartDate: '2026-06-19', assignee: 'u5' },
+    { id: 'mo-403', moNumber: 'MO-00403', bomId: 'bom-301', productId: 'p9', quantity: 10, status: 'PLANNED', plannedStartDate: '2026-06-25', assignee: 'u5' },
   ],
   [DB_KEYS.WORK_ORDERS]: [
-    { id: 'wo-501', moId: 'mo-402', workCenterId: 'wc1', name: 'Shear steel plates', operationOrder: 1, durationPlanned: 120, status: 'done' },
-    { id: 'wo-502', moId: 'mo-402', workCenterId: 'wc3', name: 'Fasten & assemble workbench', operationOrder: 2, durationPlanned: 180, status: 'in_progress' },
+    { id: 'wo-501', moId: 'mo-402', workCenterId: 'wc-cutting', name: 'Cut wood panels', operationOrder: 10, durationPlanned: 20 * 50, status: 'DONE' },
+    { id: 'wo-502', moId: 'mo-402', workCenterId: 'wc-assembly', name: 'Assemble frame and top', operationOrder: 20, durationPlanned: 40 * 50, status: 'IN_PROGRESS' },
+    { id: 'wo-503', moId: 'mo-402', workCenterId: 'wc-painting', name: 'Paint steel supports', operationOrder: 30, durationPlanned: 30 * 50, status: 'PENDING' },
+    { id: 'wo-504', moId: 'mo-402', workCenterId: 'wc-qc', name: 'Quality check inspection', operationOrder: 40, durationPlanned: 15 * 50, status: 'PENDING' },
+    { id: 'wo-505', moId: 'mo-402', workCenterId: 'wc-packing', name: 'Pack bench assembly', operationOrder: 50, durationPlanned: 10 * 50, status: 'PENDING' },
   ],
   [DB_KEYS.INVENTORY_LEDGER]: [
-    { id: 'il1', productId: 'p3', type: 'in', quantity: 100, reference: 'PO-00201', timestamp: '2026-06-15T10:00:00Z' },
-    { id: 'il2', productId: 'p9', type: 'in', quantity: 5, reference: 'MO-00401', timestamp: '2026-06-17T15:30:00Z' },
-    { id: 'il3', productId: 'p9', type: 'out', quantity: 10, reference: 'SO-00101', timestamp: '2026-06-18T14:20:00Z' },
+    { id: 'il1', productId: 'p3', movementType: 'Purchase Receipt', quantity: 100, reference: 'PO-00201', timestamp: '2026-06-15T10:00:00Z', balanceAfterMovement: 108 },
+    { id: 'il2', productId: 'p9', movementType: 'Manufacturing Production', quantity: 5, reference: 'MO-00401', timestamp: '2026-06-17T15:30:00Z', balanceAfterMovement: 9 },
+    { id: 'il3', productId: 'p9', movementType: 'Sales Delivery', quantity: 2, reference: 'SO-00101', timestamp: '2026-06-18T14:20:00Z', balanceAfterMovement: 7 },
+    { id: 'il4', productId: 'p1', movementType: 'Purchase Receipt', quantity: 10, reference: 'PO-00202', timestamp: '2026-06-19T09:00:00Z', balanceAfterMovement: 25 },
+    { id: 'il5', productId: 'p2', movementType: 'Adjustment', quantity: 5, reference: 'Physical Count', timestamp: '2026-06-20T11:00:00Z', balanceAfterMovement: 35 },
   ],
   [DB_KEYS.AUDIT_LOGS]: [
-    { id: 'al1', userName: 'System Admin', action: 'User Login', description: 'User admin@flowerp.com logged in successfully.', timestamp: '2026-06-20T09:20:00Z' },
-    { id: 'al2', userName: 'System Admin', action: 'Create Sales Order', description: 'Created SO-00103 draft sales order.', timestamp: '2026-06-20T09:22:00Z' },
+    { id: 'al1', userName: 'System Administrator', module: 'Authentication', action: 'User Login', referenceNumber: '-', description: 'User admin@flowerp.com authenticated successfully (Standalone mode).', timestamp: '2026-06-20T09:20:00Z' },
+    { id: 'al2', userName: 'System Administrator', module: 'Sales', action: 'Create Sales Order', referenceNumber: 'SO-00103', description: 'Created SO-00103 draft sales order.', timestamp: '2026-06-20T09:22:00Z' },
+    { id: 'al3', userName: 'System Administrator', module: 'Purchase', action: 'Confirm Purchase Order', referenceNumber: 'PO-00201', description: 'Confirmed Purchase Order PO-00201.', timestamp: '2026-06-20T10:15:00Z' },
+    { id: 'al4', userName: 'System Administrator', module: 'Manufacturing', action: 'Create Record', referenceNumber: 'MO-00401', description: 'Added new record in manufacturing table.', timestamp: '2026-06-20T11:00:00Z' },
+    { id: 'al5', userName: 'System Administrator', module: 'Procurement', action: 'Procurement Trigger', referenceNumber: 'MO-00401', description: 'Auto-generated planned Manufacturing Order MO-00401.', timestamp: '2026-06-20T11:05:00Z' },
+    { id: 'al6', userName: 'System Administrator', module: 'Inventory', action: 'Adjustment', referenceNumber: 'ADJ-MANUAL-001', description: 'Manual stock adjustment performed.', timestamp: '2026-06-20T11:30:00Z' },
   ],
 };
 
@@ -195,7 +267,9 @@ export const mockDb = {
     storage.set(key, list);
     
     if (key !== DB_KEYS.AUDIT_LOGS) {
-      mockDb.logAudit('Create Record', `Added new record in ${key.replace('db_', '')} table.`);
+      const moduleName = KEY_TO_MODULE[key] || 'System';
+      const referenceNumber = newItem.orderNumber || newItem.moNumber || newItem.reference || newItem.code || newItem.id || '-';
+      mockDb.logAudit('Create Record', `Added new record in ${key.replace('db_', '')} table.`, moduleName, referenceNumber);
     }
     
     return newItem;
@@ -211,11 +285,14 @@ export const mockDb = {
     const index = list.findIndex((item) => item.id === id);
     if (index === -1) return null;
     
+    const oldItem = list[index];
     list[index] = { ...list[index], ...updatedFields };
     storage.set(key, list);
     
     if (key !== DB_KEYS.AUDIT_LOGS) {
-      mockDb.logAudit('Update Record', `Modified record ID ${id} in ${key.replace('db_', '')} table.`);
+      const moduleName = KEY_TO_MODULE[key] || 'System';
+      const referenceNumber = oldItem.orderNumber || oldItem.moNumber || oldItem.reference || oldItem.code || id || '-';
+      mockDb.logAudit('Update Record', `Modified record ID ${id} in ${key.replace('db_', '')} table.`, moduleName, referenceNumber);
     }
     
     return list[index];
@@ -228,11 +305,18 @@ export const mockDb = {
    */
   delete: (key, id) => {
     const list = mockDb.getAll(key);
+    const index = list.findIndex((item) => item.id === id);
+    let oldItem = null;
+    if (index !== -1) {
+      oldItem = list[index];
+    }
     const filtered = list.filter((item) => item.id !== id);
     storage.set(key, filtered);
     
     if (key !== DB_KEYS.AUDIT_LOGS) {
-      mockDb.logAudit('Delete Record', `Deleted record ID ${id} from ${key.replace('db_', '')} table.`);
+      const moduleName = KEY_TO_MODULE[key] || 'System';
+      const referenceNumber = oldItem ? (oldItem.orderNumber || oldItem.moNumber || oldItem.reference || oldItem.code || id) : id;
+      mockDb.logAudit('Delete Record', `Deleted record ID ${id} from ${key.replace('db_', '')} table.`, moduleName, referenceNumber);
     }
     return true;
   },
@@ -242,13 +326,15 @@ export const mockDb = {
    * WHY IT IS REQUIRED: Tracks actions of logged in users for ERP compliance and trace audits.
    * WHEN IT IS USED: Inside update, insert, delete, and login routines.
    */
-  logAudit: (action, description) => {
-    const user = storage.get('auth_user') || { name: 'Anonymous' };
+  logAudit: (action, description, moduleName = '', referenceNumber = '') => {
+    const user = storage.get('auth_user') || { name: 'System Administrator' };
     const logs = storage.get(DB_KEYS.AUDIT_LOGS) || [];
     const newLog = {
       id: Math.random().toString(36).substring(2, 9),
       userName: user.name,
+      module: moduleName || 'System',
       action,
+      referenceNumber: referenceNumber || '-',
       description,
       timestamp: new Date().toISOString(),
     };

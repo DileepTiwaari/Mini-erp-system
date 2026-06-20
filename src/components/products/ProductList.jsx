@@ -150,7 +150,8 @@ export const ProductList = ({
       columns={columns}
       data={products}
       loading={loading}
-      emptyMessage="No products found in the catalog."
+      loadingLabel="Loading Products..."
+      emptyMessage="No Products Found"
     />
   );
 };

@@ -11,13 +11,14 @@ export const DataTable = ({
   columns,
   data,
   loading = false,
+  loadingLabel = 'Loading...',
   emptyMessage = 'No records found',
   onRowClick,
 }) => {
   if (loading) {
     return (
       <div className="bg-white border border-slate-200 rounded-lg p-12 flex justify-center items-center shadow-sm">
-        <Loader size="md" />
+        <Loader size="md" label={loadingLabel} />
       </div>
     );
   }

@@ -109,33 +109,45 @@ export const manufacturingService = {
     } catch (e) {
       const doc = {
         moNumber: `MO-00${Math.floor(400 + Math.random() * 900)}`,
-        status: 'planned',
+        status: data.status || 'PLANNED',
+        assignee: data.assignee || '',
         ...data,
       };
 
       const mo = mockDb.insert(DB_KEYS.MANUFACTURING, doc);
       
-      // Auto-create sub-operation work orders for the MO
+      // Auto-create sub-operation work orders for the MO using BoM routing
       const boms = mockDb.getAll(DB_KEYS.BOMS);
       const bom = boms.find(b => b.id === mo.bomId);
       
-      if (bom) {
-        // Create 2 sample steps for operation routes
+      if (bom && bom.operations && bom.operations.length > 0) {
+        bom.operations.forEach(op => {
+          mockDb.insert(DB_KEYS.WORK_ORDERS, {
+            moId: mo.id,
+            workCenterId: op.workCenterId,
+            name: op.name,
+            operationOrder: op.sequence || 10,
+            durationPlanned: (op.durationMinutes || 15) * mo.quantity,
+            status: 'PENDING'
+          });
+        });
+      } else {
+        // Fallback standard work orders if no operations are defined
         mockDb.insert(DB_KEYS.WORK_ORDERS, {
           moId: mo.id,
-          workCenterId: 'wc1',
+          workCenterId: 'wc-assembly',
           name: `Pre-stage components for ${mo.moNumber}`,
-          operationOrder: 1,
-          durationPlanned: 60 * mo.quantity,
-          status: 'planned'
+          operationOrder: 10,
+          durationPlanned: 15 * mo.quantity,
+          status: 'PENDING'
         });
         mockDb.insert(DB_KEYS.WORK_ORDERS, {
           moId: mo.id,
-          workCenterId: 'wc3',
+          workCenterId: 'wc-assembly',
           name: `Assemble and test ${mo.moNumber}`,
-          operationOrder: 2,
-          durationPlanned: 120 * mo.quantity,
-          status: 'planned'
+          operationOrder: 20,
+          durationPlanned: 30 * mo.quantity,
+          status: 'PENDING'
         });
       }
 
@@ -153,9 +165,20 @@ export const manufacturingService = {
         ...data
       };
 
-      if (data.status === 'done' && oldMo.status !== 'done') {
+      const completionStates = ['COMPLETED', 'completed', 'done', 'DONE'];
+      const isCompleting = completionStates.includes(data.status) && !completionStates.includes(oldMo.status);
+
+      if (isCompleting) {
         manufacturingService.processStockForMoCompletion({ ...oldMo, ...updated });
         updated.actualEndDate = new Date().toISOString().split('T')[0];
+        
+        // Auto-complete associated work orders
+        const wos = mockDb.getAll(DB_KEYS.WORK_ORDERS).filter(w => w.moId === id);
+        wos.forEach(w => {
+          if (w.status !== 'DONE' && w.status !== 'done') {
+            mockDb.update(DB_KEYS.WORK_ORDERS, w.id, { status: 'DONE' });
+          }
+        });
       }
 
       return mockDb.update(DB_KEYS.MANUFACTURING, id, updated);
@@ -200,20 +223,25 @@ export const manufacturingService = {
 
       const products = mockDb.getAll(DB_KEYS.PRODUCTS);
 
-      // Deduct raw material components
+      // Deduct raw material components (factoring in Waste %)
       (bom.items || []).forEach(item => {
         const prod = products.find(p => p.id === item.productId);
         if (prod) {
-          const quantityNeeded = item.quantity * mo.quantity;
+          const wasteFactor = 1 + (Number(item.wastePercent) || 0) / 100;
+          const quantityNeeded = item.quantity * mo.quantity * wasteFactor;
           const newStock = Math.max(0, prod.stock - quantityNeeded);
-          mockDb.update(DB_KEYS.PRODUCTS, prod.id, { stock: newStock });
+          const reservedQty = prod.reservedQty || 0;
+          const freeToUseQty = newStock - reservedQty;
+
+          mockDb.update(DB_KEYS.PRODUCTS, prod.id, { stock: newStock, freeToUseQty });
           
           mockDb.insert(DB_KEYS.INVENTORY_LEDGER, {
             productId: prod.id,
-            type: 'out',
+            movementType: 'Manufacturing Consumption',
             quantity: quantityNeeded,
             reference: mo.moNumber,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+            balanceAfterMovement: newStock
           });
         }
       });
@@ -222,14 +250,18 @@ export const manufacturingService = {
       const finishedGood = products.find(p => p.id === mo.productId);
       if (finishedGood) {
         const newStock = finishedGood.stock + mo.quantity;
-        mockDb.update(DB_KEYS.PRODUCTS, finishedGood.id, { stock: newStock });
+        const reservedQty = finishedGood.reservedQty || 0;
+        const freeToUseQty = newStock - reservedQty;
+
+        mockDb.update(DB_KEYS.PRODUCTS, finishedGood.id, { stock: newStock, freeToUseQty });
 
         mockDb.insert(DB_KEYS.INVENTORY_LEDGER, {
           productId: finishedGood.id,
-          type: 'in',
+          movementType: 'Manufacturing Production',
           quantity: mo.quantity,
           reference: mo.moNumber,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          balanceAfterMovement: newStock
         });
       }
     } catch (err) {
