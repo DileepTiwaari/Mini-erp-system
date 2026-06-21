@@ -15,13 +15,9 @@ public class SecurityConfig {
         http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers(
-                                "/api/auth/register",
-                                "/api/auth/login",
-                                "/api/auth/refresh-token",
-                                "/actuator/**"
-                        ).permitAll()
-                        .anyExchange().authenticated()
+                        // Let ALL requests through Spring Security layer.
+                        // JWT validation is handled by our custom AuthenticationFilter (GlobalFilter).
+                        .anyExchange().permitAll()
                 )
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                 .formLogin(ServerHttpSecurity.FormLoginSpec::disable);

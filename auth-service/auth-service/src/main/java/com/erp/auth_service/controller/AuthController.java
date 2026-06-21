@@ -60,6 +60,20 @@ public class AuthController {
                 "message", "Logout successful"));
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
+        UserResponse user = authService.getUserByUsername(userDetails.getUsername());
+        return ResponseEntity.ok(Map.of(
+                "success", true,
+                "message", "Current user fetched successfully",
+                "data", Map.of(
+                        "id", user.getId(),
+                        "fullName", user.getUsername(),
+                        "email", user.getEmail(),
+                        "role", user.getRole()
+                )));
+    }
+
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers() {
         List<UserResponse> users = authService.getAllUsers();

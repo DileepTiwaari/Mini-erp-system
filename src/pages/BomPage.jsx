@@ -46,12 +46,12 @@ export const BomPage = () => {
         productService.getProducts(),
         manufacturingService.getWorkCenters()
       ]);
-      setBoms(bomsList);
-      setProducts(prodsList);
-      setWorkCenters(wcsList);
+      setBoms(Array.isArray(bomsList) ? bomsList : []);
+      setProducts(Array.isArray(prodsList) ? prodsList : []);
+      setWorkCenters(Array.isArray(wcsList) ? wcsList : []);
     } catch (err) {
+      console.warn('[BomPage] fetch failed:', err.message);
       setError(true);
-      showToast('Failed to load manufacturing recipes.', 'error');
     } finally {
       setLoading(false);
     }
@@ -116,11 +116,11 @@ export const BomPage = () => {
     setIsFormOpen(true);
   };
 
-  const filteredBoms = boms.filter((b) => {
+  const filteredBoms = (boms || []).filter((b) => {
     const q = searchQuery.toLowerCase();
-    const prod = products.find(p => p.id === b.productId);
-    const prodName = prod ? prod.name.toLowerCase() : '';
-    return b.name.toLowerCase().includes(q) || prodName.includes(q);
+    const prod = (products || []).find(p => p.id === b.productId);
+    const prodName = prod ? (prod.name || '').toLowerCase() : '';
+    return (b.name || '').toLowerCase().includes(q) || prodName.includes(q);
   });
 
   // Render Check: Error state — uses standardised ErrorState component
@@ -150,6 +150,7 @@ export const BomPage = () => {
       {/* Header */}
       <PageHeader
         title="Bill of Materials"
+        isDemo={true}
         subtitle="Define materials consumption recipes and route templates for assembly manufacturing."
         actions={
           <div className="flex items-center gap-2">

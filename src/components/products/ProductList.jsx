@@ -35,7 +35,7 @@ export const ProductList = ({
   
   // Maps category ID to category name label
   const getCategoryName = (catId) => {
-    const cat = categories.find(c => c.id === catId);
+    const cat = categories.find(c => String(c.id) === String(catId));
     return cat ? cat.name : 'Unassigned';
   };
 

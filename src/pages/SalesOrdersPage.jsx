@@ -98,12 +98,12 @@ export const SalesOrdersPage = () => {
         salesService.getCustomers(),
         productService.getProducts()
       ]);
-      setOrders(ordersList);
-      setCustomers(custsList);
-      setProducts(prodsList);
+      setOrders(Array.isArray(ordersList) ? ordersList : []);
+      setCustomers(Array.isArray(custsList) ? custsList : []);
+      setProducts(Array.isArray(prodsList) ? prodsList : []);
     } catch (err) {
+      console.warn('[SalesOrdersPage] fetch failed:', err.message);
       setError(true);
-      showToast('Failed to load sales resources.', 'error');
     } finally {
       setLoading(false);
     }
@@ -247,12 +247,12 @@ export const SalesOrdersPage = () => {
   // Filtering calculations
 
   // 1. Filter Sales Orders
-  const filteredOrders = orders.filter((o) => {
+  const filteredOrders = (orders || []).filter((o) => {
     const q = orderQuery.toLowerCase();
-    const cust = customers.find(c => c.id === o.customerId);
-    const custName = cust ? cust.name.toLowerCase() : '';
+    const cust = (customers || []).find(c => c.id === o.customerId);
+    const custName = cust ? (cust.name || '').toLowerCase() : '';
     
-    const matchesSearch = o.orderNumber.toLowerCase().includes(q) || custName.includes(q);
+    const matchesSearch = (o.orderNumber || '').toLowerCase().includes(q) || custName.includes(q);
     const matchesStatus = !filterStatus || o.status === filterStatus;
     const matchesCustomer = !filterCustomer || o.customerId === filterCustomer;
     
@@ -269,7 +269,7 @@ export const SalesOrdersPage = () => {
   });
 
   // 2. Filter Customers
-  const filteredCustomers = customers.filter((c) => {
+  const filteredCustomers = (customers || []).filter((c) => {
     const q = custQuery.toLowerCase();
     return (
       (c.name || '').toLowerCase().includes(q) ||

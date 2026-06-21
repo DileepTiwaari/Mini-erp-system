@@ -19,4 +19,5 @@ public interface AuthService {
     List<UserResponse> getAllUsers();
     UserResponse updateUser(Long id, UserUpdateRequest request);
     void deleteUser(Long id);
+    UserResponse getUserByUsername(String username);
 }

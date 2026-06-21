@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import PageHeader from '../components/common/PageHeader';
 import Loader from '../components/common/Loader';
 import ErrorState from '../components/common/ErrorState';
+import EmptyState from '../components/common/EmptyState';
 import ShortageAlert from '../components/procurement/ShortageAlert';
 import ProcurementRecommendation from '../components/procurement/ProcurementRecommendation';
 import ProcurementCard from '../components/procurement/ProcurementCard';
@@ -32,10 +33,11 @@ export const ProcurementPage = () => {
       setLoading(true);
       setError(false);
       const data = await procurementService.getRecommendations();
-      setRecommendations(data);
+      setRecommendations(Array.isArray(data) ? data : []);
     } catch (err) {
+      console.warn('[ProcurementPage] fetch failed:', err.message);
+      setRecommendations([]);
       setError(true);
-      showToast('Failed to load replenishment suggestions.', 'error');
     } finally {
       setLoading(false);
     }
@@ -65,15 +67,30 @@ export const ProcurementPage = () => {
 
   const canExecute = user?.role === 'admin' || user?.role === 'manager';
 
-  // Render Check: Error state — uses standardised ErrorState component
+  // Render Check: Service unavailable — show professional placeholder
   if (error) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <ErrorState
-          title="Failed to Load Procurement Data"
-          message="Something went wrong while loading replenishment suggestions and shortage alerts. Please try again."
-          onRetry={fetchRecommendations}
+      <div className="space-y-6">
+        <PageHeader
+          title="Replenishment & Procurement"
+          isDemo={true}
+          subtitle="Automated reorder suggestions triggered by safety buffer thresholds."
         />
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm">
+          <EmptyState
+            icon="server"
+            title="Procurement Module"
+            message="Procurement recommendations are currently unavailable. Connect the procurement service to enable automated reorder suggestions."
+            action={
+              <button
+                onClick={fetchRecommendations}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 active:bg-blue-800 rounded shadow-sm transition-colors duration-150"
+              >
+                Retry Connection
+              </button>
+            }
+          />
+        </div>
       </div>
     );
   }
@@ -95,6 +112,7 @@ export const ProcurementPage = () => {
       {/* Header */}
       <PageHeader
         title="Replenishment & Procurement"
+        isDemo={true}
         subtitle="Automated reorder suggestions triggered by safety safety buffer thresholds."
         actions={
           <div className="flex items-center gap-2 no-print">

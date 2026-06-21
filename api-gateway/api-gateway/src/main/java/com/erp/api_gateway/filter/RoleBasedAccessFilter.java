@@ -19,13 +19,13 @@ public class RoleBasedAccessFilter implements GlobalFilter, Ordered {
         String path = request.getURI().getPath();
         String role = request.getHeaders().getFirst("X-User-Role");
 
-        // Audit logs - Admin only
-        if (path.startsWith("/api/audit") && !"ADMIN".equals(role)) {
+        // Audit logs - Admin and Business Owner only
+        if (path.startsWith("/api/audit") && !"ADMIN".equals(role) && !"BUSINESS_OWNER".equals(role)) {
             return onError(exchange, HttpStatus.FORBIDDEN);
         }
 
-        // Dashboard - Admin only
-        if (path.startsWith("/api/dashboard") && !"ADMIN".equals(role)) {
+        // Dashboard - Admin and Business Owner only
+        if (path.startsWith("/api/dashboard") && !"ADMIN".equals(role) && !"BUSINESS_OWNER".equals(role)) {
             return onError(exchange, HttpStatus.FORBIDDEN);
         }
 

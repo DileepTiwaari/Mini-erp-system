@@ -16,6 +16,7 @@
 import authApi from '../api/authApi';
 import { mockDb, DB_KEYS } from '../utils/mockDb';
 import userApi from '../api/userApi';
+import axiosInstance from '../api/axiosInstance';
 
 export const authService = {
   /**
@@ -56,32 +57,88 @@ export const authService = {
   },
 
   /**
+   * WHAT IT DOES: Registers a new user via the backend API, falling back to mockDb users on failure.
+   * WHY IT IS REQUIRED: Communicates user details to register a new user in the database.
+   * WHEN IT IS USED: Invoked on submit click at the RegisterPage.
+   */
+  register: async (username, email, password, role) => {
+    try {
+      const response = await authApi.register({ username, email, password, role });
+      return response.data;
+    } catch (error) {
+      console.warn('authService.register: API failed or unreachable. Falling back to local mock DB...', error.message);
+      
+      const users = mockDb.getAll(DB_KEYS.USERS);
+      const exists = users.some(u => u.username === username || u.email === email);
+      if (exists) {
+        throw new Error('Username or email already exists.');
+      }
+      
+      const newUser = {
+        username,
+        email,
+        password,
+        role,
+        active: true
+      };
+      
+      const created = mockDb.insert(DB_KEYS.USERS, newUser);
+      mockDb.logAudit('User Registered', `User ${username} registered successfully (Standalone mode).`, 'Authentication', username);
+      
+      return {
+        success: true,
+        message: 'Registration successful',
+        data: created
+      };
+    }
+  },
+
+  /**
    * WHAT IT DOES: Authenticates user credentials via backend API, falling back to mockDb users on failure.
-   * WHY IT IS REQUIRED: Resolves email/password queries, returns user details, and generates local mock tokens.
+   * WHY IT IS REQUIRED: Resolves username/password queries, returns user details, and generates local mock tokens.
    * WHEN IT IS USED: Invoked on submit click at the LoginPage.
    * 
-   * @param {string} email - Input email address
+   * @param {string} username - Input username
    * @param {string} password - Input password
    * @returns {object} Session response containing user details and token
    */
-  login: async (email, password) => {
+  login: async (username, password) => {
     try {
       // Try hitting the backend API first
-      const response = await authApi.login({ email, password });
-      const { user, token } = response.data;
+      const response = await authApi.login({ username, password });
+      const { accessToken, user: responseUser } = response.data.data;
       
       // Save token dynamically
-      authService.saveToken(token);
-      return response.data;
+      authService.saveToken(accessToken);
+      
+      // Apply token header for immediate use
+      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      
+      // Fetch full user profile
+      const meResponse = await authApi.getMe();
+      const meUser = meResponse.data.data;
+      
+      const sessionUser = {
+        id: meUser.id || responseUser.id,
+        name: meUser.fullName || meUser.username || responseUser.username,
+        username: meUser.username || responseUser.username,
+        email: meUser.email || responseUser.email,
+        role: meUser.role || responseUser.role
+      };
+      
+      return {
+        user: sessionUser,
+        token: accessToken
+      };
     } catch (error) {
       console.warn('authService.login: API failed or unreachable. Falling back to local mock DB...', error.message);
       
       // Standalone simulation fallback
       const users = mockDb.getAll(DB_KEYS.USERS);
-      const user = users.find(u => u.email === email && u.active);
+      const user = users.find(u => (u.username === username || u.email === username) && u.active);
       
       if (!user) {
-        throw new Error('Invalid email credentials or user account is inactive.');
+        throw new Error('Invalid credentials or user account is inactive.');
       }
       
       // Simulate JWT creation matching user role
@@ -91,10 +148,18 @@ export const authService = {
       authService.saveToken(mockToken);
       
       // Log Audit activity
-      mockDb.logAudit('User Login', `User ${email} authenticated successfully (Standalone mode).`, 'Authentication', email);
+      mockDb.logAudit('User Login', `User ${username} authenticated successfully (Standalone mode).`, 'Authentication', username);
+      
+      const sessionUser = {
+        id: user.id,
+        name: user.username,
+        username: user.username,
+        email: user.email,
+        role: user.role
+      };
       
       return {
-        user,
+        user: sessionUser,
         token: mockToken
       };
     }

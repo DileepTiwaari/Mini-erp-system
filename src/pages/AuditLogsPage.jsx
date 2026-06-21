@@ -44,8 +44,8 @@ export const AuditLogsPage = () => {
       const data = await auditService.getLogs();
       setLogs(data || []);
     } catch (err) {
+      console.warn('[AuditLogsPage] fetch failed:', err.message);
       setError(true);
-      showToast('Failed to load system audit logs.', 'error');
     } finally {
       setLoading(false);
     }
@@ -106,6 +106,7 @@ export const AuditLogsPage = () => {
       {/* Page Header */}
       <PageHeader
         title="Audit Logs Trail"
+        isDemo={true}
         subtitle="Chronological trail of user authentication, operations, and modifications."
         actions={
           <button

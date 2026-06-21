@@ -1,7 +1,7 @@
 // src/api/axiosInstance.js
 // Global Axios Instance for FlowERP API Communication.
 // Configured with standard request/response interceptors to manage JWT authorization headers 
-// and global response error handling (e.g. 401 logouts, API server down notifications).
+// and global response error handling (e.g. 401 logouts).
 
 import axios from 'axios';
 
@@ -38,6 +38,9 @@ axiosInstance.interceptors.request.use(
 );
 
 // Response Interceptor: Handle standardized response codes
+// IMPORTANT: We no longer fire global toast events here.
+// Each service/page is responsible for showing user-facing errors.
+// This interceptor only handles 401 logout and logs to console.
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -75,8 +78,8 @@ axiosInstance.interceptors.response.use(
       errorMessage = 'Unable to reach the server. Please check your internet connection.';
     }
 
-    // Trigger standard global toast notifier event for decoupled listeners (like ToastContext)
-    window.dispatchEvent(new CustomEvent('api-error', { detail: { message: errorMessage } }));
+    // Log to console only — NO global toast dispatch to prevent notification spam
+    console.warn(`[API Error] ${errorMessage}`, error.config?.url);
 
     return Promise.reject(new Error(errorMessage));
   }

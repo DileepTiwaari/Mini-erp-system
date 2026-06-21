@@ -15,7 +15,7 @@ export const StockTable = ({
   loading = false,
 }) => {
   const getCategoryName = (catId) => {
-    const cat = categories.find(c => c.id === catId);
+    const cat = categories.find(c => String(c.id) === String(catId));
     return cat ? cat.name : 'N/A';
   };
 

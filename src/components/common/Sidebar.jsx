@@ -137,6 +137,9 @@ export const Sidebar = ({ isOpen, closeSidebar }) => {
             <div className="space-y-1">
               {section.items.map((item) => {
                 const Icon = item.icon;
+                const demoModules = ['purchase', 'manufacturing', 'inventory', 'procurement', 'audit', 'reports'];
+                const isDemo = demoModules.includes(item.module);
+                
                 return (
                   <NavLink
                     key={item.path}
@@ -151,7 +154,12 @@ export const Sidebar = ({ isOpen, closeSidebar }) => {
                     }
                   >
                     <Icon className="w-5 h-5 flex-shrink-0" />
-                    <span>{item.label}</span>
+                    <span className="flex-1">{item.label}</span>
+                    {isDemo && (
+                      <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-500 border border-amber-500/20">
+                        Demo
+                      </span>
+                    )}
                   </NavLink>
                 );
               })}

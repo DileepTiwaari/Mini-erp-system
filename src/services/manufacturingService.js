@@ -1,12 +1,14 @@
 // src/services/manufacturingService.js
 // Bill of Materials (BOM), Work Centers, and Manufacturing Orders service layer.
 // Automates stock deductions of raw components and addition of finished goods upon MO completion.
+// Gracefully falls back to demoDb when the live backend is offline.
 
 import bomApi from '../api/bomApi';
 import workCenterApi from '../api/workCenterApi';
 import manufacturingApi from '../api/manufacturingApi';
 import workOrderApi from '../api/workOrderApi';
-import { mockDb, DB_KEYS } from '../utils/mockDb';
+import productService from './productService';
+import { demoDb, DEMO_KEYS } from './demoDataService';
 
 export const manufacturingService = {
   // BOM services
@@ -15,7 +17,7 @@ export const manufacturingService = {
       const res = await bomApi.getAll();
       return res.data;
     } catch (e) {
-      return mockDb.getAll(DB_KEYS.BOMS);
+      return demoDb.getAll(DEMO_KEYS.BOMS);
     }
   },
 
@@ -24,7 +26,7 @@ export const manufacturingService = {
       const res = await bomApi.getById(id);
       return res.data;
     } catch (e) {
-      return mockDb.getById(DB_KEYS.BOMS, id);
+      return demoDb.getById(DEMO_KEYS.BOMS, id);
     }
   },
 
@@ -33,7 +35,8 @@ export const manufacturingService = {
       const res = await bomApi.create(data);
       return res.data;
     } catch (e) {
-      return mockDb.insert(DB_KEYS.BOMS, data);
+      demoDb.logAudit('Create BOM', `Configured BOM recipe ${data.code || '-'}.`, 'Manufacturing', data.code || '-');
+      return demoDb.insert(DEMO_KEYS.BOMS, data);
     }
   },
 
@@ -42,7 +45,7 @@ export const manufacturingService = {
       const res = await bomApi.update(id, data);
       return res.data;
     } catch (e) {
-      return mockDb.update(DB_KEYS.BOMS, id, data);
+      return demoDb.update(DEMO_KEYS.BOMS, id, data);
     }
   },
 
@@ -51,7 +54,7 @@ export const manufacturingService = {
       await bomApi.delete(id);
       return true;
     } catch (e) {
-      return mockDb.delete(DB_KEYS.BOMS, id);
+      return demoDb.delete(DEMO_KEYS.BOMS, id);
     }
   },
 
@@ -61,7 +64,7 @@ export const manufacturingService = {
       const res = await workCenterApi.getAll();
       return res.data;
     } catch (e) {
-      return mockDb.getAll(DB_KEYS.WORK_CENTERS);
+      return demoDb.getAll(DEMO_KEYS.WORK_CENTERS);
     }
   },
 
@@ -70,7 +73,7 @@ export const manufacturingService = {
       const res = await workCenterApi.create(data);
       return res.data;
     } catch (e) {
-      return mockDb.insert(DB_KEYS.WORK_CENTERS, data);
+      return demoDb.insert(DEMO_KEYS.WORK_CENTERS, data);
     }
   },
 
@@ -79,7 +82,7 @@ export const manufacturingService = {
       await workCenterApi.delete(id);
       return true;
     } catch (e) {
-      return mockDb.delete(DB_KEYS.WORK_CENTERS, id);
+      return demoDb.delete(DEMO_KEYS.WORK_CENTERS, id);
     }
   },
 
@@ -89,7 +92,7 @@ export const manufacturingService = {
       const res = await manufacturingApi.getAll();
       return res.data;
     } catch (e) {
-      return mockDb.getAll(DB_KEYS.MANUFACTURING);
+      return demoDb.getAll(DEMO_KEYS.MANUFACTURING);
     }
   },
 
@@ -98,7 +101,7 @@ export const manufacturingService = {
       const res = await manufacturingApi.getById(id);
       return res.data;
     } catch (e) {
-      return mockDb.getById(DB_KEYS.MANUFACTURING, id);
+      return demoDb.getById(DEMO_KEYS.MANUFACTURING, id);
     }
   },
 
@@ -108,21 +111,21 @@ export const manufacturingService = {
       return res.data;
     } catch (e) {
       const doc = {
-        moNumber: `MO-00${Math.floor(400 + Math.random() * 900)}`,
+        moNumber: `MO-004${Math.floor(26 + Math.random() * 74)}`,
         status: data.status || 'PLANNED',
         assignee: data.assignee || '',
         ...data,
       };
 
-      const mo = mockDb.insert(DB_KEYS.MANUFACTURING, doc);
+      const mo = demoDb.insert(DEMO_KEYS.MANUFACTURING, doc);
       
       // Auto-create sub-operation work orders for the MO using BoM routing
-      const boms = mockDb.getAll(DB_KEYS.BOMS);
+      const boms = demoDb.getAll(DEMO_KEYS.BOMS);
       const bom = boms.find(b => b.id === mo.bomId);
       
       if (bom && bom.operations && bom.operations.length > 0) {
         bom.operations.forEach(op => {
-          mockDb.insert(DB_KEYS.WORK_ORDERS, {
+          demoDb.insert(DEMO_KEYS.WORK_ORDERS, {
             moId: mo.id,
             workCenterId: op.workCenterId,
             name: op.name,
@@ -133,7 +136,7 @@ export const manufacturingService = {
         });
       } else {
         // Fallback standard work orders if no operations are defined
-        mockDb.insert(DB_KEYS.WORK_ORDERS, {
+        demoDb.insert(DEMO_KEYS.WORK_ORDERS, {
           moId: mo.id,
           workCenterId: 'wc-assembly',
           name: `Pre-stage components for ${mo.moNumber}`,
@@ -141,7 +144,7 @@ export const manufacturingService = {
           durationPlanned: 15 * mo.quantity,
           status: 'PENDING'
         });
-        mockDb.insert(DB_KEYS.WORK_ORDERS, {
+        demoDb.insert(DEMO_KEYS.WORK_ORDERS, {
           moId: mo.id,
           workCenterId: 'wc-assembly',
           name: `Assemble and test ${mo.moNumber}`,
@@ -151,6 +154,7 @@ export const manufacturingService = {
         });
       }
 
+      demoDb.logAudit('Create MO', `Planned Manufacturing Order ${mo.moNumber}.`, 'Manufacturing', mo.moNumber);
       return mo;
     }
   },
@@ -160,7 +164,7 @@ export const manufacturingService = {
       const res = await manufacturingApi.update(id, data);
       return res.data;
     } catch (e) {
-      const oldMo = mockDb.getById(DB_KEYS.MANUFACTURING, id);
+      const oldMo = demoDb.getById(DEMO_KEYS.MANUFACTURING, id);
       const updated = {
         ...data
       };
@@ -169,19 +173,20 @@ export const manufacturingService = {
       const isCompleting = completionStates.includes(data.status) && !completionStates.includes(oldMo.status);
 
       if (isCompleting) {
-        manufacturingService.processStockForMoCompletion({ ...oldMo, ...updated });
+        await manufacturingService.processStockForMoCompletion({ ...oldMo, ...updated });
         updated.actualEndDate = new Date().toISOString().split('T')[0];
         
         // Auto-complete associated work orders
-        const wos = mockDb.getAll(DB_KEYS.WORK_ORDERS).filter(w => w.moId === id);
+        const wos = demoDb.getAll(DEMO_KEYS.WORK_ORDERS).filter(w => w.moId === id);
         wos.forEach(w => {
           if (w.status !== 'DONE' && w.status !== 'done') {
-            mockDb.update(DB_KEYS.WORK_ORDERS, w.id, { status: 'DONE' });
+            demoDb.update(DEMO_KEYS.WORK_ORDERS, w.id, { status: 'DONE' });
           }
         });
       }
 
-      return mockDb.update(DB_KEYS.MANUFACTURING, id, updated);
+      demoDb.logAudit('Update MO', `Updated Manufacturing Order status to ${data.status}.`, 'Manufacturing', oldMo.moNumber);
+      return demoDb.update(DEMO_KEYS.MANUFACTURING, id, updated);
     }
   },
 
@@ -191,9 +196,9 @@ export const manufacturingService = {
       return true;
     } catch (e) {
       // Also delete associated work orders
-      const wos = mockDb.getAll(DB_KEYS.WORK_ORDERS).filter(w => w.moId === id);
-      wos.forEach(w => mockDb.delete(DB_KEYS.WORK_ORDERS, w.id));
-      return mockDb.delete(DB_KEYS.MANUFACTURING, id);
+      const wos = demoDb.getAll(DEMO_KEYS.WORK_ORDERS).filter(w => w.moId === id);
+      wos.forEach(w => demoDb.delete(DEMO_KEYS.WORK_ORDERS, w.id));
+      return demoDb.delete(DEMO_KEYS.MANUFACTURING, id);
     }
   },
 
@@ -203,7 +208,7 @@ export const manufacturingService = {
       const res = await workOrderApi.getAll();
       return res.data;
     } catch (e) {
-      return mockDb.getAll(DB_KEYS.WORK_ORDERS);
+      return demoDb.getAll(DEMO_KEYS.WORK_ORDERS);
     }
   },
 
@@ -212,57 +217,63 @@ export const manufacturingService = {
       const res = await workOrderApi.updateStatus(id, status);
       return res.data;
     } catch (e) {
-      return mockDb.update(DB_KEYS.WORK_ORDERS, id, { status });
+      return demoDb.update(DEMO_KEYS.WORK_ORDERS, id, { status });
     }
   },
 
-  processStockForMoCompletion: (mo) => {
+  processStockForMoCompletion: async (mo) => {
     try {
-      const bom = mockDb.getById(DB_KEYS.BOMS, mo.bomId);
+      const bom = demoDb.getById(DEMO_KEYS.BOMS, mo.bomId);
       if (!bom) return;
 
-      const products = mockDb.getAll(DB_KEYS.PRODUCTS);
-
       // Deduct raw material components (factoring in Waste %)
-      (bom.items || []).forEach(item => {
-        const prod = products.find(p => p.id === item.productId);
-        if (prod) {
-          const wasteFactor = 1 + (Number(item.wastePercent) || 0) / 100;
-          const quantityNeeded = item.quantity * mo.quantity * wasteFactor;
-          const newStock = Math.max(0, prod.stock - quantityNeeded);
-          const reservedQty = prod.reservedQty || 0;
+      for (const item of (bom.items || [])) {
+        try {
+          const prod = await productService.getProductById(item.productId);
+          if (prod) {
+            const wasteFactor = 1 + (Number(item.wastePercent) || 0) / 100;
+            const quantityNeeded = item.quantity * mo.quantity * wasteFactor;
+            const newStock = Math.max(0, (prod.stock || 0) - quantityNeeded);
+            const reservedQty = prod.reservedQty || 0;
+            const freeToUseQty = newStock - reservedQty;
+
+            await productService.updateProduct(prod.id, { stock: newStock, freeToUseQty });
+            
+            demoDb.insert(DEMO_KEYS.INVENTORY_LEDGER, {
+              productId: prod.id,
+              movementType: 'Manufacturing Consumption',
+              quantity: quantityNeeded,
+              reference: mo.moNumber,
+              timestamp: new Date().toISOString(),
+              balanceAfterMovement: newStock
+            });
+          }
+        } catch (err) {
+          console.warn('[Mfg] Failed component stock deduction.', err.message);
+        }
+      }
+
+      // Add finished good to inventory stock
+      try {
+        const finishedGood = await productService.getProductById(mo.productId);
+        if (finishedGood) {
+          const newStock = (finishedGood.stock || 0) + mo.quantity;
+          const reservedQty = finishedGood.reservedQty || 0;
           const freeToUseQty = newStock - reservedQty;
 
-          mockDb.update(DB_KEYS.PRODUCTS, prod.id, { stock: newStock, freeToUseQty });
-          
-          mockDb.insert(DB_KEYS.INVENTORY_LEDGER, {
-            productId: prod.id,
-            movementType: 'Manufacturing Consumption',
-            quantity: quantityNeeded,
+          await productService.updateProduct(finishedGood.id, { stock: newStock, freeToUseQty });
+
+          demoDb.insert(DEMO_KEYS.INVENTORY_LEDGER, {
+            productId: finishedGood.id,
+            movementType: 'Manufacturing Production',
+            quantity: mo.quantity,
             reference: mo.moNumber,
             timestamp: new Date().toISOString(),
             balanceAfterMovement: newStock
           });
         }
-      });
-
-      // Add finished good to inventory stock
-      const finishedGood = products.find(p => p.id === mo.productId);
-      if (finishedGood) {
-        const newStock = finishedGood.stock + mo.quantity;
-        const reservedQty = finishedGood.reservedQty || 0;
-        const freeToUseQty = newStock - reservedQty;
-
-        mockDb.update(DB_KEYS.PRODUCTS, finishedGood.id, { stock: newStock, freeToUseQty });
-
-        mockDb.insert(DB_KEYS.INVENTORY_LEDGER, {
-          productId: finishedGood.id,
-          movementType: 'Manufacturing Production',
-          quantity: mo.quantity,
-          reference: mo.moNumber,
-          timestamp: new Date().toISOString(),
-          balanceAfterMovement: newStock
-        });
+      } catch (err) {
+        console.warn('[Mfg] Failed finished good stock addition.', err.message);
       }
     } catch (err) {
       console.error('Failed to adjust stock for manufacturing order completion', err);

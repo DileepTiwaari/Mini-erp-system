@@ -69,8 +69,8 @@ export const ReportsPage = () => {
       setManufacturingOrders(mfgs || []);
       setRecommendations(recs || []);
     } catch (err) {
+      console.warn('[ReportsPage] fetch failed:', err.message);
       setError(true);
-      showToast('Failed to aggregate reports resources database.', 'error');
     } finally {
       setLoading(false);
     }
@@ -93,6 +93,7 @@ export const ReportsPage = () => {
       <div className="space-y-6">
         <PageHeader
           title="Analytical Reports"
+          isDemo={true}
           subtitle="Extract print-ready sheets for sales distributions, assets valuation, and procurements spend."
         />
         <ErrorState onRetry={fetchResources} />
@@ -105,6 +106,7 @@ export const ReportsPage = () => {
       {/* Header */}
       <PageHeader
         title="Analytical Reports"
+        isDemo={true}
         subtitle="Extract print-ready sheets for sales distributions, assets valuation, and procurements spend."
       />
 

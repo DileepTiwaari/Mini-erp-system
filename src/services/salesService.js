@@ -31,9 +31,14 @@ export const salesService = {
   getSalesOrders: async () => {
     try {
       const res = await salesApi.getOrders();
-      return res.data;
+      const data = res.data && res.data.success ? res.data.data : res.data;
+      if (data && Array.isArray(data.content)) {
+        return data.content;
+      }
+      return Array.isArray(data) ? data : (data ? [data] : []);
     } catch (e) {
-      return mockDb.getAll(DB_KEYS.SALES);
+      console.warn('[SalesService] getSalesOrders failed:', e.message);
+      return [];
     }
   },
 
@@ -46,9 +51,10 @@ export const salesService = {
   getSalesOrderById: async (id) => {
     try {
       const res = await salesApi.getOrderById(id);
-      return res.data;
+      return res.data && res.data.success ? res.data.data : res.data;
     } catch (e) {
-      return mockDb.getById(DB_KEYS.SALES, id);
+      console.warn('[SalesService] getSalesOrderById failed:', e.message);
+      return null;
     }
   },
 
@@ -60,29 +66,8 @@ export const salesService = {
    * generates standard number SO-XXXXX, and defaults status to 'draft'.
    */
   createSalesOrder: async (data) => {
-    try {
-      const res = await salesApi.createOrder(data);
-      return res.data;
-    } catch (e) {
-      const totalAmount = (data.items || []).reduce((acc, item) => acc + (item.quantity * item.price), 0);
-      const doc = {
-        orderNumber: `SO-00${Math.floor(100 + Math.random() * 900)}`,
-        orderDate: data.orderDate || new Date().toISOString().split('T')[0],
-        totalAmount,
-        status: data.status || 'draft',
-        items: data.items || [],
-        deliveries: [],
-        deliveredQty: {},
-        ...data,
-      };
-      
-      // If initialized directly as confirmed, handle reservations
-      if (doc.status === 'confirmed') {
-        salesService.reserveStockForOrder(doc);
-      }
-      
-      return mockDb.insert(DB_KEYS.SALES, doc);
-    }
+    const res = await salesApi.createOrder(data);
+    return res.data && res.data.success ? res.data.data : res.data;
   },
 
   /**
@@ -92,29 +77,8 @@ export const salesService = {
    * LOGIC EXPLANATION: Standard PUT mapping. In fallback, recalculates total values.
    */
   updateSalesOrder: async (id, data) => {
-    try {
-      const res = await salesApi.updateOrder(id, data);
-      return res.data;
-    } catch (e) {
-      const oldOrder = mockDb.getById(DB_KEYS.SALES, id);
-      let totalAmount = oldOrder.totalAmount;
-      if (data.items) {
-        totalAmount = data.items.reduce((acc, item) => acc + (item.quantity * item.price), 0);
-      }
-
-      const updated = {
-        ...oldOrder,
-        ...data,
-        totalAmount,
-      };
-
-      // Handle stock reservation transition
-      if (oldOrder.status !== 'confirmed' && updated.status === 'confirmed') {
-        salesService.reserveStockForOrder(updated);
-      }
-
-      return mockDb.update(DB_KEYS.SALES, id, updated);
-    }
+    const res = await salesApi.updateOrder(id, data);
+    return res.data && res.data.success ? res.data.data : res.data;
   },
 
   /**
@@ -124,16 +88,8 @@ export const salesService = {
    * LOGIC EXPLANATION: Hits cancel API. In local fallback, releases reservations and tags order as 'cancelled'.
    */
   cancelSalesOrder: async (id) => {
-    try {
-      const res = await salesApi.cancelOrder(id);
-      return res.data;
-    } catch (e) {
-      const order = mockDb.getById(DB_KEYS.SALES, id);
-      if (order.status === 'confirmed' || order.status === 'partially_delivered') {
-        salesService.releaseStockForOrder(order);
-      }
-      return mockDb.update(DB_KEYS.SALES, id, { ...order, status: 'cancelled' });
-    }
+    const res = await salesApi.cancelOrder(id);
+    return res.data && res.data.success ? res.data.data : res.data;
   },
 
   /**
@@ -143,14 +99,8 @@ export const salesService = {
    * LOGIC EXPLANATION: Hits confirm API. In local fallback, reserves stock and tags order as 'confirmed'.
    */
   confirmSalesOrder: async (id) => {
-    try {
-      const res = await salesApi.confirmOrder(id);
-      return res.data;
-    } catch (e) {
-      const order = mockDb.getById(DB_KEYS.SALES, id);
-      salesService.reserveStockForOrder(order);
-      return mockDb.update(DB_KEYS.SALES, id, { ...order, status: 'confirmed' });
-    }
+    const res = await salesApi.confirmOrder(id);
+    return res.data && res.data.success ? res.data.data : res.data;
   },
 
   /**
@@ -160,12 +110,8 @@ export const salesService = {
    * LOGIC EXPLANATION: Standard DELETE request. In local fallback, removes order row.
    */
   deleteSalesOrder: async (id) => {
-    try {
-      await salesApi.delete(id);
-      return true;
-    } catch (e) {
-      return mockDb.delete(DB_KEYS.SALES, id);
-    }
+    await salesApi.delete(id);
+    return true;
   },
 
   // Stock Reservation Helpers
@@ -290,9 +236,14 @@ export const salesService = {
   getCustomers: async () => {
     try {
       const res = await customerApi.getCustomers();
-      return res.data;
+      const data = res.data && res.data.success ? res.data.data : res.data;
+      if (data && Array.isArray(data.content)) {
+        return data.content;
+      }
+      return Array.isArray(data) ? data : (data ? [data] : []);
     } catch (e) {
-      return mockDb.getAll(DB_KEYS.CUSTOMERS);
+      console.warn('[SalesService] getCustomers failed:', e.message);
+      return [];
     }
   },
 
@@ -303,12 +254,8 @@ export const salesService = {
    * LOGIC EXPLANATION: Submits client data to backend or inserts row into local storage.
    */
   createCustomer: async (data) => {
-    try {
-      const res = await customerApi.createCustomer(data);
-      return res.data;
-    } catch (e) {
-      return mockDb.insert(DB_KEYS.CUSTOMERS, data);
-    }
+    const res = await customerApi.createCustomer(data);
+    return res.data && res.data.success ? res.data.data : res.data;
   },
 
   /**
@@ -318,12 +265,8 @@ export const salesService = {
    * LOGIC EXPLANATION: Standard PUT wrapper mapping customer details changes.
    */
   updateCustomer: async (id, data) => {
-    try {
-      const res = await customerApi.updateCustomer(id, data);
-      return res.data;
-    } catch (e) {
-      return mockDb.update(DB_KEYS.CUSTOMERS, id, data);
-    }
+    const res = await customerApi.updateCustomer(id, data);
+    return res.data && res.data.success ? res.data.data : res.data;
   },
 
   /**
@@ -333,12 +276,8 @@ export const salesService = {
    * LOGIC EXPLANATION: Standard DELETE catch wrapper mapping customer deletes.
    */
   deleteCustomer: async (id) => {
-    try {
-      await customerApi.deleteCustomer(id);
-      return true;
-    } catch (e) {
-      return mockDb.delete(DB_KEYS.CUSTOMERS, id);
-    }
+    await customerApi.deleteCustomer(id);
+    return true;
   }
 };
 

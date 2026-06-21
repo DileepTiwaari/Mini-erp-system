@@ -49,14 +49,14 @@ export const ManufacturingOrdersPage = () => {
         manufacturingService.getWorkOrders(),
         manufacturingService.getWorkCenters()
       ]);
-      setOrders(mosList);
-      setProducts(prodsList);
-      setBoms(bomsList);
-      setWorkOrders(wosList);
-      setWorkCenters(wcsList);
+      setOrders(Array.isArray(mosList) ? mosList : []);
+      setProducts(Array.isArray(prodsList) ? prodsList : []);
+      setBoms(Array.isArray(bomsList) ? bomsList : []);
+      setWorkOrders(Array.isArray(wosList) ? wosList : []);
+      setWorkCenters(Array.isArray(wcsList) ? wcsList : []);
     } catch (err) {
+      console.warn('[ManufacturingPage] fetch failed:', err.message);
       setError(true);
-      showToast('Failed to load shop floor database.', 'error');
     } finally {
       setLoading(false);
     }
@@ -134,11 +134,11 @@ export const ManufacturingOrdersPage = () => {
   };
 
   // Filters
-  const filteredOrders = orders.filter((o) => {
+  const filteredOrders = (orders || []).filter((o) => {
     const q = searchQuery.toLowerCase();
-    const prod = products.find(p => p.id === o.productId);
-    const prodName = prod ? prod.name.toLowerCase() : '';
-    return o.moNumber.toLowerCase().includes(q) || prodName.includes(q);
+    const prod = (products || []).find(p => p.id === o.productId);
+    const prodName = prod ? (prod.name || '').toLowerCase() : '';
+    return (o.moNumber || '').toLowerCase().includes(q) || prodName.includes(q);
   });
 
   const selectedProduct = selectedOrder
@@ -180,6 +180,7 @@ export const ManufacturingOrdersPage = () => {
       {/* Header */}
       <PageHeader
         title="Mfg Orders & Shop Floor"
+        isDemo={true}
         subtitle="Schedule assembly runs, track components safety alerts, and manage work center stations."
         actions={
           <div className="flex items-center gap-2">

@@ -31,9 +31,10 @@ export const UsersPage = () => {
     try {
       setLoading(true);
       const data = await userService.getUsers();
-      setUsers(data);
+      setUsers(Array.isArray(data) ? data : []);
     } catch (err) {
-      showToast('Failed to load system users.', 'error');
+      console.warn('[UsersPage] fetch failed:', err.message);
+      setUsers([]);
     } finally {
       setLoading(false);
     }

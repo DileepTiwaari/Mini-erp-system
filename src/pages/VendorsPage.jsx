@@ -71,12 +71,12 @@ export const VendorsPage = () => {
         purchaseService.getPurchaseOrders(),
         productService.getProducts()
       ]);
-      setVendors(vendorsList);
-      setOrders(ordersList);
-      setProducts(productsList);
+      setVendors(Array.isArray(vendorsList) ? vendorsList : []);
+      setOrders(Array.isArray(ordersList) ? ordersList : []);
+      setProducts(Array.isArray(productsList) ? productsList : []);
     } catch (err) {
+      console.warn('[VendorsPage] fetch failed:', err.message);
       setError(true);
-      showToast('Failed to load supplier catalog details.', 'error');
     } finally {
       setLoading(false);
     }
@@ -152,7 +152,7 @@ export const VendorsPage = () => {
 
   // Filter calculations
 
-  const filteredVendors = vendors.filter((v) => {
+  const filteredVendors = (vendors || []).filter((v) => {
     const q = searchQuery.toLowerCase();
     const matchesSearch = 
       (v.name || '').toLowerCase().includes(q) ||
@@ -193,6 +193,7 @@ export const VendorsPage = () => {
       {/* Page Header */}
       <PageHeader
         title="Vendors Directory"
+        isDemo={true}
         subtitle="Manage material suppliers, contact profiles, and billing details."
         actions={
           <button

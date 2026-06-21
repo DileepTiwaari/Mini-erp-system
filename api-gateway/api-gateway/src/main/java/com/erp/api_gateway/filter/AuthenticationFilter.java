@@ -23,7 +23,10 @@ public class AuthenticationFilter implements GlobalFilter, Ordered {
     private static final List<String> OPEN_ENDPOINTS = List.of(
             "/api/auth/register",
             "/api/auth/login",
-            "/api/auth/refresh-token"
+            "/api/auth/refresh-token",
+            "/actuator",
+            "/swagger-ui",
+            "/api-docs"
     );
 
     @Override

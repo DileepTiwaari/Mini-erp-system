@@ -6,6 +6,7 @@ import { API_ENDPOINTS } from '../utils/constants';
 
 export const authApi = {
   login: (credentials) => axiosInstance.post(API_ENDPOINTS.AUTH.LOGIN, credentials),
+  register: (data) => axiosInstance.post(API_ENDPOINTS.AUTH.REGISTER, data),
   logout: () => axiosInstance.post(API_ENDPOINTS.AUTH.LOGOUT),
   getMe: () => axiosInstance.get(API_ENDPOINTS.AUTH.ME),
 };

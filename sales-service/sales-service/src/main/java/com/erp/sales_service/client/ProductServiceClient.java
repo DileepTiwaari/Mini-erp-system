@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @FeignClient(name = "product-service")
 public interface ProductServiceClient {
 
-    @GetMapping("/api/v1/products/{id}")
+    @GetMapping("/api/products/{id}")
     ProductDto getProductById(@PathVariable("id") Long id);
 
     record ProductDto(

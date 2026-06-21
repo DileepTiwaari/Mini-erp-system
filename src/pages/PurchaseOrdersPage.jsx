@@ -78,13 +78,13 @@ export const PurchaseOrdersPage = () => {
         productService.getProducts()
       ]);
       
-      setOrders(ordersList);
+      setOrders(Array.isArray(ordersList) ? ordersList : []);
       // Only link active vendors for select inputs, but retain all for mapping
-      setVendors(vendsList);
-      setProducts(prodsList);
+      setVendors(Array.isArray(vendsList) ? vendsList : []);
+      setProducts(Array.isArray(prodsList) ? prodsList : []);
     } catch (err) {
+      console.warn('[PurchaseOrdersPage] fetch failed:', err.message);
       setError(true);
-      showToast('Failed to load purchase database.', 'error');
     } finally {
       setLoading(false);
     }
@@ -195,13 +195,13 @@ export const PurchaseOrdersPage = () => {
 
   // Filtering calculations
 
-  const filteredOrders = orders.filter((o) => {
+  const filteredOrders = (orders || []).filter((o) => {
     const q = searchQuery.toLowerCase();
-    const vend = vendors.find(v => v.id === o.vendorId);
-    const vendName = vend ? vend.name.toLowerCase() : '';
-    const vendCode = vend ? vend.code.toLowerCase() : '';
+    const vend = (vendors || []).find(v => v.id === o.vendorId);
+    const vendName = vend ? (vend.name || '').toLowerCase() : '';
+    const vendCode = vend ? (vend.code || '').toLowerCase() : '';
 
-    const matchesSearch = o.orderNumber.toLowerCase().includes(q) || vendName.includes(q) || vendCode.includes(q);
+    const matchesSearch = (o.orderNumber || '').toLowerCase().includes(q) || vendName.includes(q) || vendCode.includes(q);
     const matchesStatus = !filterStatus || o.status === filterStatus;
     const matchesVendor = !filterVendor || o.vendorId === filterVendor;
 
@@ -248,6 +248,7 @@ export const PurchaseOrdersPage = () => {
       {/* Page Header */}
       <PageHeader
         title="Purchase Orders"
+        isDemo={true}
         subtitle="Manage material procurement, request quotations, and process material receipts."
         actions={
           <button

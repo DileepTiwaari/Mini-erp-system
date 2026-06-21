@@ -27,6 +27,7 @@ import DashboardLayout from '../layouts/DashboardLayout';
 
 // Pages
 import LoginPage from '../pages/LoginPage';
+import RegisterPage from '../pages/RegisterPage';
 import DashboardPage from '../pages/DashboardPage';
 import UsersPage from '../pages/UsersPage';
 import ProductsPage from '../pages/ProductsPage';
@@ -61,6 +62,7 @@ export const AppRoutes = () => {
       */}
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Route>
 
       {/* 

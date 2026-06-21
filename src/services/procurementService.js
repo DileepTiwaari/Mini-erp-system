@@ -1,10 +1,13 @@
 // src/services/procurementService.js
 // Automated replenishment and shortages recommendations service layer.
+// Gracefully falls back to demoDb when the live backend is offline.
 
 import procurementApi from '../api/procurementApi';
-import { mockDb, DB_KEYS } from '../utils/mockDb';
+import productService from './productService';
+import salesService from './salesService';
 import purchaseService from './purchaseService';
 import manufacturingService from './manufacturingService';
+import { demoDb, DEMO_KEYS } from './demoDataService';
 
 export const procurementService = {
   getRecommendations: async () => {
@@ -12,17 +15,26 @@ export const procurementService = {
       const res = await procurementApi.getRecommendations();
       return res.data;
     } catch (e) {
-      const products = mockDb.getAll(DB_KEYS.PRODUCTS);
-      const boms = mockDb.getAll(DB_KEYS.BOMS);
-      const vendors = mockDb.getAll(DB_KEYS.VENDORS);
-      const salesOrders = mockDb.getAll(DB_KEYS.SALES);
-      const mfgOrders = mockDb.getAll(DB_KEYS.MANUFACTURING);
-      const purchaseOrders = mockDb.getAll(DB_KEYS.PURCHASES);
+      console.warn('[Procurement] Recommendations endpoint unavailable, calculating from fallbacks.', e.message);
+      
+      let products = [];
+      let salesOrders = [];
+      try {
+        products = await productService.getProducts();
+        salesOrders = await salesService.getSalesOrders();
+      } catch (err) {
+        console.warn('[Procurement] Live dependencies down.', err.message);
+      }
+
+      const boms = demoDb.getAll(DEMO_KEYS.BOMS);
+      const vendors = demoDb.getAll(DEMO_KEYS.VENDORS);
+      const mfgOrders = demoDb.getAll(DEMO_KEYS.MANUFACTURING);
+      const purchaseOrders = demoDb.getAll(DEMO_KEYS.PURCHASES);
       
       const recommendations = [];
 
-      // 1. MTS Logic: replenishment recommendations based on safety stock threshold check (freeToUseQty < minStock)
-      products.forEach(p => {
+      // 1. MTS Logic: safety stock threshold checks
+      (products || []).forEach(p => {
         const strategy = p.procurementStrategy || 'MTS';
         const freeToUse = p.freeToUseQty !== undefined ? p.freeToUseQty : p.stock;
         
@@ -48,13 +60,6 @@ export const procurementService = {
           } else {
             // PURCHASE
             let vendor = vendors.find(v => v.id === p.vendorId) || vendors[0];
-            if (!vendor) {
-              if (p.code.startsWith('RM-COP') || p.categoryId === 'cat2') {
-                vendor = vendors.find(v => v.id === 'v2') || vendors[0];
-              } else if (p.code.startsWith('RM-BLT')) {
-                vendor = vendors.find(v => v.id === 'v3') || vendors[0];
-              }
-            }
             const estimatedCost = qtyToOrder * p.cost;
 
             recommendations.push({
@@ -77,20 +82,19 @@ export const procurementService = {
         }
       });
 
-      // 2. MTO Logic: demand recommendations triggered by confirmed/draft Sales Orders
-      const openSales = salesOrders.filter(so => 
+      // 2. MTO Logic: demand recommendations from Sales Orders
+      const openSales = (salesOrders || []).filter(so => 
         so.status !== 'cancelled' && so.status !== 'fully_delivered'
       );
 
       openSales.forEach(order => {
         (order.items || []).forEach(item => {
-          const prod = products.find(p => p.id === item.productId);
+          const prod = (products || []).find(p => p.id === item.productId);
           if (prod && prod.procurementStrategy === 'MTO') {
             const delivered = order.deliveredQty?.[prod.id] || 0;
             const remainingNeeded = Math.max(0, item.quantity - delivered);
 
             if (remainingNeeded > 0) {
-              // Calculate already scheduled POs/MOs for this SO
               let alreadyScheduled = 0;
 
               if (prod.procurementType === 'MANUFACTURING') {
@@ -163,6 +167,11 @@ export const procurementService = {
         });
       });
 
+      // If no dynamic recommendations (e.g. all stocks ok), load static demo recommendations to keep screens rich
+      if (recommendations.length === 0) {
+        return demoDb.getAll(DEMO_KEYS.PROCUREMENT_RECS);
+      }
+
       return recommendations;
     }
   },
@@ -173,7 +182,6 @@ export const procurementService = {
       return res.data;
     } catch (e) {
       if (recommendation.procurementType === 'MANUFACTURING') {
-        // Create planned Manufacturing Order
         const moData = {
           bomId: recommendation.bomId,
           productId: recommendation.productId,
@@ -181,30 +189,28 @@ export const procurementService = {
           status: 'PLANNED',
           sourceSalesOrder: recommendation.refNumber || '',
           plannedStartDate: new Date().toISOString().split('T')[0],
-          assignee: 'u5'
+          assignee: 'manufacturing'
         };
 
         const mo = await manufacturingService.createManufacturingOrder(moData);
         
-        mockDb.logAudit('Procurement Trigger', `Auto-generated planned Manufacturing Order ${mo.moNumber} for product ${recommendation.productName}.`, 'Procurement', mo.moNumber);
+        demoDb.logAudit('Procurement Trigger', `Auto-generated planned Manufacturing Order ${mo.moNumber} for product ${recommendation.productName}.`, 'Procurement', mo.moNumber);
 
         return {
           success: true,
           manufacturingOrderId: mo.id,
           manufacturingOrderNumber: mo.moNumber,
-          // compatibility fields
           purchaseOrderId: mo.id,
           purchaseOrderNumber: mo.moNumber
         };
       } else {
-        // Create draft Purchase Order
         const poData = {
           vendorId: recommendation.suggestedVendorId,
           items: [
             {
               productId: recommendation.productId,
               quantity: recommendation.recommendedQty,
-              unitCost: mockDb.getById(DB_KEYS.PRODUCTS, recommendation.productId)?.cost || 1.00
+              unitCost: recommendation.estimatedCost ? round(recommendation.estimatedCost / recommendation.recommendedQty, 2) : 10.0
             }
           ],
           status: 'draft',
@@ -213,7 +219,7 @@ export const procurementService = {
 
         const po = await purchaseService.createPurchaseOrder(poData);
 
-        mockDb.logAudit('Procurement Trigger', `Auto-generated draft Purchase Order ${po.orderNumber} for product ${recommendation.productName}.`, 'Procurement', po.orderNumber);
+        demoDb.logAudit('Procurement Trigger', `Auto-generated draft Purchase Order ${po.orderNumber} for product ${recommendation.productName}.`, 'Procurement', po.orderNumber);
 
         return {
           success: true,
@@ -224,5 +230,10 @@ export const procurementService = {
     }
   }
 };
+
+// Simple helper
+function round(value, decimals) {
+  return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
+}
 
 export default procurementService;

@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "inventory-service")
 public interface InventoryServiceClient {
 
-    @GetMapping("/api/v1/stock/{productId}")
+    @GetMapping("/api/stocks/{productId}")
     StockDto getStock(@PathVariable("productId") Long productId);
 
-    @PostMapping("/api/v1/stock/reserve")
+    @PostMapping("/api/stocks/reserve")
     void reserveStock(@RequestBody ReserveStockRequest request);
 
-    @PostMapping("/api/v1/stock/release")
+    @PostMapping("/api/stocks/release")
     void releaseStock(@RequestBody ReleaseStockRequest request);
 
-    @PostMapping("/api/v1/stock/move")
+    @PostMapping("/api/stocks/move")
     void moveStock(@RequestBody MoveStockRequest request);
 
     record StockDto(

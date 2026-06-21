@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "procurement-service")
 public interface ProcurementServiceClient {
 
-    @PostMapping("/api/v1/procurement/auto")
+    @PostMapping("/api/procurement/auto")
     ProcurementTriggerResponse triggerAutoProcurement(@RequestBody ProcurementTriggerRequest request);
 
     record ProcurementTriggerRequest(

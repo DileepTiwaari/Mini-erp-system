@@ -21,7 +21,8 @@
  */
 export const ROLES = {
   ADMIN: 'ADMIN',
-  OWNER: 'OWNER',
+  OWNER: 'BUSINESS_OWNER',
+  BUSINESS_OWNER: 'BUSINESS_OWNER',
   SALES_USER: 'SALES_USER',
   PURCHASE_USER: 'PURCHASE_USER',
   MANUFACTURING_USER: 'MANUFACTURING_USER',
@@ -61,6 +62,7 @@ export const STATUS_COLORS = {
 export const API_ENDPOINTS = {
   AUTH: {
     LOGIN: '/auth/login',
+    REGISTER: '/auth/register',
     LOGOUT: '/auth/logout',
     ME: '/auth/me',
   },
@@ -69,7 +71,7 @@ export const API_ENDPOINTS = {
   CATEGORIES: '/categories',
   VENDORS: '/vendors',
   CUSTOMERS: '/customers',
-  SALES: '/sales',
+  SALES: '/sales-orders',
   PURCHASES: '/purchases',
   BOM: '/bom',
   WORK_CENTERS: '/work-centers',

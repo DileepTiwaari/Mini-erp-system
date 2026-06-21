@@ -78,11 +78,11 @@ export const ProductsPage = () => {
         productService.getProducts(),
         productService.getCategories()
       ]);
-      setProducts(prodsList);
-      setCategories(catsList);
+      setProducts(Array.isArray(prodsList) ? prodsList : []);
+      setCategories(Array.isArray(catsList) ? catsList : []);
     } catch (err) {
+      console.warn('[ProductsPage] fetchResources failed:', err.message);
       setError(true);
-      showToast('Failed to load catalog resources.', 'error');
     } finally {
       setLoading(false);
     }
@@ -176,12 +176,12 @@ export const ProductsPage = () => {
   };
 
   // Filters calculation
-  const filteredProducts = products.filter((p) => {
+  const filteredProducts = (products || []).filter((p) => {
     const q = searchQuery.toLowerCase();
     const matchesSearch = 
       (p.name || '').toLowerCase().includes(q) || 
       (p.code || '').toLowerCase().includes(q);
-    const matchesCategory = !filterCategory || p.categoryId === filterCategory;
+    const matchesCategory = !filterCategory || String(p.categoryId) === String(filterCategory);
     const matchesProcurement = !filterProcurement || p.procurementType === filterProcurement;
     const matchesStatus = !filterStatus || p.status === filterStatus;
     

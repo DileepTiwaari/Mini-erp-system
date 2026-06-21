@@ -1,0 +1,4049 @@
+{
+  "vendors": [
+    {
+      "id": "v1",
+      "code": "VND-001",
+      "name": "Apex Metal Corp",
+      "email": "contact@apexmetalcorp.com",
+      "phone": "+1-555-100",
+      "status": "ACTIVE",
+      "address": "Suite 200, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v2",
+      "code": "VND-002",
+      "name": "Silicon Foundry Co.",
+      "email": "contact@siliconfoundryco..com",
+      "phone": "+1-555-101",
+      "status": "ACTIVE",
+      "address": "Suite 201, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v3",
+      "code": "VND-003",
+      "name": "Precision Fasteners Ltd.",
+      "email": "contact@precisionfastenersltd..com",
+      "phone": "+1-555-102",
+      "status": "ACTIVE",
+      "address": "Suite 202, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v4",
+      "code": "VND-004",
+      "name": "ElectroComponents Inc.",
+      "email": "contact@electrocomponentsinc..com",
+      "phone": "+1-555-103",
+      "status": "ACTIVE",
+      "address": "Suite 203, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v5",
+      "code": "VND-005",
+      "name": "Global Logistics Partners",
+      "email": "contact@globallogisticspartners.com",
+      "phone": "+1-555-104",
+      "status": "ACTIVE",
+      "address": "Suite 204, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v6",
+      "code": "VND-006",
+      "name": "Nexus Plastics Group",
+      "email": "contact@nexusplasticsgroup.com",
+      "phone": "+1-555-105",
+      "status": "ACTIVE",
+      "address": "Suite 205, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v7",
+      "code": "VND-007",
+      "name": "Optics & Sensors LLC",
+      "email": "contact@opticsandsensorsllc.com",
+      "phone": "+1-555-106",
+      "status": "ACTIVE",
+      "address": "Suite 206, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v8",
+      "code": "VND-008",
+      "name": "Thermal Dynamics Corp",
+      "email": "contact@thermaldynamicscorp.com",
+      "phone": "+1-555-107",
+      "status": "ACTIVE",
+      "address": "Suite 207, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v9",
+      "code": "VND-009",
+      "name": "Microcircuits Express",
+      "email": "contact@microcircuitsexpress.com",
+      "phone": "+1-555-108",
+      "status": "ACTIVE",
+      "address": "Suite 208, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v10",
+      "code": "VND-010",
+      "name": "Pneumatic Solutions Inc.",
+      "email": "contact@pneumaticsolutionsinc..com",
+      "phone": "+1-555-109",
+      "status": "ACTIVE",
+      "address": "Suite 209, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v11",
+      "code": "VND-011",
+      "name": "Heavy Foundry Dynamics",
+      "email": "contact@heavyfoundrydynamics.com",
+      "phone": "+1-555-110",
+      "status": "ACTIVE",
+      "address": "Suite 210, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v12",
+      "code": "VND-012",
+      "name": "Advanced Robotics Supply",
+      "email": "contact@advancedroboticssupply.com",
+      "phone": "+1-555-111",
+      "status": "ACTIVE",
+      "address": "Suite 211, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v13",
+      "code": "VND-013",
+      "name": "Industrial Wiring & Cable",
+      "email": "contact@industrialwiringandcable.com",
+      "phone": "+1-555-112",
+      "status": "ACTIVE",
+      "address": "Suite 212, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v14",
+      "code": "VND-014",
+      "name": "Metals & Alloys Co.",
+      "email": "contact@metalsandalloysco..com",
+      "phone": "+1-555-113",
+      "status": "ACTIVE",
+      "address": "Suite 213, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v15",
+      "code": "VND-015",
+      "name": "Cabinet Fittings Supply",
+      "email": "contact@cabinetfittingssupply.com",
+      "phone": "+1-555-114",
+      "status": "ACTIVE",
+      "address": "Suite 214, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v16",
+      "code": "VND-016",
+      "name": "Chemical & Resins Corp",
+      "email": "contact@chemicalandresinscorp.com",
+      "phone": "+1-555-115",
+      "status": "ACTIVE",
+      "address": "Suite 215, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v17",
+      "code": "VND-017",
+      "name": "Logic Boards Ltd.",
+      "email": "contact@logicboardsltd..com",
+      "phone": "+1-555-116",
+      "status": "ACTIVE",
+      "address": "Suite 216, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v18",
+      "code": "VND-018",
+      "name": "Power Systems Group",
+      "email": "contact@powersystemsgroup.com",
+      "phone": "+1-555-117",
+      "status": "ACTIVE",
+      "address": "Suite 217, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v19",
+      "code": "VND-019",
+      "name": "Stamping & Dies LLC",
+      "email": "contact@stampinganddiesllc.com",
+      "phone": "+1-555-118",
+      "status": "ACTIVE",
+      "address": "Suite 218, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    },
+    {
+      "id": "v20",
+      "code": "VND-020",
+      "name": "Industrial Packaging Corp",
+      "email": "contact@industrialpackagingcorp.com",
+      "phone": "+1-555-119",
+      "status": "ACTIVE",
+      "address": "Suite 219, Industrial Way, Cityville",
+      "createdAt": "2026-03-23T09:30:50Z"
+    }
+  ],
+  "purchaseOrders": [
+    {
+      "id": "po-201",
+      "orderNumber": "PO-00201",
+      "vendorId": "v4",
+      "orderDate": "2026-06-18",
+      "expectedDate": "2026-06-28",
+      "totalAmount": 2798.68,
+      "orderTotal": 2371.76,
+      "taxTotal": 426.92,
+      "grandTotal": 2798.68,
+      "status": "confirmed",
+      "items": [
+        {
+          "productId": "p36",
+          "quantity": 23,
+          "unitCost": 103.12
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-202",
+      "orderNumber": "PO-00202",
+      "vendorId": "v3",
+      "orderDate": "2026-05-13",
+      "expectedDate": "2026-05-21",
+      "totalAmount": 3602.45,
+      "orderTotal": 3052.92,
+      "taxTotal": 549.53,
+      "grandTotal": 3602.45,
+      "status": "draft",
+      "items": [
+        {
+          "productId": "p56",
+          "quantity": 39,
+          "unitCost": 78.28
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": "SO-2026-00016"
+    },
+    {
+      "id": "po-203",
+      "orderNumber": "PO-00203",
+      "vendorId": "v18",
+      "orderDate": "2026-05-24",
+      "expectedDate": "2026-05-30",
+      "totalAmount": 5343.21,
+      "orderTotal": 4528.14,
+      "taxTotal": 815.07,
+      "grandTotal": 5343.21,
+      "status": "partially_received",
+      "items": [
+        {
+          "productId": "p2",
+          "quantity": 64,
+          "unitCost": 54.34
+        },
+        {
+          "productId": "p41",
+          "quantity": 29,
+          "unitCost": 36.22
+        }
+      ],
+      "receivedQty": {
+        "p2": 7,
+        "p41": 3
+      },
+      "receipts": [
+        {
+          "date": "2026-05-30",
+          "items": [
+            {
+              "productId": "p2",
+              "quantity": 7
+            },
+            {
+              "productId": "p41",
+              "quantity": 3
+            }
+          ],
+          "remarks": "Delivered parts logged into warehouse stock.",
+          "user": "Inventory Manager"
+        }
+      ],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-204",
+      "orderNumber": "PO-00204",
+      "vendorId": "v12",
+      "orderDate": "2026-05-28",
+      "expectedDate": "2026-06-06",
+      "totalAmount": 2126.12,
+      "orderTotal": 1801.8000000000002,
+      "taxTotal": 324.32,
+      "grandTotal": 2126.12,
+      "status": "confirmed",
+      "items": [
+        {
+          "productId": "p118",
+          "quantity": 78,
+          "unitCost": 23.1
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-205",
+      "orderNumber": "PO-00205",
+      "vendorId": "v3",
+      "orderDate": "2026-05-15",
+      "expectedDate": "2026-05-22",
+      "totalAmount": 8680.59,
+      "orderTotal": 7356.43,
+      "taxTotal": 1324.16,
+      "grandTotal": 8680.59,
+      "status": "fully_received",
+      "items": [
+        {
+          "productId": "p93",
+          "quantity": 18,
+          "unitCost": 11.64
+        },
+        {
+          "productId": "p148",
+          "quantity": 39,
+          "unitCost": 117.09
+        },
+        {
+          "productId": "p50",
+          "quantity": 20,
+          "unitCost": 129.02
+        }
+      ],
+      "receivedQty": {
+        "p93": 18,
+        "p148": 39,
+        "p50": 20
+      },
+      "receipts": [
+        {
+          "date": "2026-05-19",
+          "items": [
+            {
+              "productId": "p93",
+              "quantity": 18
+            },
+            {
+              "productId": "p148",
+              "quantity": 39
+            },
+            {
+              "productId": "p50",
+              "quantity": 20
+            }
+          ],
+          "remarks": "Delivered parts logged into warehouse stock.",
+          "user": "Inventory Manager"
+        }
+      ],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-206",
+      "orderNumber": "PO-00206",
+      "vendorId": "v15",
+      "orderDate": "2026-05-10",
+      "expectedDate": "2026-05-17",
+      "totalAmount": 5108.26,
+      "orderTotal": 4329.030000000001,
+      "taxTotal": 779.23,
+      "grandTotal": 5108.26,
+      "status": "confirmed",
+      "items": [
+        {
+          "productId": "p54",
+          "quantity": 19,
+          "unitCost": 93.32
+        },
+        {
+          "productId": "p69",
+          "quantity": 31,
+          "unitCost": 82.45
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": "SO-2026-00024"
+    },
+    {
+      "id": "po-207",
+      "orderNumber": "PO-00207",
+      "vendorId": "v13",
+      "orderDate": "2026-06-02",
+      "expectedDate": "2026-06-12",
+      "totalAmount": 766.49,
+      "orderTotal": 649.57,
+      "taxTotal": 116.92,
+      "grandTotal": 766.49,
+      "status": "fully_received",
+      "items": [
+        {
+          "productId": "p84",
+          "quantity": 17,
+          "unitCost": 38.21
+        }
+      ],
+      "receivedQty": {
+        "p84": 17
+      },
+      "receipts": [
+        {
+          "date": "2026-06-06",
+          "items": [
+            {
+              "productId": "p84",
+              "quantity": 17
+            }
+          ],
+          "remarks": "Delivered parts logged into warehouse stock.",
+          "user": "Inventory Manager"
+        }
+      ],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-208",
+      "orderNumber": "PO-00208",
+      "vendorId": "v13",
+      "orderDate": "2026-06-02",
+      "expectedDate": "2026-06-07",
+      "totalAmount": 12798.61,
+      "orderTotal": 10846.28,
+      "taxTotal": 1952.33,
+      "grandTotal": 12798.61,
+      "status": "confirmed",
+      "items": [
+        {
+          "productId": "p55",
+          "quantity": 60,
+          "unitCost": 133.28
+        },
+        {
+          "productId": "p128",
+          "quantity": 68,
+          "unitCost": 25.72
+        },
+        {
+          "productId": "p81",
+          "quantity": 27,
+          "unitCost": 40.76
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-209",
+      "orderNumber": "PO-00209",
+      "vendorId": "v9",
+      "orderDate": "2026-05-13",
+      "expectedDate": "2026-05-21",
+      "totalAmount": 5352.66,
+      "orderTotal": 4536.15,
+      "taxTotal": 816.51,
+      "grandTotal": 5352.66,
+      "status": "fully_received",
+      "items": [
+        {
+          "productId": "p93",
+          "quantity": 27,
+          "unitCost": 78.88
+        },
+        {
+          "productId": "p57",
+          "quantity": 21,
+          "unitCost": 114.59
+        }
+      ],
+      "receivedQty": {
+        "p93": 27,
+        "p57": 21
+      },
+      "receipts": [
+        {
+          "date": "2026-05-17",
+          "items": [
+            {
+              "productId": "p93",
+              "quantity": 27
+            },
+            {
+              "productId": "p57",
+              "quantity": 21
+            }
+          ],
+          "remarks": "Delivered parts logged into warehouse stock.",
+          "user": "Inventory Manager"
+        }
+      ],
+      "sourceSalesOrder": "SO-2026-00015"
+    },
+    {
+      "id": "po-210",
+      "orderNumber": "PO-00210",
+      "vendorId": "v14",
+      "orderDate": "2026-05-12",
+      "expectedDate": "2026-05-17",
+      "totalAmount": 16540.34,
+      "orderTotal": 14017.24,
+      "taxTotal": 2523.1,
+      "grandTotal": 16540.34,
+      "status": "partially_received",
+      "items": [
+        {
+          "productId": "p65",
+          "quantity": 80,
+          "unitCost": 129.81
+        },
+        {
+          "productId": "p136",
+          "quantity": 11,
+          "unitCost": 103.64
+        },
+        {
+          "productId": "p120",
+          "quantity": 24,
+          "unitCost": 103.85
+        }
+      ],
+      "receivedQty": {
+        "p65": 44,
+        "p136": 2,
+        "p120": 10
+      },
+      "receipts": [
+        {
+          "date": "2026-05-18",
+          "items": [
+            {
+              "productId": "p65",
+              "quantity": 44
+            },
+            {
+              "productId": "p136",
+              "quantity": 2
+            },
+            {
+              "productId": "p120",
+              "quantity": 10
+            }
+          ],
+          "remarks": "Delivered parts logged into warehouse stock.",
+          "user": "Inventory Manager"
+        }
+      ],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-211",
+      "orderNumber": "PO-00211",
+      "vendorId": "v15",
+      "orderDate": "2026-06-19",
+      "expectedDate": "2026-06-29",
+      "totalAmount": 19187.2,
+      "orderTotal": 16260.34,
+      "taxTotal": 2926.86,
+      "grandTotal": 19187.2,
+      "status": "fully_received",
+      "items": [
+        {
+          "productId": "p129",
+          "quantity": 74,
+          "unitCost": 137.33
+        },
+        {
+          "productId": "p46",
+          "quantity": 48,
+          "unitCost": 127.04
+        }
+      ],
+      "receivedQty": {
+        "p129": 74,
+        "p46": 48
+      },
+      "receipts": [
+        {
+          "date": "2026-06-24",
+          "items": [
+            {
+              "productId": "p129",
+              "quantity": 74
+            },
+            {
+              "productId": "p46",
+              "quantity": 48
+            }
+          ],
+          "remarks": "Delivered parts logged into warehouse stock.",
+          "user": "Inventory Manager"
+        }
+      ],
+      "sourceSalesOrder": "SO-2026-00034"
+    },
+    {
+      "id": "po-212",
+      "orderNumber": "PO-00212",
+      "vendorId": "v6",
+      "orderDate": "2026-05-16",
+      "expectedDate": "2026-05-25",
+      "totalAmount": 12498.51,
+      "orderTotal": 10591.96,
+      "taxTotal": 1906.55,
+      "grandTotal": 12498.51,
+      "status": "cancelled",
+      "items": [
+        {
+          "productId": "p83",
+          "quantity": 24,
+          "unitCost": 139.72
+        },
+        {
+          "productId": "p126",
+          "quantity": 49,
+          "unitCost": 39.72
+        },
+        {
+          "productId": "p5",
+          "quantity": 40,
+          "unitCost": 132.31
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-213",
+      "orderNumber": "PO-00213",
+      "vendorId": "v3",
+      "orderDate": "2026-05-19",
+      "expectedDate": "2026-05-24",
+      "totalAmount": 14680.03,
+      "orderTotal": 12440.7,
+      "taxTotal": 2239.33,
+      "grandTotal": 14680.03,
+      "status": "cancelled",
+      "items": [
+        {
+          "productId": "p33",
+          "quantity": 80,
+          "unitCost": 28.94
+        },
+        {
+          "productId": "p122",
+          "quantity": 77,
+          "unitCost": 131.5
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-214",
+      "orderNumber": "PO-00214",
+      "vendorId": "v7",
+      "orderDate": "2026-05-16",
+      "expectedDate": "2026-05-26",
+      "totalAmount": 12971.19,
+      "orderTotal": 10992.529999999999,
+      "taxTotal": 1978.66,
+      "grandTotal": 12971.19,
+      "status": "fully_received",
+      "items": [
+        {
+          "productId": "p103",
+          "quantity": 66,
+          "unitCost": 135.44
+        },
+        {
+          "productId": "p96",
+          "quantity": 67,
+          "unitCost": 22.55
+        },
+        {
+          "productId": "p80",
+          "quantity": 38,
+          "unitCost": 14.28
+        }
+      ],
+      "receivedQty": {
+        "p103": 66,
+        "p96": 67,
+        "p80": 38
+      },
+      "receipts": [
+        {
+          "date": "2026-05-20",
+          "items": [
+            {
+              "productId": "p103",
+              "quantity": 66
+            },
+            {
+              "productId": "p96",
+              "quantity": 67
+            },
+            {
+              "productId": "p80",
+              "quantity": 38
+            }
+          ],
+          "remarks": "Delivered parts logged into warehouse stock.",
+          "user": "Inventory Manager"
+        }
+      ],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-215",
+      "orderNumber": "PO-00215",
+      "vendorId": "v8",
+      "orderDate": "2026-05-13",
+      "expectedDate": "2026-05-19",
+      "totalAmount": 9341.53,
+      "orderTotal": 7916.55,
+      "taxTotal": 1424.98,
+      "grandTotal": 9341.53,
+      "status": "draft",
+      "items": [
+        {
+          "productId": "p59",
+          "quantity": 14,
+          "unitCost": 129.65
+        },
+        {
+          "productId": "p18",
+          "quantity": 19,
+          "unitCost": 79.55
+        },
+        {
+          "productId": "p16",
+          "quantity": 45,
+          "unitCost": 102.0
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": "SO-2026-00014"
+    },
+    {
+      "id": "po-216",
+      "orderNumber": "PO-00216",
+      "vendorId": "v19",
+      "orderDate": "2026-05-14",
+      "expectedDate": "2026-05-22",
+      "totalAmount": 4818.12,
+      "orderTotal": 4083.1499999999996,
+      "taxTotal": 734.97,
+      "grandTotal": 4818.12,
+      "status": "confirmed",
+      "items": [
+        {
+          "productId": "p105",
+          "quantity": 22,
+          "unitCost": 19.05
+        },
+        {
+          "productId": "p49",
+          "quantity": 65,
+          "unitCost": 56.37
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-217",
+      "orderNumber": "PO-00217",
+      "vendorId": "v2",
+      "orderDate": "2026-05-07",
+      "expectedDate": "2026-05-17",
+      "totalAmount": 7960.27,
+      "orderTotal": 6745.99,
+      "taxTotal": 1214.28,
+      "grandTotal": 7960.27,
+      "status": "cancelled",
+      "items": [
+        {
+          "productId": "p16",
+          "quantity": 61,
+          "unitCost": 110.59
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-218",
+      "orderNumber": "PO-00218",
+      "vendorId": "v4",
+      "orderDate": "2026-06-04",
+      "expectedDate": "2026-06-10",
+      "totalAmount": 8143.97,
+      "orderTotal": 6901.67,
+      "taxTotal": 1242.3,
+      "grandTotal": 8143.97,
+      "status": "confirmed",
+      "items": [
+        {
+          "productId": "p36",
+          "quantity": 33,
+          "unitCost": 45.39
+        },
+        {
+          "productId": "p109",
+          "quantity": 41,
+          "unitCost": 131.8
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": "SO-2026-00035"
+    },
+    {
+      "id": "po-219",
+      "orderNumber": "PO-00219",
+      "vendorId": "v18",
+      "orderDate": "2026-06-13",
+      "expectedDate": "2026-06-18",
+      "totalAmount": 15132.28,
+      "orderTotal": 12823.970000000001,
+      "taxTotal": 2308.31,
+      "grandTotal": 15132.28,
+      "status": "fully_received",
+      "items": [
+        {
+          "productId": "p24",
+          "quantity": 31,
+          "unitCost": 63.93
+        },
+        {
+          "productId": "p61",
+          "quantity": 71,
+          "unitCost": 35.99
+        },
+        {
+          "productId": "p4",
+          "quantity": 61,
+          "unitCost": 135.85
+        }
+      ],
+      "receivedQty": {
+        "p24": 31,
+        "p61": 71,
+        "p4": 61
+      },
+      "receipts": [
+        {
+          "date": "2026-06-18",
+          "items": [
+            {
+              "productId": "p24",
+              "quantity": 31
+            },
+            {
+              "productId": "p61",
+              "quantity": 71
+            },
+            {
+              "productId": "p4",
+              "quantity": 61
+            }
+          ],
+          "remarks": "Delivered parts logged into warehouse stock.",
+          "user": "Inventory Manager"
+        }
+      ],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-220",
+      "orderNumber": "PO-00220",
+      "vendorId": "v13",
+      "orderDate": "2026-06-03",
+      "expectedDate": "2026-06-11",
+      "totalAmount": 5001.67,
+      "orderTotal": 4238.7,
+      "taxTotal": 762.97,
+      "grandTotal": 5001.67,
+      "status": "confirmed",
+      "items": [
+        {
+          "productId": "p40",
+          "quantity": 34,
+          "unitCost": 48.02
+        },
+        {
+          "productId": "p125",
+          "quantity": 17,
+          "unitCost": 88.98
+        },
+        {
+          "productId": "p143",
+          "quantity": 79,
+          "unitCost": 13.84
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-221",
+      "orderNumber": "PO-00221",
+      "vendorId": "v2",
+      "orderDate": "2026-05-13",
+      "expectedDate": "2026-05-21",
+      "totalAmount": 7969.53,
+      "orderTotal": 6753.84,
+      "taxTotal": 1215.69,
+      "grandTotal": 7969.53,
+      "status": "partially_received",
+      "items": [
+        {
+          "productId": "p131",
+          "quantity": 20,
+          "unitCost": 128.44
+        },
+        {
+          "productId": "p15",
+          "quantity": 18,
+          "unitCost": 91.28
+        },
+        {
+          "productId": "p41",
+          "quantity": 40,
+          "unitCost": 63.55
+        }
+      ],
+      "receivedQty": {
+        "p131": 19,
+        "p15": 2,
+        "p41": 6
+      },
+      "receipts": [
+        {
+          "date": "2026-05-18",
+          "items": [
+            {
+              "productId": "p131",
+              "quantity": 19
+            },
+            {
+              "productId": "p15",
+              "quantity": 2
+            },
+            {
+              "productId": "p41",
+              "quantity": 6
+            }
+          ],
+          "remarks": "Delivered parts logged into warehouse stock.",
+          "user": "Inventory Manager"
+        }
+      ],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-222",
+      "orderNumber": "PO-00222",
+      "vendorId": "v19",
+      "orderDate": "2026-05-14",
+      "expectedDate": "2026-05-23",
+      "totalAmount": 5195.3,
+      "orderTotal": 4402.8,
+      "taxTotal": 792.5,
+      "grandTotal": 5195.3,
+      "status": "confirmed",
+      "items": [
+        {
+          "productId": "p53",
+          "quantity": 40,
+          "unitCost": 43.51
+        },
+        {
+          "productId": "p81",
+          "quantity": 26,
+          "unitCost": 102.4
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": "SO-2026-00020"
+    },
+    {
+      "id": "po-223",
+      "orderNumber": "PO-00223",
+      "vendorId": "v3",
+      "orderDate": "2026-06-19",
+      "expectedDate": "2026-06-27",
+      "totalAmount": 10539.87,
+      "orderTotal": 8932.09,
+      "taxTotal": 1607.78,
+      "grandTotal": 10539.87,
+      "status": "fully_received",
+      "items": [
+        {
+          "productId": "p138",
+          "quantity": 37,
+          "unitCost": 78.35
+        },
+        {
+          "productId": "p26",
+          "quantity": 26,
+          "unitCost": 140.32
+        },
+        {
+          "productId": "p19",
+          "quantity": 18,
+          "unitCost": 132.49
+        }
+      ],
+      "receivedQty": {
+        "p138": 37,
+        "p26": 26,
+        "p19": 18
+      },
+      "receipts": [
+        {
+          "date": "2026-06-25",
+          "items": [
+            {
+              "productId": "p138",
+              "quantity": 37
+            },
+            {
+              "productId": "p26",
+              "quantity": 26
+            },
+            {
+              "productId": "p19",
+              "quantity": 18
+            }
+          ],
+          "remarks": "Delivered parts logged into warehouse stock.",
+          "user": "Inventory Manager"
+        }
+      ],
+      "sourceSalesOrder": "SO-2026-00024"
+    },
+    {
+      "id": "po-224",
+      "orderNumber": "PO-00224",
+      "vendorId": "v18",
+      "orderDate": "2026-05-31",
+      "expectedDate": "2026-06-09",
+      "totalAmount": 13146.93,
+      "orderTotal": 11141.47,
+      "taxTotal": 2005.46,
+      "grandTotal": 13146.93,
+      "status": "cancelled",
+      "items": [
+        {
+          "productId": "p3",
+          "quantity": 48,
+          "unitCost": 140.1
+        },
+        {
+          "productId": "p142",
+          "quantity": 23,
+          "unitCost": 141.14
+        },
+        {
+          "productId": "p136",
+          "quantity": 27,
+          "unitCost": 43.35
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-225",
+      "orderNumber": "PO-00225",
+      "vendorId": "v18",
+      "orderDate": "2026-06-10",
+      "expectedDate": "2026-06-17",
+      "totalAmount": 4447.23,
+      "orderTotal": 3768.84,
+      "taxTotal": 678.39,
+      "grandTotal": 4447.23,
+      "status": "confirmed",
+      "items": [
+        {
+          "productId": "p88",
+          "quantity": 36,
+          "unitCost": 104.69
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-226",
+      "orderNumber": "PO-00226",
+      "vendorId": "v17",
+      "orderDate": "2026-05-19",
+      "expectedDate": "2026-05-26",
+      "totalAmount": 9459.64,
+      "orderTotal": 8016.64,
+      "taxTotal": 1443.0,
+      "grandTotal": 9459.64,
+      "status": "cancelled",
+      "items": [
+        {
+          "productId": "p24",
+          "quantity": 64,
+          "unitCost": 125.26
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": "SO-2026-00020"
+    },
+    {
+      "id": "po-227",
+      "orderNumber": "PO-00227",
+      "vendorId": "v5",
+      "orderDate": "2026-05-10",
+      "expectedDate": "2026-05-17",
+      "totalAmount": 3153.68,
+      "orderTotal": 2672.61,
+      "taxTotal": 481.07,
+      "grandTotal": 3153.68,
+      "status": "confirmed",
+      "items": [
+        {
+          "productId": "p142",
+          "quantity": 11,
+          "unitCost": 21.22
+        },
+        {
+          "productId": "p110",
+          "quantity": 29,
+          "unitCost": 84.11
+        }
+      ],
+      "receivedQty": {},
+      "receipts": [],
+      "sourceSalesOrder": ""
+    },
+    {
+      "id": "po-228",
+      "orderNumber": "PO-00228",
+      "vendorId": "v19",
+      "orderDate": "2026-05-15",
+      "expectedDate": "2026-05-21",
+      "totalAmount": 8943.93,
+      "orderTotal": 7579.599999999999,
+      "taxTotal": 1364.33,
+      "grandTotal": 8943.93,
+      "status": "partially_received",
+      "items": [
+        {
+          "productId": "p79",
+          "quantity": 56,
+          "unitCost": 135.35
+        }
+      ],
+      "receivedQty": {
+        "p79": 23
+      },
+      "receipts": [
+        {
+          "date": "2026-05-19",
+          "items": [
+            {
+              "productId": "p79",
+              "quantity": 23
+            }
+          ],
+          "remarks": "Delivered parts logged into warehouse stock.",
+          "user": "Inventory Manager"
+        }
+      ],
+      "sourceSalesOrder": "SO-2026-00017"
+    },
+    {
+      "id": "po-229",
+      "orderNumber": "PO-00229",
+      "vendorId": "v4",
+      "orderDate": "2026-05-28",
+      "expectedDate": "2026-06-06",
+      "totalAmount": 10202.78,
+      "orderTotal": 8646.42,
+      "taxTotal": 1556.36,
+      "grandTotal": 10202.78,
+      "status": "fully_received",
+      "items": [
+        {
+          "productId": "p40",
+          "quantity": 30,
+          "unitCost": 146.55
+        },
+        {
+          "productId": "p61",
+          "quantity": 32,
+          "unitCost": 132.81
+        }
+      ],
+      "receivedQty": {
+        "p40": 30,
+        "p61": 32
+      },
+      "receipts": [
+        {
+          "date": "2026-06-01",
+          "items": [
+            {
+              "productId": "p40",
+              "quantity": 30
+            },
+            {
+              "productId": "p61",
+              "quantity": 32
+            }
+          ],
+          "remarks": "Delivered parts logged into warehouse stock.",
+          "user": "Inventory Manager"
+        }
+      ],
+      "sourceSalesOrder": "SO-2026-00039"
+    },
+    {
+      "id": "po-230",
+      "orderNumber": "PO-00230",
+      "vendorId": "v11",
+      "orderDate": "2026-05-24",
+      "expectedDate": "2026-06-03",
+      "totalAmount": 4218.62,
+      "orderTotal": 3575.1,
+      "taxTotal": 643.52,
+      "grandTotal": 4218.62,
+      "status": "fully_received",
+      "items": [
+        {
+          "productId": "p69",
+          "quantity": 30,
+          "unitCost": 119.17
+        }
+      ],
+      "receivedQty": {
+        "p69": 30
+      },
+      "receipts": [
+        {
+          "date": "2026-05-28",
+          "items": [
+            {
+              "productId": "p69",
+              "quantity": 30
+            }
+          ],
+          "remarks": "Delivered parts logged into warehouse stock.",
+          "user": "Inventory Manager"
+        }
+      ],
+      "sourceSalesOrder": ""
+    }
+  ],
+  "boms": [
+    {
+      "id": "bom-301",
+      "productId": "p1",
+      "name": "Product P1 Assembly Layout",
+      "code": "BOM-001",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p110",
+          "quantity": 2,
+          "wastePercent": 1
+        },
+        {
+          "productId": "p108",
+          "quantity": 3,
+          "wastePercent": 2
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 17
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 8
+        }
+      ]
+    },
+    {
+      "id": "bom-302",
+      "productId": "p5",
+      "name": "Product P5 Assembly Layout",
+      "code": "BOM-002",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p134",
+          "quantity": 2,
+          "wastePercent": 3
+        },
+        {
+          "productId": "p92",
+          "quantity": 3,
+          "wastePercent": 0
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 18
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "bom-303",
+      "productId": "p9",
+      "name": "Product P9 Assembly Layout",
+      "code": "BOM-003",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p115",
+          "quantity": 4,
+          "wastePercent": 4
+        },
+        {
+          "productId": "p92",
+          "quantity": 1,
+          "wastePercent": 0
+        },
+        {
+          "productId": "p83",
+          "quantity": 2,
+          "wastePercent": 4
+        },
+        {
+          "productId": "p83",
+          "quantity": 1,
+          "wastePercent": 0
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 23
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 10
+        }
+      ]
+    },
+    {
+      "id": "bom-304",
+      "productId": "p13",
+      "name": "Product P13 Assembly Layout",
+      "code": "BOM-004",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p150",
+          "quantity": 3,
+          "wastePercent": 3
+        },
+        {
+          "productId": "p127",
+          "quantity": 5,
+          "wastePercent": 0
+        },
+        {
+          "productId": "p99",
+          "quantity": 5,
+          "wastePercent": 1
+        },
+        {
+          "productId": "p82",
+          "quantity": 1,
+          "wastePercent": 3
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 10
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "bom-305",
+      "productId": "p17",
+      "name": "Product P17 Assembly Layout",
+      "code": "BOM-005",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p137",
+          "quantity": 6,
+          "wastePercent": 1
+        },
+        {
+          "productId": "p96",
+          "quantity": 4,
+          "wastePercent": 0
+        },
+        {
+          "productId": "p135",
+          "quantity": 3,
+          "wastePercent": 4
+        },
+        {
+          "productId": "p90",
+          "quantity": 6,
+          "wastePercent": 0
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 19
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "bom-306",
+      "productId": "p21",
+      "name": "Product P21 Assembly Layout",
+      "code": "BOM-006",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p135",
+          "quantity": 4,
+          "wastePercent": 2
+        },
+        {
+          "productId": "p101",
+          "quantity": 6,
+          "wastePercent": 2
+        },
+        {
+          "productId": "p120",
+          "quantity": 2,
+          "wastePercent": 1
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 23
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "bom-307",
+      "productId": "p26",
+      "name": "Product P26 Assembly Layout",
+      "code": "BOM-007",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p136",
+          "quantity": 6,
+          "wastePercent": 1
+        },
+        {
+          "productId": "p128",
+          "quantity": 5,
+          "wastePercent": 2
+        },
+        {
+          "productId": "p101",
+          "quantity": 5,
+          "wastePercent": 0
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 19
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 9
+        }
+      ]
+    },
+    {
+      "id": "bom-308",
+      "productId": "p31",
+      "name": "Product P31 Assembly Layout",
+      "code": "BOM-008",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p105",
+          "quantity": 5,
+          "wastePercent": 4
+        },
+        {
+          "productId": "p133",
+          "quantity": 3,
+          "wastePercent": 3
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 24
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 12
+        }
+      ]
+    },
+    {
+      "id": "bom-309",
+      "productId": "p35",
+      "name": "Product P35 Assembly Layout",
+      "code": "BOM-009",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p77",
+          "quantity": 5,
+          "wastePercent": 3
+        },
+        {
+          "productId": "p144",
+          "quantity": 2,
+          "wastePercent": 0
+        },
+        {
+          "productId": "p86",
+          "quantity": 5,
+          "wastePercent": 4
+        },
+        {
+          "productId": "p92",
+          "quantity": 1,
+          "wastePercent": 1
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 19
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 8
+        }
+      ]
+    },
+    {
+      "id": "bom-310",
+      "productId": "p41",
+      "name": "Product P41 Assembly Layout",
+      "code": "BOM-010",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p68",
+          "quantity": 1,
+          "wastePercent": 0
+        },
+        {
+          "productId": "p81",
+          "quantity": 4,
+          "wastePercent": 4
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 12
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 12
+        }
+      ]
+    },
+    {
+      "id": "bom-311",
+      "productId": "p45",
+      "name": "Product P45 Assembly Layout",
+      "code": "BOM-011",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p130",
+          "quantity": 5,
+          "wastePercent": 1
+        },
+        {
+          "productId": "p141",
+          "quantity": 6,
+          "wastePercent": 3
+        },
+        {
+          "productId": "p113",
+          "quantity": 4,
+          "wastePercent": 1
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 14
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "bom-312",
+      "productId": "p51",
+      "name": "Product P51 Assembly Layout",
+      "code": "BOM-012",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p50",
+          "quantity": 1,
+          "wastePercent": 3
+        },
+        {
+          "productId": "p78",
+          "quantity": 2,
+          "wastePercent": 4
+        },
+        {
+          "productId": "p109",
+          "quantity": 1,
+          "wastePercent": 4
+        },
+        {
+          "productId": "p81",
+          "quantity": 1,
+          "wastePercent": 3
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 14
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 12
+        }
+      ]
+    },
+    {
+      "id": "bom-313",
+      "productId": "p61",
+      "name": "Product P61 Assembly Layout",
+      "code": "BOM-013",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p117",
+          "quantity": 5,
+          "wastePercent": 4
+        },
+        {
+          "productId": "p90",
+          "quantity": 4,
+          "wastePercent": 4
+        },
+        {
+          "productId": "p142",
+          "quantity": 5,
+          "wastePercent": 3
+        },
+        {
+          "productId": "p120",
+          "quantity": 4,
+          "wastePercent": 1
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 25
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 12
+        }
+      ]
+    },
+    {
+      "id": "bom-314",
+      "productId": "p71",
+      "name": "Product P71 Assembly Layout",
+      "code": "BOM-014",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p146",
+          "quantity": 2,
+          "wastePercent": 2
+        },
+        {
+          "productId": "p148",
+          "quantity": 5,
+          "wastePercent": 3
+        },
+        {
+          "productId": "p130",
+          "quantity": 2,
+          "wastePercent": 2
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 24
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 6
+        }
+      ]
+    },
+    {
+      "id": "bom-315",
+      "productId": "p81",
+      "name": "Product P81 Assembly Layout",
+      "code": "BOM-015",
+      "quantity": 1,
+      "uom": "pcs",
+      "items": [
+        {
+          "productId": "p86",
+          "quantity": 2,
+          "wastePercent": 2
+        },
+        {
+          "productId": "p92",
+          "quantity": 3,
+          "wastePercent": 4
+        },
+        {
+          "productId": "p60",
+          "quantity": 2,
+          "wastePercent": 1
+        },
+        {
+          "productId": "p79",
+          "quantity": 4,
+          "wastePercent": 1
+        }
+      ],
+      "operations": [
+        {
+          "workCenterId": "wc-assembly",
+          "name": "Component Assembly & Mounting",
+          "sequence": 10,
+          "durationMinutes": 16
+        },
+        {
+          "workCenterId": "wc-testing",
+          "name": "Functional Signal Inspection",
+          "sequence": 20,
+          "durationMinutes": 6
+        }
+      ]
+    }
+  ],
+  "manufacturingOrders": [
+    {
+      "id": "mo-401",
+      "moNumber": "MO-00401",
+      "productId": "p1",
+      "bomId": "bom-301",
+      "quantity": 36,
+      "status": "IN_PROGRESS",
+      "sourceSalesOrder": "",
+      "plannedStartDate": "2026-06-02",
+      "actualEndDate": "",
+      "assignee": "manufacturing"
+    },
+    {
+      "id": "mo-402",
+      "moNumber": "MO-00402",
+      "productId": "p5",
+      "bomId": "bom-302",
+      "quantity": 23,
+      "status": "DONE",
+      "sourceSalesOrder": "",
+      "plannedStartDate": "2026-06-07",
+      "actualEndDate": "2026-06-09",
+      "assignee": "manufacturing"
+    },
+    {
+      "id": "mo-403",
+      "moNumber": "MO-00403",
+      "productId": "p9",
+      "bomId": "bom-303",
+      "quantity": 58,
+      "status": "DONE",
+      "sourceSalesOrder": "SO-2026-00023",
+      "plannedStartDate": "2026-06-04",
+      "actualEndDate": "2026-06-06",
+      "assignee": "admin"
+    },
+    {
+      "id": "mo-404",
+      "moNumber": "MO-00404",
+      "productId": "p13",
+      "bomId": "bom-304",
+      "quantity": 58,
+      "status": "IN_PROGRESS",
+      "sourceSalesOrder": "",
+      "plannedStartDate": "2026-05-22",
+      "actualEndDate": "",
+      "assignee": "admin"
+    },
+    {
+      "id": "mo-405",
+      "moNumber": "MO-00405",
+      "productId": "p17",
+      "bomId": "bom-305",
+      "quantity": 44,
+      "status": "DONE",
+      "sourceSalesOrder": "",
+      "plannedStartDate": "2026-06-02",
+      "actualEndDate": "2026-06-04",
+      "assignee": "manufacturing"
+    },
+    {
+      "id": "mo-406",
+      "moNumber": "MO-00406",
+      "productId": "p21",
+      "bomId": "bom-306",
+      "quantity": 41,
+      "status": "IN_PROGRESS",
+      "sourceSalesOrder": "",
+      "plannedStartDate": "2026-06-06",
+      "actualEndDate": "",
+      "assignee": "admin"
+    },
+    {
+      "id": "mo-407",
+      "moNumber": "MO-00407",
+      "productId": "p26",
+      "bomId": "bom-307",
+      "quantity": 31,
+      "status": "DONE",
+      "sourceSalesOrder": "",
+      "plannedStartDate": "2026-05-25",
+      "actualEndDate": "2026-05-27",
+      "assignee": "manufacturing"
+    },
+    {
+      "id": "mo-408",
+      "moNumber": "MO-00408",
+      "productId": "p31",
+      "bomId": "bom-308",
+      "quantity": 39,
+      "status": "CANCELLED",
+      "sourceSalesOrder": "",
+      "plannedStartDate": "2026-05-31",
+      "actualEndDate": "",
+      "assignee": "admin"
+    },
+    {
+      "id": "mo-409",
+      "moNumber": "MO-00409",
+      "productId": "p35",
+      "bomId": "bom-309",
+      "quantity": 47,
+      "status": "DONE",
+      "sourceSalesOrder": "SO-2026-00028",
+      "plannedStartDate": "2026-06-19",
+      "actualEndDate": "2026-06-21",
+      "assignee": "manufacturing"
+    },
+    {
+      "id": "mo-410",
+      "moNumber": "MO-00410",
+      "productId": "p41",
+      "bomId": "bom-310",
+      "quantity": 39,
+      "status": "PLANNED",
+      "sourceSalesOrder": "SO-2026-00014",
+      "plannedStartDate": "2026-06-11",
+      "actualEndDate": "",
+      "assignee": "admin"
+    },
+    {
+      "id": "mo-411",
+      "moNumber": "MO-00411",
+      "productId": "p45",
+      "bomId": "bom-311",
+      "quantity": 30,
+      "status": "IN_PROGRESS",
+      "sourceSalesOrder": "SO-2026-00027",
+      "plannedStartDate": "2026-05-22",
+      "actualEndDate": "",
+      "assignee": "admin"
+    },
+    {
+      "id": "mo-412",
+      "moNumber": "MO-00412",
+      "productId": "p51",
+      "bomId": "bom-312",
+      "quantity": 15,
+      "status": "IN_PROGRESS",
+      "sourceSalesOrder": "",
+      "plannedStartDate": "2026-05-27",
+      "actualEndDate": "",
+      "assignee": "admin"
+    },
+    {
+      "id": "mo-413",
+      "moNumber": "MO-00413",
+      "productId": "p61",
+      "bomId": "bom-313",
+      "quantity": 24,
+      "status": "DONE",
+      "sourceSalesOrder": "",
+      "plannedStartDate": "2026-05-26",
+      "actualEndDate": "2026-05-28",
+      "assignee": "manufacturing"
+    },
+    {
+      "id": "mo-414",
+      "moNumber": "MO-00414",
+      "productId": "p71",
+      "bomId": "bom-314",
+      "quantity": 58,
+      "status": "PLANNED",
+      "sourceSalesOrder": "SO-2026-00002",
+      "plannedStartDate": "2026-06-12",
+      "actualEndDate": "",
+      "assignee": "manufacturing"
+    },
+    {
+      "id": "mo-415",
+      "moNumber": "MO-00415",
+      "productId": "p81",
+      "bomId": "bom-315",
+      "quantity": 25,
+      "status": "PLANNED",
+      "sourceSalesOrder": "SO-2026-00014",
+      "plannedStartDate": "2026-05-29",
+      "actualEndDate": "",
+      "assignee": "admin"
+    },
+    {
+      "id": "mo-416",
+      "moNumber": "MO-00416",
+      "productId": "p1",
+      "bomId": "bom-301",
+      "quantity": 54,
+      "status": "IN_PROGRESS",
+      "sourceSalesOrder": "SO-2026-00039",
+      "plannedStartDate": "2026-06-08",
+      "actualEndDate": "",
+      "assignee": "manufacturing"
+    },
+    {
+      "id": "mo-417",
+      "moNumber": "MO-00417",
+      "productId": "p5",
+      "bomId": "bom-302",
+      "quantity": 59,
+      "status": "DONE",
+      "sourceSalesOrder": "SO-2026-00002",
+      "plannedStartDate": "2026-06-10",
+      "actualEndDate": "2026-06-12",
+      "assignee": "admin"
+    },
+    {
+      "id": "mo-418",
+      "moNumber": "MO-00418",
+      "productId": "p9",
+      "bomId": "bom-303",
+      "quantity": 46,
+      "status": "DONE",
+      "sourceSalesOrder": "SO-2026-00013",
+      "plannedStartDate": "2026-06-07",
+      "actualEndDate": "2026-06-09",
+      "assignee": "manufacturing"
+    },
+    {
+      "id": "mo-419",
+      "moNumber": "MO-00419",
+      "productId": "p13",
+      "bomId": "bom-304",
+      "quantity": 47,
+      "status": "DONE",
+      "sourceSalesOrder": "SO-2026-00020",
+      "plannedStartDate": "2026-05-30",
+      "actualEndDate": "2026-06-01",
+      "assignee": "manufacturing"
+    },
+    {
+      "id": "mo-420",
+      "moNumber": "MO-00420",
+      "productId": "p17",
+      "bomId": "bom-305",
+      "quantity": 60,
+      "status": "CANCELLED",
+      "sourceSalesOrder": "SO-2026-00035",
+      "plannedStartDate": "2026-05-25",
+      "actualEndDate": "",
+      "assignee": "admin"
+    },
+    {
+      "id": "mo-421",
+      "moNumber": "MO-00421",
+      "productId": "p21",
+      "bomId": "bom-306",
+      "quantity": 52,
+      "status": "IN_PROGRESS",
+      "sourceSalesOrder": "",
+      "plannedStartDate": "2026-06-03",
+      "actualEndDate": "",
+      "assignee": "manufacturing"
+    },
+    {
+      "id": "mo-422",
+      "moNumber": "MO-00422",
+      "productId": "p26",
+      "bomId": "bom-307",
+      "quantity": 36,
+      "status": "DONE",
+      "sourceSalesOrder": "",
+      "plannedStartDate": "2026-06-16",
+      "actualEndDate": "2026-06-18",
+      "assignee": "admin"
+    },
+    {
+      "id": "mo-423",
+      "moNumber": "MO-00423",
+      "productId": "p31",
+      "bomId": "bom-308",
+      "quantity": 50,
+      "status": "DONE",
+      "sourceSalesOrder": "",
+      "plannedStartDate": "2026-06-05",
+      "actualEndDate": "2026-06-07",
+      "assignee": "admin"
+    },
+    {
+      "id": "mo-424",
+      "moNumber": "MO-00424",
+      "productId": "p35",
+      "bomId": "bom-309",
+      "quantity": 21,
+      "status": "DONE",
+      "sourceSalesOrder": "SO-2026-00035",
+      "plannedStartDate": "2026-05-30",
+      "actualEndDate": "2026-06-01",
+      "assignee": "admin"
+    },
+    {
+      "id": "mo-425",
+      "moNumber": "MO-00425",
+      "productId": "p41",
+      "bomId": "bom-310",
+      "quantity": 39,
+      "status": "IN_PROGRESS",
+      "sourceSalesOrder": "",
+      "plannedStartDate": "2026-05-27",
+      "actualEndDate": "",
+      "assignee": "admin"
+    }
+  ],
+  "workOrders": [
+    {
+      "id": "wo-001",
+      "moId": "mo-401",
+      "workCenterId": "wc-assembly",
+      "name": "Operation Assembly Run #1",
+      "operationOrder": 10,
+      "durationPlanned": 55,
+      "status": "BLOCKED"
+    },
+    {
+      "id": "wo-002",
+      "moId": "mo-402",
+      "workCenterId": "wc-assembly",
+      "name": "Operation Assembly Run #2",
+      "operationOrder": 20,
+      "durationPlanned": 92,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-003",
+      "moId": "mo-403",
+      "workCenterId": "wc-packaging",
+      "name": "Operation Assembly Run #3",
+      "operationOrder": 30,
+      "durationPlanned": 68,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-004",
+      "moId": "mo-404",
+      "workCenterId": "wc-testing",
+      "name": "Operation Assembly Run #4",
+      "operationOrder": 10,
+      "durationPlanned": 83,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-005",
+      "moId": "mo-405",
+      "workCenterId": "wc-assembly",
+      "name": "Operation Assembly Run #5",
+      "operationOrder": 20,
+      "durationPlanned": 47,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-006",
+      "moId": "mo-406",
+      "workCenterId": "wc-testing",
+      "name": "Operation Assembly Run #6",
+      "operationOrder": 20,
+      "durationPlanned": 63,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-007",
+      "moId": "mo-407",
+      "workCenterId": "wc-packaging",
+      "name": "Operation Assembly Run #7",
+      "operationOrder": 30,
+      "durationPlanned": 55,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-008",
+      "moId": "mo-408",
+      "workCenterId": "wc-packaging",
+      "name": "Operation Assembly Run #8",
+      "operationOrder": 10,
+      "durationPlanned": 86,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "id": "wo-009",
+      "moId": "mo-409",
+      "workCenterId": "wc-assembly",
+      "name": "Operation Assembly Run #9",
+      "operationOrder": 10,
+      "durationPlanned": 112,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-010",
+      "moId": "mo-410",
+      "workCenterId": "wc-testing",
+      "name": "Operation Assembly Run #10",
+      "operationOrder": 20,
+      "durationPlanned": 91,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "id": "wo-011",
+      "moId": "mo-411",
+      "workCenterId": "wc-packaging",
+      "name": "Operation Assembly Run #11",
+      "operationOrder": 20,
+      "durationPlanned": 102,
+      "status": "BLOCKED"
+    },
+    {
+      "id": "wo-012",
+      "moId": "mo-412",
+      "workCenterId": "wc-testing",
+      "name": "Operation Assembly Run #12",
+      "operationOrder": 10,
+      "durationPlanned": 31,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-013",
+      "moId": "mo-413",
+      "workCenterId": "wc-assembly",
+      "name": "Operation Assembly Run #13",
+      "operationOrder": 20,
+      "durationPlanned": 108,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-014",
+      "moId": "mo-414",
+      "workCenterId": "wc-assembly",
+      "name": "Operation Assembly Run #14",
+      "operationOrder": 20,
+      "durationPlanned": 104,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-015",
+      "moId": "mo-415",
+      "workCenterId": "wc-testing",
+      "name": "Operation Assembly Run #15",
+      "operationOrder": 30,
+      "durationPlanned": 87,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-016",
+      "moId": "mo-416",
+      "workCenterId": "wc-testing",
+      "name": "Operation Assembly Run #16",
+      "operationOrder": 30,
+      "durationPlanned": 90,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-017",
+      "moId": "mo-417",
+      "workCenterId": "wc-testing",
+      "name": "Operation Assembly Run #17",
+      "operationOrder": 30,
+      "durationPlanned": 78,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-018",
+      "moId": "mo-418",
+      "workCenterId": "wc-testing",
+      "name": "Operation Assembly Run #18",
+      "operationOrder": 20,
+      "durationPlanned": 52,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-019",
+      "moId": "mo-419",
+      "workCenterId": "wc-assembly",
+      "name": "Operation Assembly Run #19",
+      "operationOrder": 10,
+      "durationPlanned": 112,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-020",
+      "moId": "mo-420",
+      "workCenterId": "wc-assembly",
+      "name": "Operation Assembly Run #20",
+      "operationOrder": 20,
+      "durationPlanned": 35,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "id": "wo-021",
+      "moId": "mo-421",
+      "workCenterId": "wc-assembly",
+      "name": "Operation Assembly Run #21",
+      "operationOrder": 10,
+      "durationPlanned": 114,
+      "status": "BLOCKED"
+    },
+    {
+      "id": "wo-022",
+      "moId": "mo-422",
+      "workCenterId": "wc-testing",
+      "name": "Operation Assembly Run #22",
+      "operationOrder": 30,
+      "durationPlanned": 95,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-023",
+      "moId": "mo-423",
+      "workCenterId": "wc-packaging",
+      "name": "Operation Assembly Run #23",
+      "operationOrder": 30,
+      "durationPlanned": 56,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-024",
+      "moId": "mo-424",
+      "workCenterId": "wc-assembly",
+      "name": "Operation Assembly Run #24",
+      "operationOrder": 10,
+      "durationPlanned": 57,
+      "status": "DONE"
+    },
+    {
+      "id": "wo-025",
+      "moId": "mo-425",
+      "workCenterId": "wc-assembly",
+      "name": "Operation Assembly Run #25",
+      "operationOrder": 20,
+      "durationPlanned": 42,
+      "status": "DONE"
+    }
+  ],
+  "inventoryLedger": [
+    {
+      "id": "il-003",
+      "productId": "p123",
+      "movementType": "Manufacturing Production",
+      "type": "in",
+      "quantity": 12,
+      "reference": "MO-00411",
+      "timestamp": "2026-06-19T01:30:50Z",
+      "balanceAfterMovement": 539.0
+    },
+    {
+      "id": "il-001",
+      "productId": "p4",
+      "movementType": "Adjustment",
+      "type": "out",
+      "quantity": 3,
+      "reference": "ADJ-229",
+      "timestamp": "2026-06-18T16:30:50Z",
+      "balanceAfterMovement": 349.0
+    },
+    {
+      "id": "il-005",
+      "productId": "p39",
+      "movementType": "Sales Delivery",
+      "type": "out",
+      "quantity": 20,
+      "reference": "SO-2026-00037",
+      "timestamp": "2026-06-18T02:30:50Z",
+      "balanceAfterMovement": 171.0
+    },
+    {
+      "id": "il-038",
+      "productId": "p37",
+      "movementType": "Manufacturing Production",
+      "type": "in",
+      "quantity": 10,
+      "reference": "MO-00421",
+      "timestamp": "2026-06-17T18:30:50Z",
+      "balanceAfterMovement": 321.0
+    },
+    {
+      "id": "il-004",
+      "productId": "p30",
+      "movementType": "Purchase Receipt",
+      "type": "in",
+      "quantity": 32,
+      "reference": "PO-00213",
+      "timestamp": "2026-06-17T15:30:50Z",
+      "balanceAfterMovement": 104.0
+    },
+    {
+      "id": "il-009",
+      "productId": "p55",
+      "movementType": "Manufacturing Consumption",
+      "type": "out",
+      "quantity": 6,
+      "reference": "MO-00422",
+      "timestamp": "2026-06-15T02:30:50Z",
+      "balanceAfterMovement": 227.0
+    },
+    {
+      "id": "il-017",
+      "productId": "p83",
+      "movementType": "Adjustment",
+      "type": "in",
+      "quantity": 6,
+      "reference": "ADJ-356",
+      "timestamp": "2026-06-12T12:30:50Z",
+      "balanceAfterMovement": 71.0
+    },
+    {
+      "id": "il-041",
+      "productId": "p18",
+      "movementType": "Sales Delivery",
+      "type": "out",
+      "quantity": 19,
+      "reference": "SO-2026-00041",
+      "timestamp": "2026-06-12T10:30:50Z",
+      "balanceAfterMovement": 142.0
+    },
+    {
+      "id": "il-043",
+      "productId": "p8",
+      "movementType": "Purchase Receipt",
+      "type": "in",
+      "quantity": 4,
+      "reference": "PO-00211",
+      "timestamp": "2026-06-10T22:30:50Z",
+      "balanceAfterMovement": 433.0
+    },
+    {
+      "id": "il-007",
+      "productId": "p134",
+      "movementType": "Manufacturing Production",
+      "type": "in",
+      "quantity": 29,
+      "reference": "MO-00415",
+      "timestamp": "2026-06-10T15:30:50Z",
+      "balanceAfterMovement": 489.0
+    },
+    {
+      "id": "il-048",
+      "productId": "p19",
+      "movementType": "Manufacturing Production",
+      "type": "in",
+      "quantity": 38,
+      "reference": "MO-00412",
+      "timestamp": "2026-06-10T13:30:50Z",
+      "balanceAfterMovement": 484.0
+    },
+    {
+      "id": "il-021",
+      "productId": "p42",
+      "movementType": "Manufacturing Consumption",
+      "type": "out",
+      "quantity": 32,
+      "reference": "MO-00414",
+      "timestamp": "2026-06-10T12:30:50Z",
+      "balanceAfterMovement": 460.0
+    },
+    {
+      "id": "il-022",
+      "productId": "p141",
+      "movementType": "Purchase Receipt",
+      "type": "in",
+      "quantity": 6,
+      "reference": "PO-00215",
+      "timestamp": "2026-06-10T01:30:50Z",
+      "balanceAfterMovement": 381.0
+    },
+    {
+      "id": "il-031",
+      "productId": "p35",
+      "movementType": "Purchase Receipt",
+      "type": "in",
+      "quantity": 27,
+      "reference": "PO-00209",
+      "timestamp": "2026-06-09T17:30:50Z",
+      "balanceAfterMovement": 323.0
+    },
+    {
+      "id": "il-020",
+      "productId": "p121",
+      "movementType": "Manufacturing Consumption",
+      "type": "out",
+      "quantity": 22,
+      "reference": "MO-00414",
+      "timestamp": "2026-06-09T12:30:50Z",
+      "balanceAfterMovement": 157.0
+    },
+    {
+      "id": "il-033",
+      "productId": "p39",
+      "movementType": "Manufacturing Production",
+      "type": "in",
+      "quantity": 31,
+      "reference": "MO-00418",
+      "timestamp": "2026-06-08T23:30:50Z",
+      "balanceAfterMovement": 436.0
+    },
+    {
+      "id": "il-024",
+      "productId": "p106",
+      "movementType": "Purchase Receipt",
+      "type": "in",
+      "quantity": 34,
+      "reference": "PO-00207",
+      "timestamp": "2026-06-08T14:30:50Z",
+      "balanceAfterMovement": 560.0
+    },
+    {
+      "id": "il-030",
+      "productId": "p63",
+      "movementType": "Manufacturing Production",
+      "type": "in",
+      "quantity": 10,
+      "reference": "MO-00418",
+      "timestamp": "2026-06-08T03:30:50Z",
+      "balanceAfterMovement": 570.0
+    },
+    {
+      "id": "il-049",
+      "productId": "p65",
+      "movementType": "Manufacturing Production",
+      "type": "in",
+      "quantity": 13,
+      "reference": "MO-00410",
+      "timestamp": "2026-06-07T18:30:50Z",
+      "balanceAfterMovement": 159.0
+    },
+    {
+      "id": "il-010",
+      "productId": "p142",
+      "movementType": "Purchase Receipt",
+      "type": "in",
+      "quantity": 1,
+      "reference": "PO-00206",
+      "timestamp": "2026-06-06T19:30:50Z",
+      "balanceAfterMovement": 531.0
+    },
+    {
+      "id": "il-044",
+      "productId": "p111",
+      "movementType": "Sales Delivery",
+      "type": "out",
+      "quantity": 34,
+      "reference": "SO-2026-00016",
+      "timestamp": "2026-06-06T15:30:50Z",
+      "balanceAfterMovement": 234.0
+    },
+    {
+      "id": "il-042",
+      "productId": "p112",
+      "movementType": "Purchase Receipt",
+      "type": "in",
+      "quantity": 7,
+      "reference": "PO-00225",
+      "timestamp": "2026-06-06T04:30:50Z",
+      "balanceAfterMovement": 356.0
+    },
+    {
+      "id": "il-036",
+      "productId": "p39",
+      "movementType": "Manufacturing Production",
+      "type": "in",
+      "quantity": 9,
+      "reference": "MO-00402",
+      "timestamp": "2026-06-03T15:30:50Z",
+      "balanceAfterMovement": 389.0
+    },
+    {
+      "id": "il-018",
+      "productId": "p69",
+      "movementType": "Adjustment",
+      "type": "in",
+      "quantity": 31,
+      "reference": "ADJ-141",
+      "timestamp": "2026-06-03T13:30:50Z",
+      "balanceAfterMovement": 502.0
+    },
+    {
+      "id": "il-025",
+      "productId": "p114",
+      "movementType": "Purchase Receipt",
+      "type": "in",
+      "quantity": 18,
+      "reference": "PO-00207",
+      "timestamp": "2026-06-03T05:30:50Z",
+      "balanceAfterMovement": 344.0
+    },
+    {
+      "id": "il-027",
+      "productId": "p41",
+      "movementType": "Manufacturing Consumption",
+      "type": "out",
+      "quantity": 1,
+      "reference": "MO-00418",
+      "timestamp": "2026-06-02T20:30:50Z",
+      "balanceAfterMovement": 145.0
+    },
+    {
+      "id": "il-002",
+      "productId": "p33",
+      "movementType": "Manufacturing Production",
+      "type": "in",
+      "quantity": 1,
+      "reference": "MO-00404",
+      "timestamp": "2026-06-02T00:30:50Z",
+      "balanceAfterMovement": 530.0
+    },
+    {
+      "id": "il-050",
+      "productId": "p61",
+      "movementType": "Manufacturing Production",
+      "type": "in",
+      "quantity": 23,
+      "reference": "MO-00419",
+      "timestamp": "2026-06-02T00:30:50Z",
+      "balanceAfterMovement": 352.0
+    },
+    {
+      "id": "il-034",
+      "productId": "p117",
+      "movementType": "Manufacturing Consumption",
+      "type": "out",
+      "quantity": 16,
+      "reference": "MO-00407",
+      "timestamp": "2026-06-01T21:30:50Z",
+      "balanceAfterMovement": 289.0
+    },
+    {
+      "id": "il-016",
+      "productId": "p129",
+      "movementType": "Adjustment",
+      "type": "out",
+      "quantity": 6,
+      "reference": "ADJ-605",
+      "timestamp": "2026-06-01T08:30:50Z",
+      "balanceAfterMovement": 492.0
+    },
+    {
+      "id": "il-028",
+      "productId": "p58",
+      "movementType": "Purchase Receipt",
+      "type": "in",
+      "quantity": 8,
+      "reference": "PO-00215",
+      "timestamp": "2026-05-31T05:30:50Z",
+      "balanceAfterMovement": 560.0
+    },
+    {
+      "id": "il-046",
+      "productId": "p128",
+      "movementType": "Adjustment",
+      "type": "in",
+      "quantity": 30,
+      "reference": "ADJ-246",
+      "timestamp": "2026-05-31T01:30:50Z",
+      "balanceAfterMovement": 520.0
+    },
+    {
+      "id": "il-019",
+      "productId": "p72",
+      "movementType": "Sales Delivery",
+      "type": "out",
+      "quantity": 28,
+      "reference": "SO-2026-00038",
+      "timestamp": "2026-05-30T18:30:50Z",
+      "balanceAfterMovement": 143.0
+    },
+    {
+      "id": "il-026",
+      "productId": "p113",
+      "movementType": "Manufacturing Production",
+      "type": "in",
+      "quantity": 2,
+      "reference": "MO-00404",
+      "timestamp": "2026-05-30T14:30:50Z",
+      "balanceAfterMovement": 295.0
+    },
+    {
+      "id": "il-012",
+      "productId": "p19",
+      "movementType": "Sales Delivery",
+      "type": "out",
+      "quantity": 38,
+      "reference": "SO-2026-00017",
+      "timestamp": "2026-05-30T03:30:50Z",
+      "balanceAfterMovement": 485.0
+    },
+    {
+      "id": "il-023",
+      "productId": "p30",
+      "movementType": "Manufacturing Production",
+      "type": "in",
+      "quantity": 1,
+      "reference": "MO-00417",
+      "timestamp": "2026-05-29T16:30:50Z",
+      "balanceAfterMovement": 523.0
+    },
+    {
+      "id": "il-011",
+      "productId": "p75",
+      "movementType": "Purchase Receipt",
+      "type": "in",
+      "quantity": 19,
+      "reference": "PO-00208",
+      "timestamp": "2026-05-29T00:30:50Z",
+      "balanceAfterMovement": 514.0
+    },
+    {
+      "id": "il-015",
+      "productId": "p113",
+      "movementType": "Purchase Receipt",
+      "type": "in",
+      "quantity": 20,
+      "reference": "PO-00215",
+      "timestamp": "2026-05-28T21:30:50Z",
+      "balanceAfterMovement": 328.0
+    },
+    {
+      "id": "il-035",
+      "productId": "p106",
+      "movementType": "Purchase Receipt",
+      "type": "in",
+      "quantity": 31,
+      "reference": "PO-00211",
+      "timestamp": "2026-05-28T21:30:50Z",
+      "balanceAfterMovement": 445.0
+    },
+    {
+      "id": "il-008",
+      "productId": "p79",
+      "movementType": "Adjustment",
+      "type": "in",
+      "quantity": 40,
+      "reference": "ADJ-735",
+      "timestamp": "2026-05-28T06:30:50Z",
+      "balanceAfterMovement": 262.0
+    },
+    {
+      "id": "il-014",
+      "productId": "p16",
+      "movementType": "Sales Delivery",
+      "type": "out",
+      "quantity": 39,
+      "reference": "SO-2026-00020",
+      "timestamp": "2026-05-27T15:30:50Z",
+      "balanceAfterMovement": 345.0
+    },
+    {
+      "id": "il-006",
+      "productId": "p143",
+      "movementType": "Manufacturing Production",
+      "type": "in",
+      "quantity": 39,
+      "reference": "MO-00420",
+      "timestamp": "2026-05-25T14:30:50Z",
+      "balanceAfterMovement": 281.0
+    },
+    {
+      "id": "il-013",
+      "productId": "p30",
+      "movementType": "Adjustment",
+      "type": "in",
+      "quantity": 18,
+      "reference": "ADJ-330",
+      "timestamp": "2026-05-25T05:30:50Z",
+      "balanceAfterMovement": 123.0
+    },
+    {
+      "id": "il-029",
+      "productId": "p75",
+      "movementType": "Adjustment",
+      "type": "out",
+      "quantity": 27,
+      "reference": "ADJ-822",
+      "timestamp": "2026-05-24T18:30:50Z",
+      "balanceAfterMovement": 533.0
+    },
+    {
+      "id": "il-032",
+      "productId": "p1",
+      "movementType": "Manufacturing Consumption",
+      "type": "out",
+      "quantity": 20,
+      "reference": "MO-00424",
+      "timestamp": "2026-05-24T15:30:50Z",
+      "balanceAfterMovement": 551.0
+    },
+    {
+      "id": "il-039",
+      "productId": "p87",
+      "movementType": "Adjustment",
+      "type": "out",
+      "quantity": 6,
+      "reference": "ADJ-809",
+      "timestamp": "2026-05-23T23:30:50Z",
+      "balanceAfterMovement": 596.0
+    },
+    {
+      "id": "il-045",
+      "productId": "p44",
+      "movementType": "Sales Delivery",
+      "type": "out",
+      "quantity": 40,
+      "reference": "SO-2026-00006",
+      "timestamp": "2026-05-23T21:30:50Z",
+      "balanceAfterMovement": 296.0
+    },
+    {
+      "id": "il-040",
+      "productId": "p98",
+      "movementType": "Manufacturing Consumption",
+      "type": "out",
+      "quantity": 32,
+      "reference": "MO-00421",
+      "timestamp": "2026-05-23T16:30:50Z",
+      "balanceAfterMovement": 86.0
+    },
+    {
+      "id": "il-047",
+      "productId": "p66",
+      "movementType": "Purchase Receipt",
+      "type": "in",
+      "quantity": 30,
+      "reference": "PO-00229",
+      "timestamp": "2026-05-23T00:30:50Z",
+      "balanceAfterMovement": 211.0
+    },
+    {
+      "id": "il-037",
+      "productId": "p26",
+      "movementType": "Manufacturing Production",
+      "type": "in",
+      "quantity": 34,
+      "reference": "MO-00404",
+      "timestamp": "2026-05-21T19:30:50Z",
+      "balanceAfterMovement": 65.0
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "al-075",
+      "userName": "Purchase User",
+      "module": "Manufacturing",
+      "action": "Create BOM",
+      "referenceNumber": "MO-00413",
+      "description": "User purchase executed create bom on resource MO-00413.",
+      "timestamp": "2026-06-19T22:25:50Z"
+    },
+    {
+      "id": "al-070",
+      "userName": "Sales User",
+      "module": "Manufacturing",
+      "action": "Start Work Order",
+      "referenceNumber": "MO-00404",
+      "description": "User sales executed start work order on resource MO-00404.",
+      "timestamp": "2026-06-19T16:32:50Z"
+    },
+    {
+      "id": "al-017",
+      "userName": "Sales User",
+      "module": "Sales",
+      "action": "Confirm Sales Order",
+      "referenceNumber": "SO-2026-00031",
+      "description": "User sales executed confirm sales order on resource SO-2026-00031.",
+      "timestamp": "2026-06-19T12:22:50Z"
+    },
+    {
+      "id": "al-093",
+      "userName": "Purchase User",
+      "module": "Procurement",
+      "action": "Trigger Procurement Suggestion",
+      "referenceNumber": "-",
+      "description": "User purchase executed trigger procurement suggestion on resource -.",
+      "timestamp": "2026-06-18T18:08:50Z"
+    },
+    {
+      "id": "al-002",
+      "userName": "Manufacturing User",
+      "module": "Authentication",
+      "action": "User Password Reset",
+      "referenceNumber": "-",
+      "description": "User manufacturing executed user password reset on resource -.",
+      "timestamp": "2026-06-18T12:49:50Z"
+    },
+    {
+      "id": "al-047",
+      "userName": "Owner User",
+      "module": "Authentication",
+      "action": "User Logout",
+      "referenceNumber": "-",
+      "description": "User owner@flowerp.com logged out and session destroyed.",
+      "timestamp": "2026-06-18T06:24:50Z"
+    },
+    {
+      "id": "al-063",
+      "userName": "Owner User",
+      "module": "Purchase",
+      "action": "Create Purchase Order",
+      "referenceNumber": "PO-00222",
+      "description": "User owner executed create purchase order on resource PO-00222.",
+      "timestamp": "2026-06-18T00:13:50Z"
+    },
+    {
+      "id": "al-088",
+      "userName": "Manufacturing User",
+      "module": "Sales",
+      "action": "Cancel Sales Order",
+      "referenceNumber": "SO-2026-00033",
+      "description": "User manufacturing executed cancel sales order on resource SO-2026-00033.",
+      "timestamp": "2026-06-17T22:55:50Z"
+    },
+    {
+      "id": "al-098",
+      "userName": "Inventory User",
+      "module": "Authentication",
+      "action": "User Logout",
+      "referenceNumber": "-",
+      "description": "User inventory@flowerp.com logged out and session destroyed.",
+      "timestamp": "2026-06-17T22:15:50Z"
+    },
+    {
+      "id": "al-018",
+      "userName": "Manufacturing User",
+      "module": "Manufacturing",
+      "action": "Create MO",
+      "referenceNumber": "MO-00421",
+      "description": "User manufacturing executed create mo on resource MO-00421.",
+      "timestamp": "2026-06-17T11:49:50Z"
+    },
+    {
+      "id": "al-035",
+      "userName": "System Administrator",
+      "module": "Purchase",
+      "action": "Register Vendor",
+      "referenceNumber": "PO-00217",
+      "description": "User admin executed register vendor on resource PO-00217.",
+      "timestamp": "2026-06-17T07:20:50Z"
+    },
+    {
+      "id": "al-054",
+      "userName": "Sales User",
+      "module": "Procurement",
+      "action": "Execute Replenishment Order",
+      "referenceNumber": "-",
+      "description": "User sales executed execute replenishment order on resource -.",
+      "timestamp": "2026-06-17T00:00:50Z"
+    },
+    {
+      "id": "al-033",
+      "userName": "System Administrator",
+      "module": "Authentication",
+      "action": "User Login",
+      "referenceNumber": "-",
+      "description": "User admin@flowerp.com authenticated successfully.",
+      "timestamp": "2026-06-16T09:00:50Z"
+    },
+    {
+      "id": "al-041",
+      "userName": "System Administrator",
+      "module": "Sales",
+      "action": "Cancel Sales Order",
+      "referenceNumber": "SO-2026-00039",
+      "description": "User admin executed cancel sales order on resource SO-2026-00039.",
+      "timestamp": "2026-06-16T07:16:50Z"
+    },
+    {
+      "id": "al-021",
+      "userName": "System Administrator",
+      "module": "Sales",
+      "action": "Confirm Sales Order",
+      "referenceNumber": "SO-2026-00035",
+      "description": "User admin executed confirm sales order on resource SO-2026-00035.",
+      "timestamp": "2026-06-15T20:15:50Z"
+    },
+    {
+      "id": "al-009",
+      "userName": "Inventory User",
+      "module": "Inventory",
+      "action": "Physical Inventory Adjustment",
+      "referenceNumber": "ADJ-305",
+      "description": "User inventory executed physical inventory adjustment on resource ADJ-305.",
+      "timestamp": "2026-06-15T15:06:50Z"
+    },
+    {
+      "id": "al-029",
+      "userName": "System Administrator",
+      "module": "Sales",
+      "action": "Cancel Sales Order",
+      "referenceNumber": "SO-2026-00016",
+      "description": "User admin executed cancel sales order on resource SO-2026-00016.",
+      "timestamp": "2026-06-15T14:14:50Z"
+    },
+    {
+      "id": "al-059",
+      "userName": "Owner User",
+      "module": "Purchase",
+      "action": "Register Vendor",
+      "referenceNumber": "PO-00203",
+      "description": "User owner executed register vendor on resource PO-00203.",
+      "timestamp": "2026-06-15T11:54:50Z"
+    },
+    {
+      "id": "al-034",
+      "userName": "Sales User",
+      "module": "Purchase",
+      "action": "Goods Receipt",
+      "referenceNumber": "PO-00201",
+      "description": "User sales executed goods receipt on resource PO-00201.",
+      "timestamp": "2026-06-15T00:27:50Z"
+    },
+    {
+      "id": "al-027",
+      "userName": "Sales User",
+      "module": "Sales",
+      "action": "Register Customer",
+      "referenceNumber": "SO-2026-00018",
+      "description": "User sales executed register customer on resource SO-2026-00018.",
+      "timestamp": "2026-06-14T05:20:50Z"
+    },
+    {
+      "id": "al-030",
+      "userName": "Owner User",
+      "module": "Sales",
+      "action": "Confirm Sales Order",
+      "referenceNumber": "SO-2026-00038",
+      "description": "User owner executed confirm sales order on resource SO-2026-00038.",
+      "timestamp": "2026-06-14T01:33:50Z"
+    },
+    {
+      "id": "al-004",
+      "userName": "Manufacturing User",
+      "module": "Manufacturing",
+      "action": "Create MO",
+      "referenceNumber": "MO-00421",
+      "description": "User manufacturing executed create mo on resource MO-00421.",
+      "timestamp": "2026-06-13T12:19:50Z"
+    },
+    {
+      "id": "al-053",
+      "userName": "Owner User",
+      "module": "Authentication",
+      "action": "User Logout",
+      "referenceNumber": "-",
+      "description": "User owner@flowerp.com logged out and session destroyed.",
+      "timestamp": "2026-06-13T05:49:50Z"
+    },
+    {
+      "id": "al-077",
+      "userName": "Sales User",
+      "module": "Sales",
+      "action": "Register Customer",
+      "referenceNumber": "SO-2026-00007",
+      "description": "User sales executed register customer on resource SO-2026-00007.",
+      "timestamp": "2026-06-12T18:38:50Z"
+    },
+    {
+      "id": "al-001",
+      "userName": "System Administrator",
+      "module": "Authentication",
+      "action": "User Logout",
+      "referenceNumber": "-",
+      "description": "User admin@flowerp.com logged out and session destroyed.",
+      "timestamp": "2026-06-12T09:14:50Z"
+    },
+    {
+      "id": "al-057",
+      "userName": "Manufacturing User",
+      "module": "Authentication",
+      "action": "User Password Reset",
+      "referenceNumber": "-",
+      "description": "User manufacturing executed user password reset on resource -.",
+      "timestamp": "2026-06-12T08:31:50Z"
+    },
+    {
+      "id": "al-082",
+      "userName": "Owner User",
+      "module": "Purchase",
+      "action": "Create Purchase Order",
+      "referenceNumber": "PO-00205",
+      "description": "User owner executed create purchase order on resource PO-00205.",
+      "timestamp": "2026-06-12T02:46:50Z"
+    },
+    {
+      "id": "al-046",
+      "userName": "Sales User",
+      "module": "Inventory",
+      "action": "Reorder Level Changed",
+      "referenceNumber": "ADJ-781",
+      "description": "User sales executed reorder level changed on resource ADJ-781.",
+      "timestamp": "2026-06-11T20:44:50Z"
+    },
+    {
+      "id": "al-014",
+      "userName": "Sales User",
+      "module": "Sales",
+      "action": "Register Customer",
+      "referenceNumber": "SO-2026-00001",
+      "description": "User sales executed register customer on resource SO-2026-00001.",
+      "timestamp": "2026-06-11T15:12:50Z"
+    },
+    {
+      "id": "al-099",
+      "userName": "System Administrator",
+      "module": "Procurement",
+      "action": "Execute Replenishment Order",
+      "referenceNumber": "-",
+      "description": "User admin executed execute replenishment order on resource -.",
+      "timestamp": "2026-06-11T00:54:50Z"
+    },
+    {
+      "id": "al-008",
+      "userName": "Inventory User",
+      "module": "Purchase",
+      "action": "Create Purchase Order",
+      "referenceNumber": "PO-00230",
+      "description": "User inventory executed create purchase order on resource PO-00230.",
+      "timestamp": "2026-06-10T22:21:50Z"
+    },
+    {
+      "id": "al-038",
+      "userName": "Inventory User",
+      "module": "Authentication",
+      "action": "User Password Reset",
+      "referenceNumber": "-",
+      "description": "User inventory executed user password reset on resource -.",
+      "timestamp": "2026-06-10T17:52:50Z"
+    },
+    {
+      "id": "al-020",
+      "userName": "System Administrator",
+      "module": "Purchase",
+      "action": "Create Purchase Order",
+      "referenceNumber": "PO-00202",
+      "description": "User admin executed create purchase order on resource PO-00202.",
+      "timestamp": "2026-06-10T16:42:50Z"
+    },
+    {
+      "id": "al-051",
+      "userName": "Purchase User",
+      "module": "Authentication",
+      "action": "User Login",
+      "referenceNumber": "-",
+      "description": "User purchase@flowerp.com authenticated successfully.",
+      "timestamp": "2026-06-10T13:01:50Z"
+    },
+    {
+      "id": "al-066",
+      "userName": "System Administrator",
+      "module": "Manufacturing",
+      "action": "Complete MO",
+      "referenceNumber": "MO-00404",
+      "description": "User admin executed complete mo on resource MO-00404.",
+      "timestamp": "2026-06-10T10:22:50Z"
+    },
+    {
+      "id": "al-092",
+      "userName": "Purchase User",
+      "module": "Procurement",
+      "action": "Trigger Procurement Suggestion",
+      "referenceNumber": "-",
+      "description": "User purchase executed trigger procurement suggestion on resource -.",
+      "timestamp": "2026-06-09T12:51:50Z"
+    },
+    {
+      "id": "al-058",
+      "userName": "Owner User",
+      "module": "Manufacturing",
+      "action": "Start Work Order",
+      "referenceNumber": "MO-00411",
+      "description": "User owner executed start work order on resource MO-00411.",
+      "timestamp": "2026-06-09T09:18:50Z"
+    },
+    {
+      "id": "al-089",
+      "userName": "Purchase User",
+      "module": "Inventory",
+      "action": "Physical Inventory Adjustment",
+      "referenceNumber": "ADJ-158",
+      "description": "User purchase executed physical inventory adjustment on resource ADJ-158.",
+      "timestamp": "2026-06-08T23:43:50Z"
+    },
+    {
+      "id": "al-050",
+      "userName": "Manufacturing User",
+      "module": "Manufacturing",
+      "action": "Create BOM",
+      "referenceNumber": "MO-00414",
+      "description": "User manufacturing executed create bom on resource MO-00414.",
+      "timestamp": "2026-06-08T10:48:50Z"
+    },
+    {
+      "id": "al-072",
+      "userName": "Inventory User",
+      "module": "Purchase",
+      "action": "Goods Receipt",
+      "referenceNumber": "PO-00203",
+      "description": "User inventory executed goods receipt on resource PO-00203.",
+      "timestamp": "2026-06-08T08:04:50Z"
+    },
+    {
+      "id": "al-078",
+      "userName": "Manufacturing User",
+      "module": "Inventory",
+      "action": "Stock Valuation Audit",
+      "referenceNumber": "ADJ-180",
+      "description": "User manufacturing executed stock valuation audit on resource ADJ-180.",
+      "timestamp": "2026-06-07T22:55:50Z"
+    },
+    {
+      "id": "al-071",
+      "userName": "Inventory User",
+      "module": "Inventory",
+      "action": "Physical Inventory Adjustment",
+      "referenceNumber": "ADJ-232",
+      "description": "User inventory executed physical inventory adjustment on resource ADJ-232.",
+      "timestamp": "2026-06-07T15:20:50Z"
+    },
+    {
+      "id": "al-013",
+      "userName": "Inventory User",
+      "module": "Authentication",
+      "action": "User Password Reset",
+      "referenceNumber": "-",
+      "description": "User inventory executed user password reset on resource -.",
+      "timestamp": "2026-06-07T14:29:50Z"
+    },
+    {
+      "id": "al-045",
+      "userName": "Purchase User",
+      "module": "Manufacturing",
+      "action": "Complete MO",
+      "referenceNumber": "MO-00413",
+      "description": "User purchase executed complete mo on resource MO-00413.",
+      "timestamp": "2026-06-07T06:16:50Z"
+    },
+    {
+      "id": "al-043",
+      "userName": "Sales User",
+      "module": "Inventory",
+      "action": "Stock Valuation Audit",
+      "referenceNumber": "ADJ-719",
+      "description": "User sales executed stock valuation audit on resource ADJ-719.",
+      "timestamp": "2026-06-07T06:07:50Z"
+    },
+    {
+      "id": "al-060",
+      "userName": "System Administrator",
+      "module": "Sales",
+      "action": "Confirm Sales Order",
+      "referenceNumber": "SO-2026-00025",
+      "description": "User admin executed confirm sales order on resource SO-2026-00025.",
+      "timestamp": "2026-06-06T18:01:50Z"
+    },
+    {
+      "id": "al-086",
+      "userName": "Manufacturing User",
+      "module": "Manufacturing",
+      "action": "Start Work Order",
+      "referenceNumber": "MO-00405",
+      "description": "User manufacturing executed start work order on resource MO-00405.",
+      "timestamp": "2026-06-06T07:11:50Z"
+    },
+    {
+      "id": "al-044",
+      "userName": "Inventory User",
+      "module": "Sales",
+      "action": "Confirm Sales Order",
+      "referenceNumber": "SO-2026-00028",
+      "description": "User inventory executed confirm sales order on resource SO-2026-00028.",
+      "timestamp": "2026-06-06T01:43:50Z"
+    },
+    {
+      "id": "al-040",
+      "userName": "Purchase User",
+      "module": "Authentication",
+      "action": "User Login",
+      "referenceNumber": "-",
+      "description": "User purchase@flowerp.com authenticated successfully.",
+      "timestamp": "2026-06-04T18:22:50Z"
+    },
+    {
+      "id": "al-064",
+      "userName": "Purchase User",
+      "module": "Authentication",
+      "action": "User Logout",
+      "referenceNumber": "-",
+      "description": "User purchase@flowerp.com logged out and session destroyed.",
+      "timestamp": "2026-06-04T12:47:50Z"
+    },
+    {
+      "id": "al-052",
+      "userName": "Sales User",
+      "module": "Manufacturing",
+      "action": "Create BOM",
+      "referenceNumber": "MO-00419",
+      "description": "User sales executed create bom on resource MO-00419.",
+      "timestamp": "2026-06-04T02:15:50Z"
+    },
+    {
+      "id": "al-080",
+      "userName": "System Administrator",
+      "module": "Procurement",
+      "action": "Trigger Procurement Suggestion",
+      "referenceNumber": "-",
+      "description": "User admin executed trigger procurement suggestion on resource -.",
+      "timestamp": "2026-06-03T16:06:50Z"
+    },
+    {
+      "id": "al-095",
+      "userName": "System Administrator",
+      "module": "Purchase",
+      "action": "Register Vendor",
+      "referenceNumber": "PO-00215",
+      "description": "User admin executed register vendor on resource PO-00215.",
+      "timestamp": "2026-06-03T15:40:50Z"
+    },
+    {
+      "id": "al-067",
+      "userName": "Inventory User",
+      "module": "Procurement",
+      "action": "Execute Replenishment Order",
+      "referenceNumber": "-",
+      "description": "User inventory executed execute replenishment order on resource -.",
+      "timestamp": "2026-06-03T10:44:50Z"
+    },
+    {
+      "id": "al-056",
+      "userName": "Manufacturing User",
+      "module": "Authentication",
+      "action": "User Password Reset",
+      "referenceNumber": "-",
+      "description": "User manufacturing executed user password reset on resource -.",
+      "timestamp": "2026-06-03T08:37:50Z"
+    },
+    {
+      "id": "al-091",
+      "userName": "Manufacturing User",
+      "module": "Inventory",
+      "action": "Reorder Level Changed",
+      "referenceNumber": "ADJ-694",
+      "description": "User manufacturing executed reorder level changed on resource ADJ-694.",
+      "timestamp": "2026-06-03T08:06:50Z"
+    },
+    {
+      "id": "al-055",
+      "userName": "Manufacturing User",
+      "module": "Purchase",
+      "action": "Register Vendor",
+      "referenceNumber": "PO-00228",
+      "description": "User manufacturing executed register vendor on resource PO-00228.",
+      "timestamp": "2026-06-02T12:17:50Z"
+    },
+    {
+      "id": "al-026",
+      "userName": "System Administrator",
+      "module": "Authentication",
+      "action": "User Logout",
+      "referenceNumber": "-",
+      "description": "User admin@flowerp.com logged out and session destroyed.",
+      "timestamp": "2026-06-02T11:30:50Z"
+    },
+    {
+      "id": "al-036",
+      "userName": "Purchase User",
+      "module": "Inventory",
+      "action": "Reorder Level Changed",
+      "referenceNumber": "ADJ-625",
+      "description": "User purchase executed reorder level changed on resource ADJ-625.",
+      "timestamp": "2026-06-02T05:47:50Z"
+    },
+    {
+      "id": "al-007",
+      "userName": "System Administrator",
+      "module": "Manufacturing",
+      "action": "Complete MO",
+      "referenceNumber": "MO-00402",
+      "description": "User admin executed complete mo on resource MO-00402.",
+      "timestamp": "2026-06-01T21:03:50Z"
+    },
+    {
+      "id": "al-049",
+      "userName": "Owner User",
+      "module": "Procurement",
+      "action": "Trigger Procurement Suggestion",
+      "referenceNumber": "-",
+      "description": "User owner executed trigger procurement suggestion on resource -.",
+      "timestamp": "2026-06-01T14:20:50Z"
+    },
+    {
+      "id": "al-037",
+      "userName": "Purchase User",
+      "module": "Procurement",
+      "action": "Trigger Procurement Suggestion",
+      "referenceNumber": "-",
+      "description": "User purchase executed trigger procurement suggestion on resource -.",
+      "timestamp": "2026-06-01T08:02:50Z"
+    },
+    {
+      "id": "al-097",
+      "userName": "Purchase User",
+      "module": "Inventory",
+      "action": "Reorder Level Changed",
+      "referenceNumber": "ADJ-795",
+      "description": "User purchase executed reorder level changed on resource ADJ-795.",
+      "timestamp": "2026-06-01T07:43:50Z"
+    },
+    {
+      "id": "al-068",
+      "userName": "Sales User",
+      "module": "Sales",
+      "action": "Confirm Sales Order",
+      "referenceNumber": "SO-2026-00026",
+      "description": "User sales executed confirm sales order on resource SO-2026-00026.",
+      "timestamp": "2026-06-01T07:38:50Z"
+    },
+    {
+      "id": "al-042",
+      "userName": "Owner User",
+      "module": "Manufacturing",
+      "action": "Start Work Order",
+      "referenceNumber": "MO-00413",
+      "description": "User owner executed start work order on resource MO-00413.",
+      "timestamp": "2026-05-31T15:24:50Z"
+    },
+    {
+      "id": "al-090",
+      "userName": "System Administrator",
+      "module": "Authentication",
+      "action": "User Login",
+      "referenceNumber": "-",
+      "description": "User admin@flowerp.com authenticated successfully.",
+      "timestamp": "2026-05-31T13:14:50Z"
+    },
+    {
+      "id": "al-094",
+      "userName": "System Administrator",
+      "module": "Manufacturing",
+      "action": "Create BOM",
+      "referenceNumber": "MO-00417",
+      "description": "User admin executed create bom on resource MO-00417.",
+      "timestamp": "2026-05-31T03:37:50Z"
+    },
+    {
+      "id": "al-019",
+      "userName": "Purchase User",
+      "module": "Authentication",
+      "action": "User Logout",
+      "referenceNumber": "-",
+      "description": "User purchase@flowerp.com logged out and session destroyed.",
+      "timestamp": "2026-05-30T19:34:50Z"
+    },
+    {
+      "id": "al-028",
+      "userName": "Purchase User",
+      "module": "Sales",
+      "action": "Confirm Sales Order",
+      "referenceNumber": "SO-2026-00042",
+      "description": "User purchase executed confirm sales order on resource SO-2026-00042.",
+      "timestamp": "2026-05-30T13:08:50Z"
+    },
+    {
+      "id": "al-085",
+      "userName": "Manufacturing User",
+      "module": "Inventory",
+      "action": "Stock Valuation Audit",
+      "referenceNumber": "ADJ-678",
+      "description": "User manufacturing executed stock valuation audit on resource ADJ-678.",
+      "timestamp": "2026-05-30T11:49:50Z"
+    },
+    {
+      "id": "al-006",
+      "userName": "Inventory User",
+      "module": "Purchase",
+      "action": "Create Purchase Order",
+      "referenceNumber": "PO-00229",
+      "description": "User inventory executed create purchase order on resource PO-00229.",
+      "timestamp": "2026-05-30T11:27:50Z"
+    },
+    {
+      "id": "al-024",
+      "userName": "Manufacturing User",
+      "module": "Inventory",
+      "action": "Reorder Level Changed",
+      "referenceNumber": "ADJ-133",
+      "description": "User manufacturing executed reorder level changed on resource ADJ-133.",
+      "timestamp": "2026-05-28T20:52:50Z"
+    },
+    {
+      "id": "al-074",
+      "userName": "Manufacturing User",
+      "module": "Inventory",
+      "action": "Stock Valuation Audit",
+      "referenceNumber": "ADJ-514",
+      "description": "User manufacturing executed stock valuation audit on resource ADJ-514.",
+      "timestamp": "2026-05-28T11:39:50Z"
+    },
+    {
+      "id": "al-022",
+      "userName": "Purchase User",
+      "module": "Manufacturing",
+      "action": "Complete MO",
+      "referenceNumber": "MO-00419",
+      "description": "User purchase executed complete mo on resource MO-00419.",
+      "timestamp": "2026-05-28T04:14:50Z"
+    },
+    {
+      "id": "al-061",
+      "userName": "Sales User",
+      "module": "Purchase",
+      "action": "Goods Receipt",
+      "referenceNumber": "PO-00210",
+      "description": "User sales executed goods receipt on resource PO-00210.",
+      "timestamp": "2026-05-27T22:26:50Z"
+    },
+    {
+      "id": "al-048",
+      "userName": "System Administrator",
+      "module": "Sales",
+      "action": "Register Customer",
+      "referenceNumber": "SO-2026-00007",
+      "description": "User admin executed register customer on resource SO-2026-00007.",
+      "timestamp": "2026-05-27T20:47:50Z"
+    },
+    {
+      "id": "al-015",
+      "userName": "System Administrator",
+      "module": "Inventory",
+      "action": "Reorder Level Changed",
+      "referenceNumber": "ADJ-788",
+      "description": "User admin executed reorder level changed on resource ADJ-788.",
+      "timestamp": "2026-05-27T10:34:50Z"
+    },
+    {
+      "id": "al-069",
+      "userName": "System Administrator",
+      "module": "Purchase",
+      "action": "Goods Receipt",
+      "referenceNumber": "PO-00207",
+      "description": "User admin executed goods receipt on resource PO-00207.",
+      "timestamp": "2026-05-27T04:49:50Z"
+    },
+    {
+      "id": "al-079",
+      "userName": "Inventory User",
+      "module": "Manufacturing",
+      "action": "Create MO",
+      "referenceNumber": "MO-00411",
+      "description": "User inventory executed create mo on resource MO-00411.",
+      "timestamp": "2026-05-27T03:46:50Z"
+    },
+    {
+      "id": "al-012",
+      "userName": "System Administrator",
+      "module": "Inventory",
+      "action": "Physical Inventory Adjustment",
+      "referenceNumber": "ADJ-244",
+      "description": "User admin executed physical inventory adjustment on resource ADJ-244.",
+      "timestamp": "2026-05-27T01:48:50Z"
+    },
+    {
+      "id": "al-065",
+      "userName": "Purchase User",
+      "module": "Inventory",
+      "action": "Reorder Level Changed",
+      "referenceNumber": "ADJ-320",
+      "description": "User purchase executed reorder level changed on resource ADJ-320.",
+      "timestamp": "2026-05-26T16:01:50Z"
+    },
+    {
+      "id": "al-084",
+      "userName": "System Administrator",
+      "module": "Purchase",
+      "action": "Register Vendor",
+      "referenceNumber": "PO-00215",
+      "description": "User admin executed register vendor on resource PO-00215.",
+      "timestamp": "2026-05-26T14:16:50Z"
+    },
+    {
+      "id": "al-083",
+      "userName": "Owner User",
+      "module": "Procurement",
+      "action": "Trigger Procurement Suggestion",
+      "referenceNumber": "-",
+      "description": "User owner executed trigger procurement suggestion on resource -.",
+      "timestamp": "2026-05-26T11:08:50Z"
+    },
+    {
+      "id": "al-005",
+      "userName": "Sales User",
+      "module": "Authentication",
+      "action": "User Password Reset",
+      "referenceNumber": "-",
+      "description": "User sales executed user password reset on resource -.",
+      "timestamp": "2026-05-26T11:00:50Z"
+    },
+    {
+      "id": "al-032",
+      "userName": "Owner User",
+      "module": "Procurement",
+      "action": "Execute Replenishment Order",
+      "referenceNumber": "-",
+      "description": "User owner executed execute replenishment order on resource -.",
+      "timestamp": "2026-05-26T03:33:50Z"
+    },
+    {
+      "id": "al-003",
+      "userName": "Inventory User",
+      "module": "Inventory",
+      "action": "Reorder Level Changed",
+      "referenceNumber": "ADJ-894",
+      "description": "User inventory executed reorder level changed on resource ADJ-894.",
+      "timestamp": "2026-05-26T01:39:50Z"
+    },
+    {
+      "id": "al-087",
+      "userName": "Purchase User",
+      "module": "Inventory",
+      "action": "Stock Valuation Audit",
+      "referenceNumber": "ADJ-410",
+      "description": "User purchase executed stock valuation audit on resource ADJ-410.",
+      "timestamp": "2026-05-26T00:08:50Z"
+    },
+    {
+      "id": "al-010",
+      "userName": "Sales User",
+      "module": "Procurement",
+      "action": "Execute Replenishment Order",
+      "referenceNumber": "-",
+      "description": "User sales executed execute replenishment order on resource -.",
+      "timestamp": "2026-05-25T03:54:50Z"
+    },
+    {
+      "id": "al-023",
+      "userName": "Purchase User",
+      "module": "Authentication",
+      "action": "User Login",
+      "referenceNumber": "-",
+      "description": "User purchase@flowerp.com authenticated successfully.",
+      "timestamp": "2026-05-24T16:48:50Z"
+    },
+    {
+      "id": "al-016",
+      "userName": "Sales User",
+      "module": "Procurement",
+      "action": "Execute Replenishment Order",
+      "referenceNumber": "-",
+      "description": "User sales executed execute replenishment order on resource -.",
+      "timestamp": "2026-05-24T11:43:50Z"
+    },
+    {
+      "id": "al-081",
+      "userName": "Owner User",
+      "module": "Manufacturing",
+      "action": "Start Work Order",
+      "referenceNumber": "MO-00424",
+      "description": "User owner executed start work order on resource MO-00424.",
+      "timestamp": "2026-05-24T11:29:50Z"
+    },
+    {
+      "id": "al-076",
+      "userName": "Owner User",
+      "module": "Procurement",
+      "action": "Execute Replenishment Order",
+      "referenceNumber": "-",
+      "description": "User owner executed execute replenishment order on resource -.",
+      "timestamp": "2026-05-24T09:58:50Z"
+    },
+    {
+      "id": "al-031",
+      "userName": "Sales User",
+      "module": "Purchase",
+      "action": "Create Purchase Order",
+      "referenceNumber": "PO-00209",
+      "description": "User sales executed create purchase order on resource PO-00209.",
+      "timestamp": "2026-05-24T04:34:50Z"
+    },
+    {
+      "id": "al-100",
+      "userName": "Inventory User",
+      "module": "Authentication",
+      "action": "User Password Reset",
+      "referenceNumber": "-",
+      "description": "User inventory executed user password reset on resource -.",
+      "timestamp": "2026-05-24T04:23:50Z"
+    },
+    {
+      "id": "al-073",
+      "userName": "Purchase User",
+      "module": "Sales",
+      "action": "Register Customer",
+      "referenceNumber": "SO-2026-00005",
+      "description": "User purchase executed register customer on resource SO-2026-00005.",
+      "timestamp": "2026-05-23T22:49:50Z"
+    },
+    {
+      "id": "al-011",
+      "userName": "Sales User",
+      "module": "Inventory",
+      "action": "Reorder Level Changed",
+      "referenceNumber": "ADJ-864",
+      "description": "User sales executed reorder level changed on resource ADJ-864.",
+      "timestamp": "2026-05-23T21:57:50Z"
+    },
+    {
+      "id": "al-025",
+      "userName": "Owner User",
+      "module": "Inventory",
+      "action": "Reorder Level Changed",
+      "referenceNumber": "ADJ-341",
+      "description": "User owner executed reorder level changed on resource ADJ-341.",
+      "timestamp": "2026-05-23T21:08:50Z"
+    },
+    {
+      "id": "al-039",
+      "userName": "Inventory User",
+      "module": "Sales",
+      "action": "Create Sales Order",
+      "referenceNumber": "SO-2026-00031",
+      "description": "User inventory executed create sales order on resource SO-2026-00031.",
+      "timestamp": "2026-05-23T19:48:50Z"
+    },
+    {
+      "id": "al-062",
+      "userName": "Manufacturing User",
+      "module": "Procurement",
+      "action": "Trigger Procurement Suggestion",
+      "referenceNumber": "-",
+      "description": "User manufacturing executed trigger procurement suggestion on resource -.",
+      "timestamp": "2026-05-23T07:43:50Z"
+    },
+    {
+      "id": "al-096",
+      "userName": "Manufacturing User",
+      "module": "Purchase",
+      "action": "Goods Receipt",
+      "referenceNumber": "PO-00212",
+      "description": "User manufacturing executed goods receipt on resource PO-00212.",
+      "timestamp": "2026-05-21T23:51:50Z"
+    }
+  ],
+  "procurementRecommendations": [
+    {
+      "id": "rec-demo-1",
+      "productId": "p86",
+      "productName": "Component Element #86",
+      "productCode": "PRD-860",
+      "currentStock": 3,
+      "freeToUseQty": 2,
+      "minStock": 14,
+      "recommendedQty": 94,
+      "uom": "pcs",
+      "procurementType": "PURCHASE",
+      "reason": "Safety stock threshold breached. Recommended minimum reorder point triggered.",
+      "suggestedVendorId": "v13",
+      "suggestedVendorName": "Global Logistics Partners",
+      "estimatedCost": 2987.02
+    },
+    {
+      "id": "rec-demo-2",
+      "productId": "p80",
+      "productName": "Component Element #80",
+      "productCode": "PRD-800",
+      "currentStock": 3,
+      "freeToUseQty": 5,
+      "minStock": 20,
+      "recommendedQty": 62,
+      "uom": "pcs",
+      "procurementType": "MANUFACTURING",
+      "reason": "Safety stock threshold breached. Recommended minimum reorder point triggered.",
+      "bomId": "bom-315"
+    },
+    {
+      "id": "rec-demo-3",
+      "productId": "p109",
+      "productName": "Component Element #109",
+      "productCode": "PRD-109",
+      "currentStock": 6,
+      "freeToUseQty": 2,
+      "minStock": 12,
+      "recommendedQty": 22,
+      "uom": "pcs",
+      "procurementType": "MANUFACTURING",
+      "reason": "Safety stock threshold breached. Recommended minimum reorder point triggered.",
+      "bomId": "bom-304"
+    },
+    {
+      "id": "rec-demo-4",
+      "productId": "p125",
+      "productName": "Component Element #125",
+      "productCode": "PRD-125",
+      "currentStock": 3,
+      "freeToUseQty": 1,
+      "minStock": 11,
+      "recommendedQty": 48,
+      "uom": "pcs",
+      "procurementType": "PURCHASE",
+      "reason": "Safety stock threshold breached. Recommended minimum reorder point triggered.",
+      "suggestedVendorId": "v10",
+      "suggestedVendorName": "ElectroComponents Inc.",
+      "estimatedCost": 1336.61
+    },
+    {
+      "id": "rec-demo-5",
+      "productId": "p135",
+      "productName": "Component Element #135",
+      "productCode": "PRD-135",
+      "currentStock": 3,
+      "freeToUseQty": 4,
+      "minStock": 16,
+      "recommendedQty": 63,
+      "uom": "pcs",
+      "procurementType": "PURCHASE",
+      "reason": "Safety stock threshold breached. Recommended minimum reorder point triggered.",
+      "suggestedVendorId": "v5",
+      "suggestedVendorName": "Nexus Plastics Group",
+      "estimatedCost": 827.7
+    },
+    {
+      "id": "rec-demo-6",
+      "productId": "p43",
+      "productName": "Component Element #43",
+      "productCode": "PRD-430",
+      "currentStock": 7,
+      "freeToUseQty": 2,
+      "minStock": 20,
+      "recommendedQty": 25,
+      "uom": "pcs",
+      "procurementType": "MANUFACTURING",
+      "reason": "Safety stock threshold breached. Recommended minimum reorder point triggered.",
+      "bomId": "bom-312"
+    },
+    {
+      "id": "rec-demo-7",
+      "productId": "p114",
+      "productName": "Component Element #114",
+      "productCode": "PRD-114",
+      "currentStock": 4,
+      "freeToUseQty": 4,
+      "minStock": 13,
+      "recommendedQty": 77,
+      "uom": "pcs",
+      "procurementType": "MANUFACTURING",
+      "reason": "Safety stock threshold breached. Recommended minimum reorder point triggered.",
+      "bomId": "bom-305"
+    },
+    {
+      "id": "rec-demo-8",
+      "productId": "p121",
+      "productName": "Component Element #121",
+      "productCode": "PRD-121",
+      "currentStock": 8,
+      "freeToUseQty": 3,
+      "minStock": 14,
+      "recommendedQty": 67,
+      "uom": "pcs",
+      "procurementType": "PURCHASE",
+      "reason": "Safety stock threshold breached. Recommended minimum reorder point triggered.",
+      "suggestedVendorId": "v13",
+      "suggestedVendorName": "Logic Boards Ltd.",
+      "estimatedCost": 1925.29
+    },
+    {
+      "id": "rec-demo-9",
+      "productId": "p52",
+      "productName": "Component Element #52",
+      "productCode": "PRD-520",
+      "currentStock": 1,
+      "freeToUseQty": 5,
+      "minStock": 17,
+      "recommendedQty": 52,
+      "uom": "pcs",
+      "procurementType": "PURCHASE",
+      "reason": "Safety stock threshold breached. Recommended minimum reorder point triggered.",
+      "suggestedVendorId": "v12",
+      "suggestedVendorName": "Power Systems Group",
+      "estimatedCost": 2446.25
+    },
+    {
+      "id": "rec-demo-10",
+      "productId": "p133",
+      "productName": "Component Element #133",
+      "productCode": "PRD-133",
+      "currentStock": 2,
+      "freeToUseQty": 1,
+      "minStock": 14,
+      "recommendedQty": 56,
+      "uom": "pcs",
+      "procurementType": "PURCHASE",
+      "reason": "Safety stock threshold breached. Recommended minimum reorder point triggered.",
+      "suggestedVendorId": "v15",
+      "suggestedVendorName": "Logic Boards Ltd.",
+      "estimatedCost": 651.32
+    }
+  ],
+  "shortageAlerts": [
+    {
+      "id": "short-demo-1",
+      "productId": "p86",
+      "productName": "Component Element #86",
+      "productCode": "PRD-860",
+      "stock": 3,
+      "minStock": 14,
+      "shortageQty": 11,
+      "uom": "pcs"
+    },
+    {
+      "id": "short-demo-2",
+      "productId": "p80",
+      "productName": "Component Element #80",
+      "productCode": "PRD-800",
+      "stock": 3,
+      "minStock": 20,
+      "shortageQty": 17,
+      "uom": "pcs"
+    },
+    {
+      "id": "short-demo-4",
+      "productId": "p125",
+      "productName": "Component Element #125",
+      "productCode": "PRD-125",
+      "stock": 3,
+      "minStock": 11,
+      "shortageQty": 8,
+      "uom": "pcs"
+    },
+    {
+      "id": "short-demo-5",
+      "productId": "p135",
+      "productName": "Component Element #135",
+      "productCode": "PRD-135",
+      "stock": 3,
+      "minStock": 16,
+      "shortageQty": 13,
+      "uom": "pcs"
+    },
+    {
+      "id": "short-demo-7",
+      "productId": "p114",
+      "productName": "Component Element #114",
+      "productCode": "PRD-114",
+      "stock": 4,
+      "minStock": 13,
+      "shortageQty": 9,
+      "uom": "pcs"
+    },
+    {
+      "id": "short-demo-8",
+      "productId": "p121",
+      "productName": "Component Element #121",
+      "productCode": "PRD-121",
+      "stock": 8,
+      "minStock": 14,
+      "shortageQty": 6,
+      "uom": "pcs"
+    },
+    {
+      "id": "short-demo-9",
+      "productId": "p52",
+      "productName": "Component Element #52",
+      "productCode": "PRD-520",
+      "stock": 1,
+      "minStock": 17,
+      "shortageQty": 16,
+      "uom": "pcs"
+    }
+  ]
+}
